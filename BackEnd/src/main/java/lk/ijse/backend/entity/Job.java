@@ -1,0 +1,22 @@
+package lk.ijse.backend.entity;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+public class Job {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String title;
+    private String description;
+    private Double salary;
+    private String location;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
+}
