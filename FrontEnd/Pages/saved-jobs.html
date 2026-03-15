@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Jobs - JobHub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+<div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-brand">
+            <a href="index.html" class="text-white text-decoration-none d-flex align-items-center">
+                <i class="bi bi-briefcase-fill me-2 fs-4"></i>
+                <span class="fs-5 fw-bold">JobHub</span>
+            </a>
+        </div>
+        <div class="sidebar-section">Main</div>
+        <nav class="nav flex-column">
+            <a class="nav-link" href="seeker-dashboard.html"><i class="bi bi-grid"></i>Dashboard</a>
+            <a class="nav-link" href="jobs.html"><i class="bi bi-search"></i>Find Jobs</a>
+            <a class="nav-link" href="applications.html"><i class="bi bi-file-earmark-text"></i>My Applications</a>
+            <a class="nav-link active" href="saved-jobs.html"><i class="bi bi-bookmark"></i>Saved Jobs</a>
+        </nav>
+        <div class="sidebar-section">Profile</div>
+        <nav class="nav flex-column">
+            <a class="nav-link" href="#"><i class="bi bi-person"></i>My Profile</a>
+            <a class="nav-link" href="#"><i class="bi bi-file-earmark-pdf"></i>My Resume</a>
+            <a class="nav-link" href="#"><i class="bi bi-gear"></i>Settings</a>
+        </nav>
+        <div class="sidebar-section">Account</div>
+        <nav class="nav flex-column">
+            <a class="nav-link text-danger" href="login.html"><i class="bi bi-box-arrow-left"></i>Logout</a>
+        </nav>
+    </aside>
+
+    <div class="sidebar-overlay"></div>
+
+    <main class="dashboard-content">
+        <header class="dashboard-header">
+            <div>
+                <h5 class="mb-0 fw-bold">Saved Jobs</h5>
+                <small class="text-muted">Jobs you've bookmarked for later</small>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown">
+                        <img src="https://i.pravatar.cc/32?img=1" class="rounded-circle" alt="Profile">
+                        <span class="d-none d-md-inline">John Doe</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+                        <li><a class="dropdown-item text-danger" href="login.html"><i class="bi bi-box-arrow-left me-2"></i>Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-main">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <p class="mb-0 text-muted"><strong>12</strong> jobs saved</p>
+                <select class="form-select form-select-sm" style="width: auto;">
+                    <option>Sort: Newest First</option>
+                    <option>Sort: Oldest First</option>
+                    <option>Sort: Salary High to Low</option>
+                </select>
+            </div>
+
+            <div class="row g-4">
+                <!-- Saved Job 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 job-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="company-logo bg-primary bg-opacity-10 rounded-3 p-3">
+                                    <i class="bi bi-google text-primary fs-4"></i>
+                                </div>
+                                <button class="btn btn-link text-warning p-0 save-job-btn saved" data-job-id="1">
+                                    <i class="bi bi-bookmark-fill fs-5"></i>
+                                </button>
+                            </div>
+                            <h6 class="fw-semibold mb-1">Senior Software Engineer</h6>
+                            <p class="text-muted small mb-2">Google Inc.</p>
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="badge bg-light text-dark small"><i class="bi bi-geo-alt me-1"></i>San Francisco</span>
+                                <span class="badge bg-light text-dark small"><i class="bi bi-clock me-1"></i>Full-time</span>
+                            </div>
+                            <p class="text-success fw-semibold small mb-3">$150K - $200K / year</p>
+                            <div class="d-flex gap-2">
+                                <a href="job-details.html" class="btn btn-outline-primary btn-sm flex-fill">View</a>
+                                <button class="btn btn-primary btn-sm flex-fill" data-bs-toggle="modal" data-bs-target="#applyModal">Apply</button>
+                            </div>
+                            <small class="text-muted d-block mt-3"><i class="bi bi-clock me-1"></i>Saved 2 days ago</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Saved Job 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 job-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="company-logo bg-dark bg-opacity-10 rounded-3 p-3">
+                                    <i class="bi bi-apple text-dark fs-4"></i>
+                                </div>
+                                <button class="btn btn-link text-warning p-0 save-job-btn saved" data-job-id="2">
+                                    <i class="bi bi-bookmark-fill fs-5"></i>
+                                </button>
+                            </div>
+                            <h6 class="fw-semibold mb-1">UX Designer</h6>
+                            <p class="text-muted small mb-2">Apple Inc.</p>
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="badge bg-light text-dark small"><i class="bi bi-geo-alt me-1"></i>Cupertino</span>
+                                <span class="badge bg-light text-dark small"><i class="bi bi-clock me-1"></i>Full-time</span>
+                            </div>
+                            <p class="text-success fw-semibold small mb-3">$120K - $160K / year</p>
+                            <div class="d-flex gap-2">
+                                <a href="job-details.html" class="btn btn-outline-primary btn-sm flex-fill">View</a>
+                                <button class="btn btn-primary btn-sm flex-fill" data-bs-toggle="modal" data-bs-target="#applyModal">Apply</button>
+                            </div>
+                            <small class="text-muted d-block mt-3"><i class="bi bi-clock me-1"></i>Saved 3 days ago</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Saved Job 3 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 job-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="company-logo bg-info bg-opacity-10 rounded-3 p-3">
+                                    <i class="bi bi-microsoft text-info fs-4"></i>
+                                </div>
+                                <button class="btn btn-link text-warning p-0 save-job-btn saved" data-job-id="3">
+                                    <i class="bi bi-bookmark-fill fs-5"></i>
+                                </button>
+                            </div>
+                            <h6 class="fw-semibold mb-1">Product Manager</h6>
+                            <p class="text-muted small mb-2">Microsoft</p>
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="badge bg-light text-dark small"><i class="bi bi-geo-alt me-1"></i>Seattle</span>
+                                <span class="badge bg-light text-dark small"><i class="bi bi-clock me-1"></i>Full-time</span>
+                            </div>
+                            <p class="text-success fw-semibold small mb-3">$140K - $180K / year</p>
+                            <div class="d-flex gap-2">
+                                <a href="job-details.html" class="btn btn-outline-primary btn-sm flex-fill">View</a>
+                                <button class="btn btn-primary btn-sm flex-fill" data-bs-toggle="modal" data-bs-target="#applyModal">Apply</button>
+                            </div>
+                            <small class="text-muted d-block mt-3"><i class="bi bi-clock me-1"></i>Saved 1 week ago</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Saved Job 4 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 job-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="company-logo bg-success bg-opacity-10 rounded-3 p-3">
+                                    <i class="bi bi-spotify text-success fs-4"></i>
+                                </div>
+                                <button class="btn btn-link text-warning p-0 save-job-btn saved" data-job-id="4">
+                                    <i class="bi bi-bookmark-fill fs-5"></i>
+                                </button>
+                            </div>
+                            <h6 class="fw-semibold mb-1">Data Analyst</h6>
+                            <p class="text-muted small mb-2">Spotify</p>
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="badge bg-light text-dark small"><i class="bi bi-geo-alt me-1"></i>New York</span>
+                                <span class="badge bg-light text-dark small"><i class="bi bi-clock me-1"></i>Contract</span>
+                            </div>
+                            <p class="text-success fw-semibold small mb-3">$90K - $120K / year</p>
+                            <div class="d-flex gap-2">
+                                <a href="job-details.html" class="btn btn-outline-primary btn-sm flex-fill">View</a>
+                                <button class="btn btn-primary btn-sm flex-fill" data-bs-toggle="modal" data-bs-target="#applyModal">Apply</button>
+                            </div>
+                            <small class="text-danger d-block mt-3"><i class="bi bi-exclamation-circle me-1"></i>Expires in 3 days</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Saved Job 5 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 job-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="company-logo bg-danger bg-opacity-10 rounded-3 p-3">
+                                    <i class="bi bi-netflix text-danger fs-4"></i>
+                                </div>
+                                <button class="btn btn-link text-warning p-0 save-job-btn saved" data-job-id="5">
+                                    <i class="bi bi-bookmark-fill fs-5"></i>
+                                </button>
+                            </div>
+                            <h6 class="fw-semibold mb-1">Backend Engineer</h6>
+                            <p class="text-muted small mb-2">Netflix</p>
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="badge bg-light text-dark small"><i class="bi bi-geo-alt me-1"></i>Los Angeles</span>
+                                <span class="badge bg-light text-dark small"><i class="bi bi-clock me-1"></i>Full-time</span>
+                            </div>
+                            <p class="text-success fw-semibold small mb-3">$170K - $210K / year</p>
+                            <div class="d-flex gap-2">
+                                <a href="job-details.html" class="btn btn-outline-primary btn-sm flex-fill">View</a>
+                                <button class="btn btn-primary btn-sm flex-fill" data-bs-toggle="modal" data-bs-target="#applyModal">Apply</button>
+                            </div>
+                            <small class="text-muted d-block mt-3"><i class="bi bi-clock me-1"></i>Saved 1 week ago</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Saved Job 6 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 job-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="company-logo bg-warning bg-opacity-10 rounded-3 p-3">
+                                    <i class="bi bi-amazon text-warning fs-4"></i>
+                                </div>
+                                <button class="btn btn-link text-warning p-0 save-job-btn saved" data-job-id="6">
+                                    <i class="bi bi-bookmark-fill fs-5"></i>
+                                </button>
+                            </div>
+                            <h6 class="fw-semibold mb-1">Cloud Architect</h6>
+                            <p class="text-muted small mb-2">Amazon</p>
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="badge bg-light text-dark small"><i class="bi bi-geo-alt me-1"></i>Remote</span>
+                                <span class="badge bg-light text-dark small"><i class="bi bi-clock me-1"></i>Full-time</span>
+                            </div>
+                            <p class="text-success fw-semibold small mb-3">$180K - $230K / year</p>
+                            <div class="d-flex gap-2">
+                                <a href="job-details.html" class="btn btn-outline-primary btn-sm flex-fill">View</a>
+                                <button class="btn btn-primary btn-sm flex-fill" data-bs-toggle="modal" data-bs-target="#applyModal">Apply</button>
+                            </div>
+                            <small class="text-muted d-block mt-3"><i class="bi bi-clock me-1"></i>Saved 2 weeks ago</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Apply Modal -->
+<div class="modal fade" id="applyModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold">Apply for this Position</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="submitApplication(event)">
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" placeholder="John Doe" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" placeholder="you@example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Resume</label>
+                        <div class="resume-upload-area">
+                            <div class="upload-icon"><i class="bi bi-cloud-arrow-up"></i></div>
+                            <h6 class="fw-semibold mb-1">Upload Your Resume</h6>
+                            <p class="text-muted small">PDF, DOC, DOCX (Max 5MB)</p>
+                        </div>
+                        <input type="file" id="resumeFile" class="d-none" accept=".pdf,.doc,.docx">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Submit Application</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="sidebar-toggle d-lg-none"><i class="bi bi-list fs-4"></i></button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/main.js"></script>
+<script>
+    function submitApplication(e) {
+        e.preventDefault();
+        if (window.JobHub) {
+            window.JobHub.showToast('Application submitted successfully!', 'success');
+        }
+        const modal = bootstrap.Modal.getInstance(document.getElementById('applyModal'));
+        if (modal) modal.hide();
+        e.target.reset();
+    }
+</script>
+</body>
+</html>

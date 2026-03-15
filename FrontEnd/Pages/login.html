@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - JobHub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+<div class="auth-wrapper">
+    <div class="container">
+        <div class="auth-card mx-auto">
+            <div class="row g-0">
+                <!-- Illustration Side -->
+                <div class="col-lg-5 d-none d-lg-flex auth-illustration">
+                    <div>
+                        <i class="bi bi-briefcase-fill display-1 mb-4"></i>
+                        <h2 class="fw-bold mb-3">Welcome Back!</h2>
+                        <p class="opacity-75 mb-4">Log in to access your personalized job dashboard, track applications, and discover new opportunities.</p>
+                        <div class="d-flex justify-content-center gap-4">
+                            <div class="text-center">
+                                <h4 class="fw-bold mb-0">10K+</h4>
+                                <small class="opacity-75">Active Jobs</small>
+                            </div>
+                            <div class="text-center">
+                                <h4 class="fw-bold mb-0">5K+</h4>
+                                <small class="opacity-75">Companies</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Side -->
+                <div class="col-lg-7">
+                    <div class="p-4 p-lg-5">
+                        <div class="mb-4">
+                            <a href="index.html" class="text-decoration-none d-inline-flex align-items-center text-muted mb-4">
+                                <i class="bi bi-arrow-left me-2"></i>Back to Home
+                            </a>
+                            <h3 class="fw-bold mb-1">Sign In</h3>
+                            <p class="text-muted">Enter your credentials to access your account</p>
+                        </div>
+
+                        <form class="needs-validation" novalidate>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+                                    <input type="email" class="form-control border-start-0" id="email" placeholder="you@example.com" required>
+                                </div>
+                                <div class="invalid-feedback">Please enter a valid email address.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
+                                    <input type="password" class="form-control border-start-0 border-end-0" id="password" placeholder="Enter your password" required>
+                                    <button class="btn btn-light border border-start-0" type="button" onclick="togglePassword()">
+                                        <i class="bi bi-eye" id="togglePasswordIcon"></i>
+                                    </button>
+                                </div>
+                                <div class="invalid-feedback">Please enter your password.</div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                                </div>
+                                <a href="#" class="text-primary text-decoration-none small">Forgot Password?</a>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 py-2 mb-3" onclick="handleLogin(event)">Sign In</button>
+
+                            <div class="text-center mb-4">
+                                <span class="text-muted">or continue with</span>
+                            </div>
+
+                            <div class="d-flex gap-3 mb-4">
+                                <button type="button" class="btn btn-outline-secondary flex-fill py-2">
+                                    <i class="bi bi-google me-2"></i>Google
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary flex-fill py-2">
+                                    <i class="bi bi-linkedin me-2"></i>LinkedIn
+                                </button>
+                            </div>
+
+                            <p class="text-center text-muted mb-0">
+                                Don't have an account? <a href="register.html" class="text-primary text-decoration-none fw-semibold">Sign Up</a>
+                            </p>
+                        </form>
+
+                        <!-- Demo Login Options -->
+                        <div class="mt-4 pt-4 border-top">
+                            <p class="text-center text-muted small mb-3">Quick Demo Access</p>
+                            <div class="d-flex flex-wrap gap-2 justify-content-center">
+                                <a href="seeker-dashboard.html" class="btn btn-sm btn-outline-primary">Job Seeker</a>
+                                <a href="employer-dashboard.html" class="btn btn-sm btn-outline-success">Employer</a>
+                                <a href="admin-dashboard.html" class="btn btn-sm btn-outline-secondary">Admin</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const toggleIcon = document.getElementById('togglePasswordIcon');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('bi-eye');
+            toggleIcon.classList.add('bi-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('bi-eye-slash');
+            toggleIcon.classList.add('bi-eye');
+        }
+    }
+
+    function handleLogin(e) {
+        e.preventDefault();
+        // Redirect to seeker dashboard for demo
+        window.location.href = 'seeker-dashboard.html';
+    }
+</script>
+</body>
+</html>

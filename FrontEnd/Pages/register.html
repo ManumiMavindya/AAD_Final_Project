@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - JobHub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+<div class="auth-wrapper py-5">
+    <div class="container">
+        <div class="auth-card mx-auto">
+            <div class="row g-0">
+                <!-- Illustration Side -->
+                <div class="col-lg-5 d-none d-lg-flex auth-illustration">
+                    <div>
+                        <i class="bi bi-person-plus-fill display-1 mb-4"></i>
+                        <h2 class="fw-bold mb-3">Join JobHub</h2>
+                        <p class="opacity-75 mb-4">Create your account and unlock thousands of career opportunities. Whether you're a job seeker or employer, we've got you covered.</p>
+                        <ul class="list-unstyled text-start">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill me-2"></i>Access to 10,000+ job listings</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill me-2"></i>Apply with one click</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill me-2"></i>Track applications in real-time</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill me-2"></i>Personalized job recommendations</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Form Side -->
+                <div class="col-lg-7">
+                    <div class="p-4 p-lg-5">
+                        <div class="mb-4">
+                            <a href="index.html" class="text-decoration-none d-inline-flex align-items-center text-muted mb-4">
+                                <i class="bi bi-arrow-left me-2"></i>Back to Home
+                            </a>
+                            <h3 class="fw-bold mb-1">Create Account</h3>
+                            <p class="text-muted">Fill in your details to get started</p>
+                        </div>
+
+                        <!-- Account Type Tabs -->
+                        <ul class="nav nav-pills nav-fill mb-4 bg-light rounded-3 p-1" id="accountTypeTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active rounded-3" id="seeker-tab" data-bs-toggle="pill" data-bs-target="#seeker" type="button" role="tab">
+                                    <i class="bi bi-person me-2"></i>Job Seeker
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link rounded-3" id="employer-tab" data-bs-toggle="pill" data-bs-target="#employer" type="button" role="tab">
+                                    <i class="bi bi-building me-2"></i>Employer
+                                </button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="accountTypeContent">
+                            <!-- Job Seeker Form -->
+                            <div class="tab-pane fade show active" id="seeker" role="tabpanel">
+                                <form class="needs-validation" novalidate>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label for="firstName" class="form-label">First Name</label>
+                                            <input type="text" class="form-control" id="firstName" placeholder="John" required>
+                                            <div class="invalid-feedback">Please enter your first name.</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="lastName" class="form-label">Last Name</label>
+                                            <input type="text" class="form-control" id="lastName" placeholder="Doe" required>
+                                            <div class="invalid-feedback">Please enter your last name.</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 mt-3">
+                                        <label for="seekerEmail" class="form-label">Email Address</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+                                            <input type="email" class="form-control border-start-0" id="seekerEmail" placeholder="you@example.com" required>
+                                        </div>
+                                        <div class="invalid-feedback">Please enter a valid email address.</div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="seekerPhone" class="form-label">Phone Number</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-phone text-muted"></i></span>
+                                            <input type="tel" class="form-control border-start-0" id="seekerPhone" placeholder="+1 (555) 000-0000">
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="seekerPassword" class="form-label">Password</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
+                                            <input type="password" class="form-control border-start-0" id="seekerPassword" placeholder="Create a strong password" required minlength="8">
+                                        </div>
+                                        <div id="seekerPasswordStrength"></div>
+                                        <div class="invalid-feedback">Password must be at least 8 characters.</div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="seekerConfirmPassword" class="form-label">Confirm Password</label>
+                                        <input type="password" class="form-control" id="seekerConfirmPassword" placeholder="Confirm your password" required>
+                                        <div class="invalid-feedback">Passwords do not match.</div>
+                                    </div>
+
+                                    <div class="form-check mb-4">
+                                        <input class="form-check-input" type="checkbox" id="seekerTerms" required>
+                                        <label class="form-check-label" for="seekerTerms">
+                                            I agree to the <a href="#" class="text-primary">Terms of Service</a> and <a href="#" class="text-primary">Privacy Policy</a>
+                                        </label>
+                                        <div class="invalid-feedback">You must agree to the terms.</div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary w-100 py-2 mb-3" onclick="handleRegister(event, 'seeker')">Create Account</button>
+                                </form>
+                            </div>
+
+                            <!-- Employer Form -->
+                            <div class="tab-pane fade" id="employer" role="tabpanel">
+                                <form class="needs-validation" novalidate>
+                                    <div class="mb-3">
+                                        <label for="companyName" class="form-label">Company Name</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-building text-muted"></i></span>
+                                            <input type="text" class="form-control border-start-0" id="companyName" placeholder="Acme Inc." required>
+                                        </div>
+                                        <div class="invalid-feedback">Please enter your company name.</div>
+                                    </div>
+
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label for="contactName" class="form-label">Contact Person</label>
+                                            <input type="text" class="form-control" id="contactName" placeholder="Full name" required>
+                                            <div class="invalid-feedback">Please enter contact person name.</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="contactTitle" class="form-label">Job Title</label>
+                                            <input type="text" class="form-control" id="contactTitle" placeholder="HR Manager">
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 mt-3">
+                                        <label for="employerEmail" class="form-label">Business Email</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+                                            <input type="email" class="form-control border-start-0" id="employerEmail" placeholder="you@company.com" required>
+                                        </div>
+                                        <div class="invalid-feedback">Please enter a valid business email.</div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="employerPhone" class="form-label">Phone Number</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-phone text-muted"></i></span>
+                                            <input type="tel" class="form-control border-start-0" id="employerPhone" placeholder="+1 (555) 000-0000">
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="companySize" class="form-label">Company Size</label>
+                                        <select class="form-select" id="companySize" required>
+                                            <option value="">Select company size</option>
+                                            <option value="1-10">1-10 employees</option>
+                                            <option value="11-50">11-50 employees</option>
+                                            <option value="51-200">51-200 employees</option>
+                                            <option value="201-500">201-500 employees</option>
+                                            <option value="500+">500+ employees</option>
+                                        </select>
+                                        <div class="invalid-feedback">Please select company size.</div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="employerPassword" class="form-label">Password</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
+                                            <input type="password" class="form-control border-start-0" id="employerPassword" placeholder="Create a strong password" required minlength="8">
+                                        </div>
+                                        <div id="employerPasswordStrength"></div>
+                                        <div class="invalid-feedback">Password must be at least 8 characters.</div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="employerConfirmPassword" class="form-label">Confirm Password</label>
+                                        <input type="password" class="form-control" id="employerConfirmPassword" placeholder="Confirm your password" required>
+                                        <div class="invalid-feedback">Passwords do not match.</div>
+                                    </div>
+
+                                    <div class="form-check mb-4">
+                                        <input class="form-check-input" type="checkbox" id="employerTerms" required>
+                                        <label class="form-check-label" for="employerTerms">
+                                            I agree to the <a href="#" class="text-primary">Terms of Service</a> and <a href="#" class="text-primary">Privacy Policy</a>
+                                        </label>
+                                        <div class="invalid-feedback">You must agree to the terms.</div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary w-100 py-2 mb-3" onclick="handleRegister(event, 'employer')">Create Employer Account</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <span class="text-muted">or sign up with</span>
+                        </div>
+
+                        <div class="d-flex gap-3 my-3">
+                            <button type="button" class="btn btn-outline-secondary flex-fill py-2">
+                                <i class="bi bi-google me-2"></i>Google
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary flex-fill py-2">
+                                <i class="bi bi-linkedin me-2"></i>LinkedIn
+                            </button>
+                        </div>
+
+                        <p class="text-center text-muted mb-0">
+                            Already have an account? <a href="login.html" class="text-primary text-decoration-none fw-semibold">Sign In</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/main.js"></script>
+<script>
+    // Password strength for seeker
+    document.getElementById('seekerPassword').addEventListener('input', function() {
+        updatePasswordStrength(this.value, 'seekerPasswordStrength');
+    });
+
+    // Password strength for employer
+    document.getElementById('employerPassword').addEventListener('input', function() {
+        updatePasswordStrength(this.value, 'employerPasswordStrength');
+    });
+
+    function updatePasswordStrength(password, elementId) {
+        let strength = 0;
+        if (password.length >= 8) strength++;
+        if (password.length >= 12) strength++;
+        if (/[a-z]/.test(password)) strength++;
+        if (/[A-Z]/.test(password)) strength++;
+        if (/[0-9]/.test(password)) strength++;
+        if (/[^a-zA-Z0-9]/.test(password)) strength++;
+        strength = Math.min(strength, 4);
+
+        const levels = ['Very Weak', 'Weak', 'Fair', 'Strong', 'Very Strong'];
+        const colors = ['#ef4444', '#f59e0b', '#fbbf24', '#22c55e', '#16a34a'];
+
+        document.getElementById(elementId).innerHTML = `
+                <div class="progress-bar-custom mt-2">
+                    <div class="progress-fill" style="width: ${(strength / 4) * 100}%; background-color: ${colors[strength]}"></div>
+                </div>
+                <small class="text-muted">${levels[strength]}</small>
+            `;
+    }
+
+    function handleRegister(e, type) {
+        e.preventDefault();
+        if (type === 'seeker') {
+            window.location.href = 'seeker-dashboard.html';
+        } else {
+            window.location.href = 'employer-dashboard.html';
+        }
+    }
+</script>
+</body>
+</html>
