@@ -1,10 +1,18 @@
 package lk.ijse.backend.controller;
 
 import lk.ijse.backend.dto.UserDTO;
+import lk.ijse.backend.entity.User;
+import lk.ijse.backend.repository.UserRepository;
 import lk.ijse.backend.service.UserService;
+import lk.ijse.backend.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -12,19 +20,38 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    // 1. User Registration
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody UserDTO userDTO) {
-        return ResponseEntity.ok(userService.registerUser(userDTO));
+    public String register(@RequestBody User user) {
+        // Password එක encode කරලා save කරන්න
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+        return "User Registered Successfully!";
     }
 
+    // 2. User Login (Token එකක් දෙන තැන)
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserDTO loginRequest) {
-        UserDTO user = userService.loginUser(loginRequest.getEmail(), loginRequest.getPassword());
-        if (user != null) {
-            return ResponseEntity.ok(user);
-        }
-        return ResponseEntity.status(401).body("Invalid Credentials");
+    public String login(@RequestBody Map<String, String> loginData) {
+        String email = loginData.get("email");
+        String password = loginData.get("password");
+
+        // Spring Security හරහා check කරනවා email/password හරිද කියලා
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(email, password)
+        );
+
+        // ඔක්කොම හරි නම් Token එකක් හදලා දෙනවා
+        return jwtUtil.generateToken(email);
     }
 }

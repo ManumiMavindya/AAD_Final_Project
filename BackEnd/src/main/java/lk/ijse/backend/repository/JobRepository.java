@@ -8,12 +8,12 @@ import java.util.List;
 public interface JobRepository extends JpaRepository<Job, Long> {
     List<Job> findByCompanyId(Long companyId); // Company ekakata aithi jobs tika ganna
     // Title eka anuwa search kirima (e.g., "Java" kiyala gahuwama "Java Developer" jobs enawa)
-    List<Job> findByJobTitleContainingIgnoreCase(String title);
+    List<Job> findByTitleContainingIgnoreCase(String title);
 
     // Location eka anuwa filter kirima
     List<Job> findByLocationIgnoreCase(String location);
 
     // Title saha Location dekama anuwa search kirima
-    List<Job> findByJobTitleContainingIgnoreCaseAndLocationIgnoreCase(String title, String location);
+    List<Job> findByTitleContainingIgnoreCaseAndLocationIgnoreCase(String title, String location);
 }
 

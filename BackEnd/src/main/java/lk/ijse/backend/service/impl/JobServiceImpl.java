@@ -90,9 +90,9 @@ public class JobServiceImpl implements JobService {
 
         // Search logic එක (කලින් කතා කරපු එක)
         if (title != null && location != null) {
-            jobs = jobRepository.findByJobTitleContainingIgnoreCaseAndLocationIgnoreCase(title, location);
+            jobs = jobRepository.findByTitleContainingIgnoreCaseAndLocationIgnoreCase(title, location);
         } else if (title != null) {
-            jobs = jobRepository.findByJobTitleContainingIgnoreCase(title);
+            jobs = jobRepository.findByTitleContainingIgnoreCase(title);
         } else if (location != null) {
             jobs = jobRepository.findByLocationIgnoreCase(location);
         } else {
