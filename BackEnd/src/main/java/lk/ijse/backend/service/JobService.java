@@ -12,4 +12,5 @@ public interface JobService {
     List<Job> getJobsByCompany(Long companyId); // View Employer's Jobs
     String updateJob(Long id, JobDTO jobDTO);   // Update
     String deleteJob(Long id);              // Delete
+    List<JobDTO> searchJobs(String title, String location);
 }

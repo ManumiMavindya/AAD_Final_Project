@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -81,5 +82,32 @@ public class JobServiceImpl implements JobService {
         }
         jobRepository.deleteById(id);
         return "Job deleted successfully!";
+    }
+
+    @Override
+    public List<JobDTO> searchJobs(String title, String location) {
+        List<Job> jobs;
+
+        // Search logic එක (කලින් කතා කරපු එක)
+        if (title != null && location != null) {
+            jobs = jobRepository.findByJobTitleContainingIgnoreCaseAndLocationIgnoreCase(title, location);
+        } else if (title != null) {
+            jobs = jobRepository.findByJobTitleContainingIgnoreCase(title);
+        } else if (location != null) {
+            jobs = jobRepository.findByLocationIgnoreCase(location);
+        } else {
+            jobs = jobRepository.findAll();
+        }
+
+        // Stream එක පාවිච්චි කරලා List එකක් විදිහට return කරන තැන:
+        return jobs.stream().map(job -> new JobDTO(
+                job.getId(),
+                job.getTitle(),
+                job.getDescription(),
+                job.getSalary(),
+                job.getJobType(),
+                job.getLocation(),
+                job.getCompany().getId()// Company name එක වගේ දේවල් DTO එකේ තිබේ නම්
+        )).collect(Collectors.toList());
     }
 }
