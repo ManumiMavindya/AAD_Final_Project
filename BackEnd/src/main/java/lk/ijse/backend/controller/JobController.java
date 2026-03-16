@@ -17,8 +17,8 @@ public class JobController {
     @Autowired
     private JobService jobService;
 
-    @PostMapping("/post")
-    public ResponseEntity<String> postJob(@RequestBody JobDTO jobDTO) {
+    @PostMapping("/add")
+    public ResponseEntity<String> addJob(@RequestBody JobDTO jobDTO) {
         return ResponseEntity.ok(jobService.postJob(jobDTO));
     }
 
@@ -30,19 +30,19 @@ public class JobController {
 
     // View Company Specific Jobs (Employer Dashboard ekata)
     @GetMapping("/company/{companyId}")
-    public ResponseEntity<List<Job>> getJobsByCompany(@PathVariable String companyId) {
+    public ResponseEntity<List<Job>> getJobsByCompany(@PathVariable Long companyId) {
         return ResponseEntity.ok(jobService.getJobsByCompany(companyId));
     }
 
     // Update Job
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateJob(@PathVariable String id, @RequestBody JobDTO jobDTO) {
+    public ResponseEntity<String> updateJob(@PathVariable Long id, @RequestBody JobDTO jobDTO) {
         return ResponseEntity.ok(jobService.updateJob(id, jobDTO));
     }
 
     // Delete Job
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteJob(@PathVariable String id) {
+    public ResponseEntity<String> deleteJob(@PathVariable Long id) {
         return ResponseEntity.ok(jobService.deleteJob(id));
     }
 }

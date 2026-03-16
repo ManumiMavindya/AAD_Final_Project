@@ -3,7 +3,7 @@ package lk.ijse.backend.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.catalina.User;
+import lk.ijse.backend.entity.User;
 
 @Entity
 @Getter

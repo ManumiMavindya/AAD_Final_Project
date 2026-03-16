@@ -6,10 +6,12 @@ import lk.ijse.backend.repository.JobRepository;
 import lk.ijse.backend.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class JobServiceImpl implements JobService {
 
     @Autowired
@@ -29,19 +31,19 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Job getJobById(String id) {
+    public Job getJobById(Long id) {
         return null;
     }
 
     // 3. READ (Get Jobs by Company) - Employer ta thamange jobs balanna
     @Override
-    public List<Job> getJobsByCompany(String companyId) {
-        return jobRepository.findByCompanyId(Long.valueOf(companyId));
+    public List<Job> getJobsByCompany(Long companyId) {
+        return jobRepository.findByCompanyId(companyId);
     }
 
     // 4. UPDATE
     @Override
-    public String updateJob(String id, JobDTO jobDTO) {
+    public String updateJob(Long id, JobDTO jobDTO) {
         Job existingJob = jobRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Job not found with id: " + id));
 
@@ -57,7 +59,7 @@ public class JobServiceImpl implements JobService {
 
     // 5. DELETE
     @Override
-    public String deleteJob(String id) {
+    public String deleteJob(Long id) {
         if (!jobRepository.existsById(id)) {
             throw new RuntimeException("Job not found!");
         }

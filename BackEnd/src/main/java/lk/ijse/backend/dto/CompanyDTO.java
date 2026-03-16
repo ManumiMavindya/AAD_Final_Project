@@ -8,5 +8,5 @@ public class CompanyDTO {
     private String companyName;
     private String location;
     private String description;
-    private String userId; // Frontend eken user ID eka ewanawa connect karanna
+    private Long userId; // Frontend eken user ID eka ewanawa connect karanna
 }

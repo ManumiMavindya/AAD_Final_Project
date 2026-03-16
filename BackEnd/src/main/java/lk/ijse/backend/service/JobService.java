@@ -8,8 +8,8 @@ import java.util.List;
 public interface JobService {
     String postJob(JobDTO jobDTO);          // Create
     List<Job> getAllJobs();                 // View All (For Seekers)
-    Job getJobById(String id);                // View Single Job
-    List<Job> getJobsByCompany(String companyId); // View Employer's Jobs
-    String updateJob(String id, JobDTO jobDTO);   // Update
-    String deleteJob(String id);              // Delete
+    Job getJobById(Long id);                // View Single Job
+    List<Job> getJobsByCompany(Long companyId); // View Employer's Jobs
+    String updateJob(Long id, JobDTO jobDTO);   // Update
+    String deleteJob(Long id);              // Delete
 }
