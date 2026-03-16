@@ -42,16 +42,28 @@ public class AuthController {
 
     // 2. User Login (Token එකක් දෙන තැන)
     @PostMapping("/login")
-    public String login(@RequestBody Map<String, String> loginData) {
+    public ResponseEntity<?> login(@RequestBody Map<String, String> loginData) {
         String email = loginData.get("email");
         String password = loginData.get("password");
 
-        // Spring Security හරහා check කරනවා email/password හරිද කියලා
+        // 1. Authentication පරීක්ෂා කිරීම
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password)
         );
 
-        // ඔක්කොම හරි නම් Token එකක් හදලා දෙනවා
-        return jwtUtil.generateToken(email);
+        // 2. User විස්තර ටික Database එකෙන් ගන්න
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // 3. Token එක හදන්න
+        String token = jwtUtil.generateToken(email);
+
+        // 4. Response එක විදිහට Object එකක් යවන්න
+        // මම මෙතන පහසුවට Map එකක් පාවිච්චි කළා, ඔයා හදපු AuthResponseDTO එක පාවිච්චි කරන්නත් පුළුවන්
+        return ResponseEntity.ok(Map.of(
+                "token", token,
+                "name", user.getName(),
+                "role", user.getRole().name()
+        ));
     }
 }
