@@ -18,5 +18,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
     private String password;
-    private String role; // EMPLOYER or JOB_SEEKER
+
+    @Enumerated(EnumType.STRING) // Enum එක String එකක් විදිහට DB එකේ save කරන්න
+    private UserRole role; // EMPLOYER or JOB_SEEKER
 }

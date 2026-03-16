@@ -2,6 +2,7 @@ package lk.ijse.backend.service.impl;
 
 import lk.ijse.backend.dto.UserDTO;
 import lk.ijse.backend.entity.User;
+import lk.ijse.backend.entity.UserRole;
 import lk.ijse.backend.repository.UserRepository;
 import lk.ijse.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class UserServiceImpl implements UserService {
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword()); // Real project ekaka meka encode karanna ona
-        user.setRole(userDTO.getRole());
+        user.setRole(UserRole.valueOf(userDTO.getRole()));
 
         userRepository.save(user);
         return "User registered successfully!";
@@ -34,7 +35,7 @@ public class UserServiceImpl implements UserService {
             UserDTO dto = new UserDTO();
             dto.setId(user.get().getId());
             dto.setName(user.get().getName());
-            dto.setRole(user.get().getRole());
+            dto.setRole(String.valueOf(user.get().getRole()));
             return dto;
         }
         return null;
