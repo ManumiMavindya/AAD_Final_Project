@@ -14,6 +14,7 @@ public class Job {
     private String title;
     private String description;
     private Double salary;
+    private String jobType;
     private String location;
 
     @ManyToOne

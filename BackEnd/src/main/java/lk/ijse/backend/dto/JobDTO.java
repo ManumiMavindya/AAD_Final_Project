@@ -8,6 +8,7 @@ public class JobDTO {
     private String title;
     private String description;
     private Double salary;
+    private String jobType;
     private String location;
     private Long companyId; // Me job eka aithi company eke ID eka
 }

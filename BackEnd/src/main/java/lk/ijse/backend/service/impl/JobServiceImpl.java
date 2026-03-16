@@ -1,7 +1,9 @@
 package lk.ijse.backend.service.impl;
 
 import lk.ijse.backend.dto.JobDTO;
+import lk.ijse.backend.entity.Company;
 import lk.ijse.backend.entity.Job;
+import lk.ijse.backend.repository.CompanyRepository;
 import lk.ijse.backend.repository.JobRepository;
 import lk.ijse.backend.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,24 @@ public class JobServiceImpl implements JobService {
     @Autowired
     private JobRepository jobRepository;
 
-    // 1. CREATE (Post Job)
+    @Autowired
+    private CompanyRepository companyRepository;
+
+    // 1. CREATE
     @Override
     public String postJob(JobDTO jobDTO) {
-        // Kalin dapu code eka methanata enawa...
+        Company company = companyRepository.findById(jobDTO.getCompanyId())
+                .orElseThrow(() -> new RuntimeException("Company not found!"));
+
+        Job job = new Job();
+        job.setTitle(jobDTO.getTitle());
+        job.setDescription(jobDTO.getDescription());
+        job.setSalary(jobDTO.getSalary());
+        job.setJobType(jobDTO.getJobType());
+        job.setLocation(jobDTO.getLocation());
+        job.setCompany(company);
+
+        jobRepository.save(job);
         return "Job posted successfully!";
     }
 
