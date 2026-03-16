@@ -8,7 +8,6 @@ import lk.ijse.backend.entity.User;
 import lk.ijse.backend.repository.JobApplicationRepository;
 import lk.ijse.backend.repository.JobRepository;
 import lk.ijse.backend.repository.UserRepository;
-import lk.ijse.backend.service.EmailService;
 import lk.ijse.backend.service.JobApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -41,7 +40,7 @@ public class JobApplicationServiceImpl implements JobApplicationService {
     private UserRepository userRepository;
 
     @Autowired
-    private EmailService emailService;
+    private EmailServiceImpl emailService;
 
     @Override
     public String applyForJob(JobApplicationDTO dto) {
