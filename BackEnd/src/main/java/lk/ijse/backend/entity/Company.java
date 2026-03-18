@@ -15,6 +15,10 @@ public class Company {
     private String companyName;
     private String location;
     private String description;
+    private String logoUrl;      // Logo එකේ link එක හෝ path එක
+    private String website;      // Company website එක
+    private String industry;     // උදා: IT, Banking, Manufacturing
+    private String contactEmail; // Company එකේ පොදු contact email එක
 
     @OneToOne // User kenekuta ekama eka company ekai thiyenna puluwan kiyala hithuwoth
     @JoinColumn(name = "user_id")

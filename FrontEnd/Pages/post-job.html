@@ -1,385 +1,263 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post New Job - JobHub</title>
+    <title>Post a New Job | JobHub</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .dashboard-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Modern Sidebar Styling */
+        .dashboard-sidebar {
+            width: 280px;
+            background: #0f172a;
+            color: white;
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link {
+            color: #94a3b8;
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-link i { margin-right: 12px; font-size: 1.2rem; }
+
+        /* Main Content Styling */
+        .dashboard-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 2.5rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 24px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04);
+            padding: 2.5rem;
+        }
+
+        .form-section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-section-title i {
+            color: #3b82f6;
+            margin-right: 10px;
+        }
+
+        .form-label {
+            font-weight: 500;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+            color: #64748b;
+        }
+
+        .form-control, .form-select {
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e2e8f0;
+            background-color: #f8fafc;
+            transition: all 0.2s;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background-color: white;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn-publish {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        .btn-publish:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
+
 <div class="dashboard-wrapper">
-    <!-- Sidebar -->
-    <aside class="dashboard-sidebar">
-        <div class="sidebar-brand">
-            <a href="index.html" class="text-white text-decoration-none d-flex align-items-center">
-                <i class="bi bi-briefcase-fill me-2 fs-4"></i>
-                <span class="fs-5 fw-bold">JobHub</span>
-            </a>
+    <aside class="dashboard-sidebar shadow-lg">
+        <div class="mb-5 px-3">
+            <h3 class="fw-bold text-white d-flex align-items-center">
+                <i class="bi bi-rocket-takeoff-fill me-2 text-primary"></i>JobHub
+            </h3>
         </div>
-        <div class="sidebar-section">Main</div>
-        <nav class="nav flex-column">
-            <a class="nav-link" href="employer-dashboard.html"><i class="bi bi-grid"></i>Dashboard</a>
-            <a class="nav-link active" href="post-job.html"><i class="bi bi-plus-circle"></i>Post New Job</a>
-            <a class="nav-link" href="#"><i class="bi bi-briefcase"></i>My Jobs</a>
-            <a class="nav-link" href="#"><i class="bi bi-people"></i>Applicants</a>
-        </nav>
-        <div class="sidebar-section">Company</div>
-        <nav class="nav flex-column">
-            <a class="nav-link" href="#"><i class="bi bi-building"></i>Company Profile</a>
-            <a class="nav-link" href="#"><i class="bi bi-gear"></i>Settings</a>
-        </nav>
-        <div class="sidebar-section">Account</div>
-        <nav class="nav flex-column">
-            <a class="nav-link text-danger" href="login.html"><i class="bi bi-box-arrow-left"></i>Logout</a>
+
+        <nav class="nav flex-column mt-4">
+            <a class="nav-link" href="employer-dashboard.html"><i class="bi bi-grid-1x2"></i> Overview</a>
+            <a class="nav-link active" href="post-job.html"><i class="bi bi-plus-square"></i> Post a Job</a>
+            <a class="nav-link" href="#"><i class="bi bi-briefcase"></i> Manage Jobs</a>
+            <a class="nav-link" href="#"><i class="bi bi-people"></i> Applicants</a>
+            <hr class="my-4 border-secondary opacity-25">
+            <a class="nav-link text-danger" href="#" onclick="logout()"><i class="bi bi-box-arrow-left"></i> Sign Out</a>
         </nav>
     </aside>
 
-    <div class="sidebar-overlay"></div>
-
     <main class="dashboard-content">
-        <header class="dashboard-header">
+        <div class="page-header d-flex justify-content-between align-items-end">
             <div>
-                <h5 class="mb-0 fw-bold">Post New Job</h5>
-                <small class="text-muted">Create a new job listing to attract top talent</small>
+                <span class="status-badge bg-primary bg-opacity-10 text-primary mb-2 d-inline-block">Recruitment</span>
+                <h2 class="fw-bold mb-0">Create New Opportunity</h2>
+                <p class="text-muted mt-1">Ready to find your next top talent?</p>
             </div>
-            <div class="d-flex align-items-center gap-3">
-                <div class="dropdown">
-                    <button class="btn btn-light dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown">
-                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
-                            <i class="bi bi-building"></i>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-9">
+                <div class="form-card">
+                    <form id="postJobForm">
+                        <div class="form-section-title">
+                            <i class="bi bi-info-circle-fill"></i> General Information
                         </div>
-                        <span class="d-none d-md-inline">TechCorp Inc.</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-building me-2"></i>Company Profile</a></li>
-                        <li><a class="dropdown-item text-danger" href="login.html"><i class="bi bi-box-arrow-left me-2"></i>Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-        </header>
-
-        <div class="dashboard-main">
-            <div class="row">
-                <div class="col-lg-8">
-                    <form class="needs-validation" novalidate onsubmit="handlePostJob(event)">
-                        <!-- Basic Information -->
-                        <div class="card border-0 shadow-sm mb-4">
-                            <div class="card-header bg-white border-0 py-3">
-                                <h6 class="fw-bold mb-0"><i class="bi bi-info-circle me-2 text-primary"></i>Basic Information</h6>
+                        <div class="row g-4 mb-5">
+                            <div class="col-12">
+                                <label class="form-label">Job Title *</label>
+                                <input type="text" id="jobTitle" class="form-control form-control-lg" placeholder="e.g. Senior Product Designer" required>
                             </div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <label class="form-label">Job Title <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="e.g. Senior Software Engineer" required>
-                                    <div class="form-text">A clear, specific title helps candidates find your job</div>
-                                </div>
-
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Job Category <span class="text-danger">*</span></label>
-                                        <select class="form-select" required>
-                                            <option value="">Select category</option>
-                                            <option>Technology</option>
-                                            <option>Design</option>
-                                            <option>Marketing</option>
-                                            <option>Sales</option>
-                                            <option>Finance</option>
-                                            <option>Healthcare</option>
-                                            <option>Education</option>
-                                            <option>Engineering</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Job Type <span class="text-danger">*</span></label>
-                                        <select class="form-select" required>
-                                            <option value="">Select type</option>
-                                            <option>Full-time</option>
-                                            <option>Part-time</option>
-                                            <option>Contract</option>
-                                            <option>Internship</option>
-                                            <option>Temporary</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row g-3 mt-2">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Experience Level <span class="text-danger">*</span></label>
-                                        <select class="form-select" required>
-                                            <option value="">Select level</option>
-                                            <option>Entry Level</option>
-                                            <option>Mid Level</option>
-                                            <option>Senior Level</option>
-                                            <option>Executive</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Number of Positions</label>
-                                        <input type="number" class="form-control" value="1" min="1">
-                                    </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Category</label>
+                                <select id="category" class="form-select">
+                                    <option value="IT">Software & Tech</option>
+                                    <option value="DESIGN">Creative & Design</option>
+                                    <option value="MARKETING">Digital Marketing</option>
+                                    <option value="FINANCE">Finance & Accounting</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Location *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent border-end-0 rounded-start-3"><i class="bi bi-geo-alt"></i></span>
+                                    <input type="text" id="location" class="form-control border-start-0 rounded-end-3" placeholder="Colombo, Sri Lanka" required>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Location & Work Type -->
-                        <div class="card border-0 shadow-sm mb-4">
-                            <div class="card-header bg-white border-0 py-3">
-                                <h6 class="fw-bold mb-0"><i class="bi bi-geo-alt me-2 text-primary"></i>Location & Work Type</h6>
+                        <div class="form-section-title">
+                            <i class="bi bi-briefcase-fill"></i> Job Requirements
+                        </div>
+                        <div class="row g-4 mb-5">
+                            <div class="col-md-4">
+                                <label class="form-label">Work Arrangement</label>
+                                <select id="workArrangement" class="form-select">
+                                    <option value="ONSITE">🏢 On-site</option>
+                                    <option value="REMOTE">🏠 Remote</option>
+                                    <option value="HYBRID">☁️ Hybrid</option>
+                                </select>
                             </div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <label class="form-label">Work Arrangement <span class="text-danger">*</span></label>
-                                    <div class="d-flex flex-wrap gap-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="workArrangement" id="onsite" value="onsite">
-                                            <label class="form-check-label" for="onsite">On-site</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="workArrangement" id="remote" value="remote">
-                                            <label class="form-check-label" for="remote">Remote</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="workArrangement" id="hybrid" value="hybrid" checked>
-                                            <label class="form-check-label" for="hybrid">Hybrid</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label">City</label>
-                                        <input type="text" class="form-control" placeholder="e.g. San Francisco">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">State/Country</label>
-                                        <input type="text" class="form-control" placeholder="e.g. California, USA">
-                                    </div>
-                                </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Experience Level</label>
+                                <select id="experienceLevel" class="form-select">
+                                    <option value="ENTRY">Entry Level</option>
+                                    <option value="MID">Intermediate</option>
+                                    <option value="SENIOR">Senior / Lead</option>
+                                    <option value="EXECUTIVE">Executive</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Job Type</label>
+                                <select id="jobType" class="form-select">
+                                    <option value="FULL_TIME">Full Time</option>
+                                    <option value="PART_TIME">Part Time</option>
+                                    <option value="CONTRACT">Contract</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Salary Range (Monthly)</label>
+                                <input type="text" id="salary" class="form-control" placeholder="LKR 150,000 - 250,000">
                             </div>
                         </div>
 
-                        <!-- Compensation -->
-                        <div class="card border-0 shadow-sm mb-4">
-                            <div class="card-header bg-white border-0 py-3">
-                                <h6 class="fw-bold mb-0"><i class="bi bi-currency-dollar me-2 text-primary"></i>Compensation</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="row g-3">
-                                    <div class="col-md-4">
-                                        <label class="form-label">Salary Type</label>
-                                        <select class="form-select">
-                                            <option>Annual</option>
-                                            <option>Monthly</option>
-                                            <option>Hourly</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">Minimum Salary</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">$</span>
-                                            <input type="number" class="form-control" placeholder="80,000">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">Maximum Salary</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">$</span>
-                                            <input type="number" class="form-control" placeholder="120,000">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-check mt-3">
-                                    <input class="form-check-input" type="checkbox" id="hideSalary">
-                                    <label class="form-check-label" for="hideSalary">Hide salary from job listing</label>
-                                </div>
+                        <div class="form-section-title">
+                            <i class="bi bi-card-text"></i> Detailed Description
+                        </div>
+                        <div class="row g-4">
+                            <div class="col-12">
+                                <textarea id="description" class="form-control" rows="8" placeholder="What are the responsibilities and requirements for this role?" required></textarea>
                             </div>
                         </div>
 
-                        <!-- Job Description -->
-                        <div class="card border-0 shadow-sm mb-4">
-                            <div class="card-header bg-white border-0 py-3">
-                                <h6 class="fw-bold mb-0"><i class="bi bi-file-text me-2 text-primary"></i>Job Description</h6>
+                        <div class="mt-5 pt-4 border-top d-flex justify-content-between align-items-center">
+                            <p class="text-muted small mb-0"><i class="bi bi-info-circle me-1"></i> Once published, this job will be visible to all seekers.</p>
+                            <div>
+                                <button type="button" class="btn btn-link text-decoration-none text-secondary me-3" onclick="location.href='employer-dashboard.html'">Discard</button>
+                                <button type="submit" class="btn btn-primary btn-publish text-white">
+                                    <i class="bi bi-send-fill me-2"></i>Publish Vacancy
+                                </button>
                             </div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <label class="form-label">Job Description <span class="text-danger">*</span></label>
-                                    <textarea class="form-control" rows="6" placeholder="Describe the role, responsibilities, and what makes it exciting..." required></textarea>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Requirements <span class="text-danger">*</span></label>
-                                    <textarea class="form-control" rows="4" placeholder="List the key qualifications, skills, and experience required..." required></textarea>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Nice to Have</label>
-                                    <textarea class="form-control" rows="3" placeholder="Optional skills or experience that would be a plus..."></textarea>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Benefits</label>
-                                    <div class="row g-2">
-                                        <div class="col-md-6">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="benefit1" checked>
-                                                <label class="form-check-label" for="benefit1">Health Insurance</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="benefit2" checked>
-                                                <label class="form-check-label" for="benefit2">401(k) Matching</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="benefit3" checked>
-                                                <label class="form-check-label" for="benefit3">Paid Time Off</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="benefit4">
-                                                <label class="form-check-label" for="benefit4">Remote Work</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="benefit5">
-                                                <label class="form-check-label" for="benefit5">Learning Budget</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="benefit6">
-                                                <label class="form-check-label" for="benefit6">Stock Options</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Skills -->
-                        <div class="card border-0 shadow-sm mb-4">
-                            <div class="card-header bg-white border-0 py-3">
-                                <h6 class="fw-bold mb-0"><i class="bi bi-tools me-2 text-primary"></i>Required Skills</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <label class="form-label">Add Skills</label>
-                                    <input type="text" class="form-control" id="skillInput" placeholder="Type a skill and press Enter">
-                                </div>
-                                <div id="skillTags" class="d-flex flex-wrap gap-2">
-                                        <span class="badge bg-primary bg-opacity-10 text-primary py-2 px-3">
-                                            JavaScript <button type="button" class="btn-close btn-close-sm ms-2" onclick="this.parentElement.remove()"></button>
-                                        </span>
-                                    <span class="badge bg-primary bg-opacity-10 text-primary py-2 px-3">
-                                            React <button type="button" class="btn-close btn-close-sm ms-2" onclick="this.parentElement.remove()"></button>
-                                        </span>
-                                    <span class="badge bg-primary bg-opacity-10 text-primary py-2 px-3">
-                                            Node.js <button type="button" class="btn-close btn-close-sm ms-2" onclick="this.parentElement.remove()"></button>
-                                        </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Submit Buttons -->
-                        <div class="d-flex gap-3 justify-content-end mb-4">
-                            <button type="button" class="btn btn-outline-secondary">Save as Draft</button>
-                            <button type="button" class="btn btn-outline-primary">Preview</button>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-send me-2"></i>Post Job
-                            </button>
                         </div>
                     </form>
                 </div>
+            </div>
 
-                <!-- Sidebar Tips -->
-                <div class="col-lg-4">
-                    <div class="card border-0 shadow-sm mb-4 sticky-top" style="top: 80px;">
-                        <div class="card-body">
-                            <h6 class="fw-bold mb-3"><i class="bi bi-lightbulb text-warning me-2"></i>Tips for a Great Job Post</h6>
-                            <ul class="list-unstyled mb-0">
-                                <li class="mb-3 d-flex">
-                                    <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
-                                    <span class="small">Use a clear, descriptive job title that candidates will search for</span>
-                                </li>
-                                <li class="mb-3 d-flex">
-                                    <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
-                                    <span class="small">Include salary range - jobs with salary get 30% more applications</span>
-                                </li>
-                                <li class="mb-3 d-flex">
-                                    <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
-                                    <span class="small">List specific requirements to attract qualified candidates</span>
-                                </li>
-                                <li class="mb-3 d-flex">
-                                    <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
-                                    <span class="small">Highlight company culture and benefits</span>
-                                </li>
-                                <li class="d-flex">
-                                    <i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
-                                    <span class="small">Keep the description concise but informative</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-body">
-                            <h6 class="fw-bold mb-3"><i class="bi bi-bar-chart text-primary me-2"></i>Posting Stats</h6>
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between small mb-1">
-                                    <span>Jobs Posted This Month</span>
-                                    <span class="fw-semibold">3 / 10</span>
-                                </div>
-                                <div class="progress-bar-custom">
-                                    <div class="progress-fill" style="width: 30%;"></div>
-                                </div>
-                            </div>
-                            <p class="text-muted small mb-0">You have 7 job posts remaining on your current plan.</p>
-                        </div>
-                    </div>
+            <div class="col-xl-3 d-none d-xl-block">
+                <div class="card border-0 shadow-sm p-4 bg-primary text-white" style="border-radius: 20px;">
+                    <h5 class="fw-bold mb-3">Quick Tips</h5>
+                    <ul class="small list-unstyled opacity-75">
+                        <li class="mb-3"><i class="bi bi-check2-circle me-2"></i> Clearly state your requirements to get better matches.</li>
+                        <li class="mb-3"><i class="bi bi-check2-circle me-2"></i> Mention perks and benefits to attract top talent.</li>
+                        <li><i class="bi bi-check2-circle me-2"></i> Adding a salary range increases applications by 40%.</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </main>
 </div>
 
-<button class="sidebar-toggle d-lg-none"><i class="bi bi-list fs-4"></i></button>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../js/main.js"></script>
-<script>
-    // Add skill tags
-    document.getElementById('skillInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            const skill = this.value.trim();
-            if (skill) {
-                const skillTags = document.getElementById('skillTags');
-                const tag = document.createElement('span');
-                tag.className = 'badge bg-primary bg-opacity-10 text-primary py-2 px-3';
-                tag.innerHTML = `${skill} <button type="button" class="btn-close btn-close-sm ms-2" onclick="this.parentElement.remove()"></button>`;
-                skillTags.appendChild(tag);
-                this.value = '';
-            }
-        }
-    });
-
-    function handlePostJob(e) {
-        e.preventDefault();
-        if (window.JobHub) {
-            window.JobHub.showToast('Job posted successfully!', 'success');
-        } else {
-            alert('Job posted successfully!');
-        }
-        setTimeout(() => {
-            window.location.href = 'employer-dashboard.html';
-        }, 1500);
-    }
-</script>
+<script src="../js/post-job.js"></script>
 </body>
 </html>

@@ -14,5 +14,9 @@ public class JobDTO {
     private Double salary;
     private String jobType;
     private String location;
+    private String workArrangement;
+    private String experienceLevel;
     private Long companyId; // Me job eka aithi company eke ID eka
+
+
 }

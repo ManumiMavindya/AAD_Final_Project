@@ -7,6 +7,7 @@ import lk.ijse.backend.repository.UserRepository;
 import lk.ijse.backend.service.CompanyService;
 import lk.ijse.backend.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,13 +24,22 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public String addCompany(CompanyDTO dto) {
-        User user = userRepository.findById(Long.valueOf(dto.getUserId()))
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        // 1. Token එකෙන් දැනට ඉන්න User ගේ Email එක ගන්නවා
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        // 2. ඒ Email එකෙන් User Entity එක හොයාගන්නවා
+        User user = userRepository.findByEmail(currentUserEmail)
+                .orElseThrow(() -> new RuntimeException("Logged in user not found"));
 
         Company company = new Company();
         company.setCompanyName(dto.getCompanyName());
         company.setLocation(dto.getLocation());
         company.setDescription(dto.getDescription());
+        company.setLogoUrl(dto.getLogoUrl());
+        company.setWebsite(dto.getWebsite());
+        company.setIndustry(dto.getIndustry());
+        company.setContactEmail(dto.getContactEmail());
+
         company.setUser(user);
 
         companyRepository.save(company);
@@ -44,6 +54,10 @@ public class CompanyServiceImpl implements CompanyService {
             dto.setCompanyName(company.getCompanyName());
             dto.setLocation(company.getLocation());
             dto.setDescription(company.getDescription());
+            dto.setLogoUrl(company.getLogoUrl());
+            dto.setWebsite(company.getWebsite());
+            dto.setIndustry(company.getIndustry());
+            dto.setContactEmail(company.getContactEmail());
             dto.setUserId(company.getUser().getId());
             return dto;
         }).collect(Collectors.toList());
@@ -63,13 +77,24 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public CompanyDTO getCompanyByUserId(Long userId) {
-        Company company = companyRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Company not found for this user"));
+        // 1. Company එක හොයනවා
+        Company company = companyRepository.findByUserId(userId).orElse(null);
 
+        // 2. වැදගත්ම කොටස: Company එකක් නැත්නම් Error එකක් නොදී null යවන්න
+        if (company == null) {
+            return null;
+        }
+
+        // 3. Company එකක් තිබුණොත් විතරක් DTO එකට දාන්න
         CompanyDTO dto = new CompanyDTO();
         dto.setId(company.getId());
         dto.setCompanyName(company.getCompanyName());
         dto.setLocation(company.getLocation());
+        dto.setDescription(company.getDescription());
+        dto.setLogoUrl(company.getLogoUrl());
+        dto.setWebsite(company.getWebsite());
+        dto.setIndustry(company.getIndustry());
+        dto.setContactEmail(company.getContactEmail());
         dto.setUserId(company.getUser().getId());
         return dto;
     }
@@ -82,6 +107,10 @@ public class CompanyServiceImpl implements CompanyService {
         company.setCompanyName(dto.getCompanyName());
         company.setLocation(dto.getLocation());
         company.setDescription(dto.getDescription());
+        company.setLogoUrl(dto.getLogoUrl());
+        company.setWebsite(dto.getWebsite());
+        company.setIndustry(dto.getIndustry());
+        company.setContactEmail(dto.getContactEmail());
 
         companyRepository.save(company);
         return "Company updated successfully!";

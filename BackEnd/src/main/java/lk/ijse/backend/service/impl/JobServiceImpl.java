@@ -35,6 +35,8 @@ public class JobServiceImpl implements JobService {
         job.setSalary(jobDTO.getSalary());
         job.setJobType(jobDTO.getJobType());
         job.setLocation(jobDTO.getLocation());
+        job.setWorkArrangement(jobDTO.getWorkArrangement());
+        job.setExperienceLevel(jobDTO.getExperienceLevel());
         job.setCompany(company);
 
         jobRepository.save(job);
@@ -107,6 +109,8 @@ public class JobServiceImpl implements JobService {
                 job.getSalary(),
                 job.getJobType(),
                 job.getLocation(),
+                job.getWorkArrangement(),
+                job.getExperienceLevel(),
                 job.getCompany().getId()// Company name එක වගේ දේවල් DTO එකේ තිබේ නම්
         )).collect(Collectors.toList());
     }

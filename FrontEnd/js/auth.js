@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 1. USER REGISTRATION LOGIC ---
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
-        registerForm.addEventListener('submit', function(e) {
+        registerForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
             const name = document.getElementById('name').value;
@@ -22,15 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             fetch('http://localhost:8080/api/auth/register', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userData)
             })
                 .then(response => {
                     if (response.ok) {
                         alert('Registration Successful! Please login.');
-                        window.location.href = 'login.html'; // ලොගින් පිටුවට යවනවා
+                        window.location.href = 'login.html';
                     } else {
                         alert('Registration failed. Email might already exist.');
                     }
@@ -45,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 2. USER LOGIN LOGIC ---
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
-        loginForm.addEventListener('submit', function(e) {
+        loginForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
             const email = document.getElementById('email').value;
@@ -53,41 +51,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
             fetch('http://localhost:8080/api/auth/login', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password
-                })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email, password: password })
             })
                 .then(response => {
-                    if (response.ok) {
-                        return response.json(); // සාර්ථක නම් Response එක JSON කරනවා
-                    } else {
-                        throw new Error('Invalid Credentials');
-                    }
+                    if (response.ok) return response.json();
+                    else throw new Error('Invalid Credentials');
                 })
                 .then(data => {
-                    // 1. data එක ඇතුළේ තියෙන දේවල් variable වලට වෙන් කරගන්න
-                    const { token, name, role } = data;
+                    // 🛑 මේ කොටස තමයි වැදගත්ම!
+                    // Backend එකෙන් 'userId' කියලා ආවේ නැත්නම් 'id' කියලා හරි ගන්නවා.
+                    const finalUserId = data.userId || data.id;
 
-                    // 2. දැන් data.token වෙනුවට කෙලින්ම variable එක පාවිච්චි කරන්න
-                    localStorage.setItem('token', token);
-                    localStorage.setItem('userName', name);
-                    localStorage.setItem('userRole', role);
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('userName', data.name);
+                    localStorage.setItem('userRole', data.role);
+                    localStorage.setItem('userId', finalUserId);
 
-                    alert('Welcome back, ' + name + '!');
+                    console.log("Login Successful! Data received:", data);
+                    console.log("Saved User ID:", finalUserId);
 
-                    // --- Role එක අනුව Redirect කිරීම ---
+                    alert('Welcome back, ' + data.name + '!');
+
                     if (data.role === 'JOB_SEEKER') {
                         window.location.href = 'seeker-dashboard.html';
                     } else if (data.role === 'EMPLOYER') {
-                        window.location.href = 'employer-dashboard.html';
+                        // කෙලින්ම checkEmployerCompany එකට ID එක යවනවා
+                        checkEmployerCompany(finalUserId, data.token);
                     } else {
                         alert('Undefined Role!');
                     }
-
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -95,10 +88,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         });
     }
+
+    // Employer ට Company එකක් තියෙනවද කියලා බලන Function එක
+    function checkEmployerCompany(userId, token) {
+        // මෙතනදී userId එක 'undefined' ද කියලා තදින්ම පරීක්ෂා කරනවා
+        if (!userId || userId === "undefined") {
+            console.error("Critical Error: userId is missing!");
+            alert("System error: User identification failed. Please login again.");
+            window.location.href = 'login.html';
+            return;
+        }
+
+        fetch(`http://localhost:8080/api/company/user/${userId}`, {
+            headers: { 'Authorization': 'Bearer ' + token }
+        })
+            .then(res => {
+                if (res.ok) {
+                    window.location.href = 'employer-dashboard.html';
+                } else {
+                    // 404 ආවොත් කියන්නේ Company එකක් නැහැ කියන එක
+                    window.location.href = 'create-company.html';
+                }
+            })
+            .catch(err => {
+                console.error("Company check error:", err);
+                window.location.href = 'create-company.html';
+            });
+    }
+
 });
 
-// --- 3. LOGOUT FUNCTION (පස්සේ පාවිච්චි කරන්න පුළුවන්) ---
+// --- 3. LOGOUT FUNCTION ---
 function logout() {
     localStorage.clear();
-    window.location.href = 'index.html';
+    window.location.href = 'login.html';
 }

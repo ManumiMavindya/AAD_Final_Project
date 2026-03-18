@@ -16,6 +16,8 @@ public class Job {
     private Double salary;
     private String jobType;
     private String location;
+    private String workArrangement;
+    private String experienceLevel;
 
     @ManyToOne
     @JoinColumn(name = "company_id")

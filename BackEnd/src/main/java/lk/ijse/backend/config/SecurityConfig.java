@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,23 +29,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // 1. CORS Configuration එක ඇතුළත් කිරීම
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/jobs/search", "/api/jobs/all").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                );
 
+                        // Company add කරන්න අවසර දීම (මෙතන /api/company/add එක අනිවාර්යයෙන්ම දාන්න)
+                        .requestMatchers("/api/company/add").hasAuthority("EMPLOYER")
+
+                        // Job add කරන්න අවසර දීම
+                        .requestMatchers("/api/jobs/add").hasAuthority("EMPLOYER")
+
+                        .requestMatchers("/api/company/**").authenticated()
+                        .anyRequest().authenticated()
+                );
+        // ... (Session Management & JWT Filter කොටස අමතක කරන්න එපා)
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
 
         return http.build();
     }
-
     // 2. CORS නීති රීති (Rules) මෙතන අර්ථ දක්වන්න
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
