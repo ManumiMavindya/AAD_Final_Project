@@ -38,7 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/company/add").hasAuthority("EMPLOYER")
 
                         // Job add කරන්න අවසර දීම
-                        .requestMatchers("/api/jobs/add").hasAuthority("EMPLOYER")
+                        .requestMatchers("/api/jobs/**").hasAuthority("EMPLOYER")
 
                         .requestMatchers("/api/company/**").authenticated()
                         .anyRequest().authenticated()

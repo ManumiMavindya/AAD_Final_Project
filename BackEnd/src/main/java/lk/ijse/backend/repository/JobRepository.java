@@ -13,6 +13,8 @@ public interface JobRepository extends JpaRepository<Job, Long> {
     // Location eka anuwa filter kirima
     List<Job> findByLocationIgnoreCase(String location);
 
+    List<Job> findByUserEmail(String email);
+
     // Title saha Location dekama anuwa search kirima
     List<Job> findByTitleContainingIgnoreCaseAndLocationIgnoreCase(String title, String location);
 }

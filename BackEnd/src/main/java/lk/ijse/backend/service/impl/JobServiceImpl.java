@@ -3,9 +3,12 @@ package lk.ijse.backend.service.impl;
 import lk.ijse.backend.dto.JobDTO;
 import lk.ijse.backend.entity.Company;
 import lk.ijse.backend.entity.Job;
+import lk.ijse.backend.entity.User;
 import lk.ijse.backend.repository.CompanyRepository;
 import lk.ijse.backend.repository.JobRepository;
+import lk.ijse.backend.repository.UserRepository;
 import lk.ijse.backend.service.JobService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,12 +26,26 @@ public class JobServiceImpl implements JobService {
     @Autowired
     private CompanyRepository companyRepository;
 
-    // 1. CREATE
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
     public String postJob(JobDTO jobDTO) {
+        // 1. Company එක හොයාගන්නවා
         Company company = companyRepository.findById(jobDTO.getCompanyId())
                 .orElseThrow(() -> new RuntimeException("Company not found!"));
 
+        // 2. දැනට Login වෙලා ඉන්න User ව (Employer) හොයාගන්නවා
+        String currentUserEmail = org.springframework.security.core.context.SecurityContextHolder
+                .getContext().getAuthentication().getName();
+
+        User currentUser = userRepository.findByEmail(currentUserEmail)
+                .orElseThrow(() -> new RuntimeException("User not found!"));
+
+        // 3. Job Entity එකට data set කරනවා
         Job job = new Job();
         job.setTitle(jobDTO.getTitle());
         job.setDescription(jobDTO.getDescription());
@@ -37,7 +54,9 @@ public class JobServiceImpl implements JobService {
         job.setLocation(jobDTO.getLocation());
         job.setWorkArrangement(jobDTO.getWorkArrangement());
         job.setExperienceLevel(jobDTO.getExperienceLevel());
-        job.setCompany(company);
+
+        job.setCompany(company); // Company එක set කරනවා
+        job.setUser(currentUser); // අන්න! දැන් තමයි Job එක සහ User අතර සම්බන්ධය හැදෙන්නේ ✅
 
         jobRepository.save(job);
         return "Job posted successfully!";
@@ -114,4 +133,16 @@ public class JobServiceImpl implements JobService {
                 job.getCompany().getId()// Company name එක වගේ දේවල් DTO එකේ තිබේ නම්
         )).collect(Collectors.toList());
     }
+
+    @Override
+    public List<JobDTO> getJobsByUserEmail(String email) {
+// 1. Database එකෙන් අදාළ email එකට තියෙන Jobs ටික ගන්නවා
+        List<Job> jobs = jobRepository.findByUserEmail(email);
+
+        // 2. ඒ Jobs (Entities) ටික JobDTO ලැයිස්තුවකට convert කරනවා
+        return jobs.stream()
+                .map(job -> modelMapper.map(job, JobDTO.class))
+                .collect(Collectors.toList());    }
+
+
 }

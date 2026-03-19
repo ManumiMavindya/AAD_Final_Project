@@ -5,6 +5,7 @@ import lk.ijse.backend.entity.Job;
 import lk.ijse.backend.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,5 +45,12 @@ public class JobController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteJob(@PathVariable Long id) {
         return ResponseEntity.ok(jobService.deleteJob(id));
+    }
+
+    @GetMapping("/my-jobs")
+    public ResponseEntity<List<JobDTO>> getMyJobs(Authentication authentication) {
+        String email = authentication.getName(); // Token එකෙන් email එක ගන්නවා
+        List<JobDTO> myJobs = jobService.getJobsByUserEmail(email);
+        return ResponseEntity.ok(myJobs);
     }
 }

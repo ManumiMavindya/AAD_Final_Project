@@ -13,4 +13,5 @@ public interface JobService {
     String updateJob(Long id, JobDTO jobDTO);   // Update
     String deleteJob(Long id);              // Delete
     List<JobDTO> searchJobs(String title, String location);
+    List<JobDTO> getJobsByUserEmail(String email);
 }

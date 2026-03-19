@@ -22,4 +22,8 @@ public class Job {
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id") // DB එකේ user_id කියලා column එකක් හැදෙයි
+    private User user;
 }
