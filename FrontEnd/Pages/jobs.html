@@ -9,7 +9,6 @@
     <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
     <div class="container">
         <a class="navbar-brand fw-bold text-primary" href="index.html">
@@ -20,29 +19,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="jobs.html">Find Jobs</a>
-                </li>
+                <li class="nav-item"><a class="nav-link active" href="jobs.html">Find Jobs</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">For Employers</a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="post-job.html">Post a Job</a></li>
-                        <li><a class="dropdown-item" href="employer-dashboard.html">Employer Dashboard</a></li>
                     </ul>
                 </li>
             </ul>
-            <div class="d-flex gap-2">
-                <a href="login.html" class="btn btn-outline-primary">Login</a>
-                <a href="register.html" class="btn btn-primary">Register</a>
-            </div>
         </div>
     </div>
 </nav>
 
-<!-- Search Header -->
 <section class="bg-primary py-4">
     <div class="container">
         <div class="row g-3">
@@ -51,7 +39,6 @@
                     <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
                     <input type="text" class="form-control border-start-0" id="jobSearch" placeholder="Job title, keywords, or company">
                 </div>
-                <div id="searchSuggestions" class="list-group position-absolute w-100 shadow-sm" style="z-index: 100; display: none;"></div>
             </div>
             <div class="col-md-4">
                 <div class="input-group">
@@ -60,7 +47,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <button type="button" class="btn btn-light w-100">
+                <button type="button" class="btn btn-light w-100" onclick="loadJobsFromDB()">
                     <i class="bi bi-search me-2"></i>Search Jobs
                 </button>
             </div>
@@ -68,394 +55,348 @@
     </div>
 </section>
 
-<!-- Main Content -->
 <section class="py-4">
     <div class="container">
         <div class="row">
-            <!-- Filters Sidebar -->
             <div class="col-lg-3 mb-4">
-                <div class="filter-sidebar">
+                <div class="filter-sidebar p-3 bg-white rounded shadow-sm border">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h6 class="fw-bold mb-0">Filters</h6>
-                        <button class="btn btn-sm btn-link text-muted p-0" id="clearFilters">Clear All</button>
+                        <button class="btn btn-sm btn-link text-muted p-0 text-decoration-none" id="clearFilters">Clear All</button>
                     </div>
 
                     <form id="filterForm">
-                        <!-- Job Type Filter -->
-                        <div class="filter-section">
-                            <h6 class="small fw-semibold mb-3">Job Type</h6>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" name="jobType" value="full-time" id="fullTime">
-                                <label class="form-check-label" for="fullTime">Full-time <span class="text-muted">(1,245)</span></label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" name="jobType" value="part-time" id="partTime">
-                                <label class="form-check-label" for="partTime">Part-time <span class="text-muted">(342)</span></label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" name="jobType" value="contract" id="contract">
-                                <label class="form-check-label" for="contract">Contract <span class="text-muted">(567)</span></label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" name="jobType" value="internship" id="internship">
-                                <label class="form-check-label" for="internship">Internship <span class="text-muted">(189)</span></label>
-                            </div>
+                        <div class="filter-section mb-4">
+                            <h6 class="small fw-bold mb-3">Job Type</h6>
+                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="ft"><label class="form-check-label small" for="ft">Full-time</label></div>
+                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="pt"><label class="form-check-label small" for="pt">Part-time</label></div>
+                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="ct"><label class="form-check-label small" for="ct">Contract</label></div>
                         </div>
 
-                        <!-- Location Filter -->
-                        <div class="filter-section">
-                            <h6 class="small fw-semibold mb-3">Location</h6>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" name="location" value="remote" id="remote">
-                                <label class="form-check-label" for="remote">Remote <span class="text-muted">(892)</span></label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" name="location" value="hybrid" id="hybrid">
-                                <label class="form-check-label" for="hybrid">Hybrid <span class="text-muted">(456)</span></label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" name="location" value="onsite" id="onsite">
-                                <label class="form-check-label" for="onsite">On-site <span class="text-muted">(1,023)</span></label>
-                            </div>
+                        <div class="filter-section mb-4">
+                            <h6 class="small fw-bold mb-3">Work Mode</h6>
+                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="remote"><label class="form-check-label small" for="remote">Remote</label></div>
+                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="onsite"><label class="form-check-label small" for="onsite">On-site</label></div>
+                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="hybrid"><label class="form-check-label small" for="hybrid">Hybrid</label></div>
                         </div>
 
-                        <!-- Experience Level -->
-                        <div class="filter-section">
-                            <h6 class="small fw-semibold mb-3">Experience Level</h6>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" name="experience" value="entry" id="entry">
-                                <label class="form-check-label" for="entry">Entry Level <span class="text-muted">(423)</span></label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" name="experience" value="mid" id="mid">
-                                <label class="form-check-label" for="mid">Mid Level <span class="text-muted">(687)</span></label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" name="experience" value="senior" id="senior">
-                                <label class="form-check-label" for="senior">Senior Level <span class="text-muted">(534)</span></label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" name="experience" value="executive" id="executive">
-                                <label class="form-check-label" for="executive">Executive <span class="text-muted">(89)</span></label>
-                            </div>
+                        <div class="filter-section mb-4">
+                            <h6 class="small fw-bold mb-3">Experience Level</h6>
+                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="entry"><label class="form-check-label small" for="entry">Entry Level</label></div>
+                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="mid"><label class="form-check-label small" for="mid">Mid Level</label></div>
+                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="senior"><label class="form-check-label small" for="senior">Senior Level</label></div>
                         </div>
 
-                        <!-- Salary Range -->
-                        <div class="filter-section">
-                            <h6 class="small fw-semibold mb-3">Salary Range</h6>
-                            <input type="range" class="form-range" id="salaryRange" min="0" max="250000" step="10000" value="0">
+                        <div class="filter-section mb-2">
+                            <h6 class="small fw-bold mb-3">Salary Range</h6>
+                            <input type="range" class="form-range" id="salaryRange" min="0" max="250000" step="5000" value="0">
                             <div class="d-flex justify-content-between small text-muted">
-                                <span>$0</span>
-                                <span id="salaryValue">$0</span>
-                                <span>$250K+</span>
-                            </div>
-                        </div>
-
-                        <!-- Date Posted -->
-                        <div class="filter-section">
-                            <h6 class="small fw-semibold mb-3">Date Posted</h6>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="datePosted" value="24h" id="last24h">
-                                <label class="form-check-label" for="last24h">Last 24 hours</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="datePosted" value="7d" id="last7d">
-                                <label class="form-check-label" for="last7d">Last 7 days</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="datePosted" value="30d" id="last30d">
-                                <label class="form-check-label" for="last30d">Last 30 days</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="datePosted" value="any" id="anyTime" checked>
-                                <label class="form-check-label" for="anyTime">Any time</label>
+                                <span>$0</span><span id="salaryValue">$0</span><span>$250K+</span>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <!-- Job Listings -->
             <div class="col-lg-9">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <p class="mb-0 text-muted"><strong id="jobCount">2,345</strong> jobs found</p>
-                    <div class="d-flex gap-2 align-items-center">
-                        <label class="text-muted small me-2">Sort by:</label>
-                        <select class="form-select form-select-sm" style="width: auto;" id="sortJobs">
-                            <option value="relevance">Most Relevant</option>
-                            <option value="newest">Newest First</option>
-                            <option value="oldest">Oldest First</option>
-                            <option value="salary-high">Salary: High to Low</option>
-                            <option value="salary-low">Salary: Low to High</option>
-                        </select>
-                    </div>
+                    <p class="mb-0 text-muted"><strong id="jobCount">0</strong> jobs found</p>
+                    <select class="form-select form-select-sm" style="width: auto;">
+                        <option>Newest First</option>
+                        <option>Salary: High to Low</option>
+                    </select>
                 </div>
 
-                <div id="jobListings">
-                    <!-- Job 1 -->
-                    <div class="job-listing-card" data-job-type="full-time" data-location="remote" data-experience="senior" data-salary="175000" data-date="2026-03-12">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="d-flex">
-                                <div class="company-logo bg-primary bg-opacity-10 rounded-3 p-3 me-3">
-                                    <i class="bi bi-google text-primary fs-4"></i>
-                                </div>
-                                <div>
-                                    <h5 class="mb-1 fw-semibold">
-                                        <a href="job-details.html?id=1" class="text-decoration-none text-dark">Senior Software Engineer</a>
-                                    </h5>
-                                    <p class="text-muted mb-2">Google Inc.</p>
-                                    <div class="d-flex flex-wrap gap-2 mb-3">
-                                        <span class="badge bg-light text-dark"><i class="bi bi-geo-alt me-1"></i>San Francisco, CA</span>
-                                        <span class="badge bg-light text-dark"><i class="bi bi-clock me-1"></i>Full-time</span>
-                                        <span class="badge bg-light text-dark"><i class="bi bi-house me-1"></i>Remote</span>
-                                        <span class="badge bg-success bg-opacity-10 text-success"><i class="bi bi-currency-dollar me-1"></i>$150K - $200K</span>
-                                    </div>
-                                    <p class="text-muted small mb-0">Join our team to build cutting-edge products used by billions of users worldwide. We're looking for experienced engineers who are passionate about solving complex problems.</p>
-                                </div>
-                            </div>
-                            <button class="btn btn-link text-muted save-job-btn" data-job-id="1" title="Save Job">
-                                <i class="bi bi-bookmark fs-5"></i>
-                            </button>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
-                            <small class="text-muted"><i class="bi bi-clock me-1"></i>Posted 2 days ago</small>
-                            <div class="d-flex gap-2">
-                                <a href="job-details.html?id=1" class="btn btn-outline-primary btn-sm">View Details</a>
-                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#applyModal">Apply Now</button>
-                            </div>
-                        </div>
-                    </div>
+                <div id="jobListings"></div>
 
-                    <!-- Job 2 -->
-                    <div class="job-listing-card" data-job-type="full-time" data-location="onsite" data-experience="mid" data-salary="140000" data-date="2026-03-11">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="d-flex">
-                                <div class="company-logo bg-dark bg-opacity-10 rounded-3 p-3 me-3">
-                                    <i class="bi bi-apple text-dark fs-4"></i>
-                                </div>
-                                <div>
-                                    <h5 class="mb-1 fw-semibold">
-                                        <a href="job-details.html?id=2" class="text-decoration-none text-dark">UX Designer</a>
-                                    </h5>
-                                    <p class="text-muted mb-2">Apple Inc.</p>
-                                    <div class="d-flex flex-wrap gap-2 mb-3">
-                                        <span class="badge bg-light text-dark"><i class="bi bi-geo-alt me-1"></i>Cupertino, CA</span>
-                                        <span class="badge bg-light text-dark"><i class="bi bi-clock me-1"></i>Full-time</span>
-                                        <span class="badge bg-light text-dark"><i class="bi bi-building me-1"></i>On-site</span>
-                                        <span class="badge bg-success bg-opacity-10 text-success"><i class="bi bi-currency-dollar me-1"></i>$120K - $160K</span>
-                                    </div>
-                                    <p class="text-muted small mb-0">Design intuitive user experiences for Apple's next generation of products. Work with world-class designers and engineers to create products that delight millions of customers.</p>
-                                </div>
-                            </div>
-                            <button class="btn btn-link text-muted save-job-btn" data-job-id="2" title="Save Job">
-                                <i class="bi bi-bookmark fs-5"></i>
-                            </button>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
-                            <small class="text-muted"><i class="bi bi-clock me-1"></i>Posted 3 days ago</small>
-                            <div class="d-flex gap-2">
-                                <a href="job-details.html?id=2" class="btn btn-outline-primary btn-sm">View Details</a>
-                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#applyModal">Apply Now</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Job 3 -->
-                    <div class="job-listing-card" data-job-type="full-time" data-location="remote" data-experience="mid" data-salary="160000" data-date="2026-03-10">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="d-flex">
-                                <div class="company-logo bg-info bg-opacity-10 rounded-3 p-3 me-3">
-                                    <i class="bi bi-microsoft text-info fs-4"></i>
-                                </div>
-                                <div>
-                                    <h5 class="mb-1 fw-semibold">
-                                        <a href="job-details.html?id=3" class="text-decoration-none text-dark">Product Manager</a>
-                                    </h5>
-                                    <p class="text-muted mb-2">Microsoft</p>
-                                    <div class="d-flex flex-wrap gap-2 mb-3">
-                                        <span class="badge bg-light text-dark"><i class="bi bi-geo-alt me-1"></i>Seattle, WA</span>
-                                        <span class="badge bg-light text-dark"><i class="bi bi-clock me-1"></i>Full-time</span>
-                                        <span class="badge bg-light text-dark"><i class="bi bi-house me-1"></i>Remote</span>
-                                        <span class="badge bg-success bg-opacity-10 text-success"><i class="bi bi-currency-dollar me-1"></i>$140K - $180K</span>
-                                    </div>
-                                    <p class="text-muted small mb-0">Lead product strategy and roadmap for Azure cloud services. You'll work with cross-functional teams to define, ship, and iterate on products that serve millions of customers.</p>
-                                </div>
-                            </div>
-                            <button class="btn btn-link text-muted save-job-btn" data-job-id="3" title="Save Job">
-                                <i class="bi bi-bookmark fs-5"></i>
-                            </button>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
-                            <small class="text-muted"><i class="bi bi-clock me-1"></i>Posted 1 week ago</small>
-                            <div class="d-flex gap-2">
-                                <a href="job-details.html?id=3" class="btn btn-outline-primary btn-sm">View Details</a>
-                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#applyModal">Apply Now</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Job 4 -->
-                    <div class="job-listing-card" data-job-type="contract" data-location="remote" data-experience="entry" data-salary="80000" data-date="2026-03-09">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="d-flex">
-                                <div class="company-logo bg-success bg-opacity-10 rounded-3 p-3 me-3">
-                                    <i class="bi bi-spotify text-success fs-4"></i>
-                                </div>
-                                <div>
-                                    <h5 class="mb-1 fw-semibold">
-                                        <a href="job-details.html?id=4" class="text-decoration-none text-dark">Junior Data Analyst</a>
-                                    </h5>
-                                    <p class="text-muted mb-2">Spotify</p>
-                                    <div class="d-flex flex-wrap gap-2 mb-3">
-                                        <span class="badge bg-light text-dark"><i class="bi bi-geo-alt me-1"></i>New York, NY</span>
-                                        <span class="badge bg-light text-dark"><i class="bi bi-clock me-1"></i>Contract</span>
-                                        <span class="badge bg-light text-dark"><i class="bi bi-house me-1"></i>Remote</span>
-                                        <span class="badge bg-success bg-opacity-10 text-success"><i class="bi bi-currency-dollar me-1"></i>$70K - $90K</span>
-                                    </div>
-                                    <p class="text-muted small mb-0">Help us understand user behavior and drive product decisions with data. Perfect opportunity for recent graduates passionate about analytics and music.</p>
-                                </div>
-                            </div>
-                            <button class="btn btn-link text-muted save-job-btn" data-job-id="4" title="Save Job">
-                                <i class="bi bi-bookmark fs-5"></i>
-                            </button>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
-                            <small class="text-muted"><i class="bi bi-clock me-1"></i>Posted 1 week ago</small>
-                            <div class="d-flex gap-2">
-                                <a href="job-details.html?id=4" class="btn btn-outline-primary btn-sm">View Details</a>
-                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#applyModal">Apply Now</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Job 5 -->
-                    <div class="job-listing-card" data-job-type="full-time" data-location="hybrid" data-experience="senior" data-salary="190000" data-date="2026-03-08">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="d-flex">
-                                <div class="company-logo bg-danger bg-opacity-10 rounded-3 p-3 me-3">
-                                    <i class="bi bi-netflix text-danger fs-4"></i>
-                                </div>
-                                <div>
-                                    <h5 class="mb-1 fw-semibold">
-                                        <a href="job-details.html?id=5" class="text-decoration-none text-dark">Senior Backend Engineer</a>
-                                    </h5>
-                                    <p class="text-muted mb-2">Netflix</p>
-                                    <div class="d-flex flex-wrap gap-2 mb-3">
-                                        <span class="badge bg-light text-dark"><i class="bi bi-geo-alt me-1"></i>Los Angeles, CA</span>
-                                        <span class="badge bg-light text-dark"><i class="bi bi-clock me-1"></i>Full-time</span>
-                                        <span class="badge bg-light text-dark"><i class="bi bi-house me-1"></i>Hybrid</span>
-                                        <span class="badge bg-success bg-opacity-10 text-success"><i class="bi bi-currency-dollar me-1"></i>$170K - $210K</span>
-                                    </div>
-                                    <p class="text-muted small mb-0">Build and scale the systems that power streaming for 200+ million subscribers. Work on cutting-edge distributed systems and microservices architecture.</p>
-                                </div>
-                            </div>
-                            <button class="btn btn-link text-muted save-job-btn" data-job-id="5" title="Save Job">
-                                <i class="bi bi-bookmark fs-5"></i>
-                            </button>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
-                            <small class="text-muted"><i class="bi bi-clock me-1"></i>Posted 2 weeks ago</small>
-                            <div class="d-flex gap-2">
-                                <a href="job-details.html?id=5" class="btn btn-outline-primary btn-sm">View Details</a>
-                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#applyModal">Apply Now</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pagination -->
                 <nav class="mt-4">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#"><i class="bi bi-chevron-left"></i></a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">...</a></li>
-                        <li class="page-item"><a class="page-link" href="#">47</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a>
-                        </li>
-                    </ul>
+                    <ul class="pagination justify-content-center" id="pagination"></ul>
                 </nav>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Apply Modal -->
-<div class="modal fade" id="applyModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header border-0">
-                <h5 class="modal-title fw-bold">Apply for this Position</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form onsubmit="submitApplication(event)">
-                    <div class="mb-3">
-                        <label class="form-label">Full Name</label>
-                        <input type="text" class="form-control" placeholder="John Doe" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" placeholder="you@example.com" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Phone</label>
-                        <input type="tel" class="form-control" placeholder="+1 (555) 000-0000">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Resume</label>
-                        <div class="resume-upload-area">
-                            <div class="upload-icon">
-                                <i class="bi bi-cloud-arrow-up"></i>
-                            </div>
-                            <h6 class="fw-semibold mb-1">Upload Your Resume</h6>
-                            <p class="text-muted small mb-2">Drag & drop or click to browse</p>
-                            <p class="text-muted small">PDF, DOC, DOCX (Max 5MB)</p>
-                        </div>
-                        <input type="file" id="resumeFile" class="d-none" accept=".pdf,.doc,.docx">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Cover Letter (Optional)</label>
-                        <textarea class="form-control" rows="4" placeholder="Tell us why you're a great fit for this role..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Submit Application</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Footer -->
-<footer class="bg-dark text-white py-4">
-    <div class="container">
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
-            <p class="text-white-50 mb-0 small">&copy; 2026 JobHub. All rights reserved.</p>
-            <div class="d-flex gap-3">
-                <a href="#" class="text-white-50"><i class="bi bi-facebook"></i></a>
-                <a href="#" class="text-white-50"><i class="bi bi-twitter-x"></i></a>
-                <a href="#" class="text-white-50"><i class="bi bi-linkedin"></i></a>
-            </div>
-        </div>
-    </div>
-</footer>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../js/main.js"></script>
+<!--<script>-->
+<!--    let allJobs = [];-->
+<!--    let currentPage = 1;-->
+<!--    const jobsPerPage = 5;-->
+
+<!--    document.addEventListener('DOMContentLoaded', loadJobsFromDB);-->
+
+<!--    // Salary range value update display-->
+<!--    document.getElementById('salaryRange').addEventListener('input', function(e) {-->
+<!--        document.getElementById('salaryValue').textContent = '$' + (e.target.value / 1000) + 'K';-->
+<!--    });-->
+
+<!--    function timeAgo(date) {-->
+<!--        const seconds = Math.floor((new Date() - date) / 1000);-->
+<!--        let interval = Math.floor(seconds / 86400);-->
+<!--        if (interval >= 1) return interval + "d ago";-->
+<!--        interval = Math.floor(seconds / 3600);-->
+<!--        if (interval >= 1) return interval + "h ago";-->
+<!--        interval = Math.floor(seconds / 60);-->
+<!--        if (interval >= 1) return interval + "m ago";-->
+<!--        return "Just now";-->
+<!--    }-->
+
+<!--    async function loadJobsFromDB() {-->
+<!--        try {-->
+<!--            const response = await fetch('http://localhost:8080/api/jobs/all');-->
+<!--            allJobs = await response.json();-->
+<!--            displayPage(1);-->
+<!--            renderPagination();-->
+<!--        } catch (error) {-->
+<!--            console.error("Error:", error);-->
+<!--            document.getElementById('jobListings').innerHTML = '<div class="alert alert-danger">Server connection failed.</div>';-->
+<!--        }-->
+<!--    }-->
+
+<!--    function displayPage(page) {-->
+<!--        currentPage = page;-->
+<!--        const jobContainer = document.getElementById('jobListings');-->
+<!--        jobContainer.innerHTML = '';-->
+
+<!--        const start = (page - 1) * jobsPerPage;-->
+<!--        const end = start + jobsPerPage;-->
+<!--        const pageItems = allJobs.slice(start, end);-->
+
+<!--        pageItems.forEach(job => {-->
+<!--            let dateDisplay = "Recently posted";-->
+<!--            if (job.postedDate) {-->
+<!--                let date;-->
+<!--                if (Array.isArray(job.postedDate)) {-->
+<!--                    date = new Date(job.postedDate[0], job.postedDate[1] - 1, job.postedDate[2], job.postedDate[3] || 0, job.postedDate[4] || 0);-->
+<!--                } else {-->
+<!--                    date = new Date(job.postedDate);-->
+<!--                }-->
+<!--                if (!isNaN(date.getTime())) dateDisplay = timeAgo(date);-->
+<!--            }-->
+
+<!--            const jobCard = `-->
+<!--                <div class="job-listing-card border p-3 mb-3 rounded shadow-sm bg-white">-->
+<!--                    <div class="d-flex justify-content-between align-items-start">-->
+<!--                        <div class="d-flex">-->
+<!--                            <div class="company-logo bg-primary bg-opacity-10 rounded-3 p-3 me-3">-->
+<!--                                <i class="bi bi-building text-primary fs-4"></i>-->
+<!--                            </div>-->
+<!--                            <div>-->
+<!--                                <h5 class="mb-1 fw-semibold">-->
+<!--                                    <a href="job-details.html?id=${job.id}" class="text-decoration-none text-dark">${job.title}</a>-->
+<!--                                </h5>-->
+<!--                                <p class="text-muted mb-2">${job.companyName || 'Verified Employer'}</p>-->
+<!--                                <div class="d-flex flex-wrap gap-2 mb-3">-->
+<!--                                    <span class="badge bg-light text-dark"><i class="bi bi-geo-alt me-1"></i>${job.location}</span>-->
+<!--                                    <span class="badge bg-light text-dark"><i class="bi bi-clock me-1"></i>${job.jobType}</span>-->
+<!--                                    <span class="badge bg-success bg-opacity-10 text-success">$${job.salary.toLocaleString()}</span>-->
+<!--                                </div>-->
+<!--                                <p class="text-muted small mb-0">${job.description ? job.description.substring(0, 140) : ''}...</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">-->
+<!--                        <small class="text-muted"><i class="bi bi-clock me-1"></i>${dateDisplay}</small>-->
+<!--                        <div class="d-flex gap-2">-->
+<!--                            <a href="job-details.html?id=${job.id}" class="btn btn-outline-primary btn-sm">View Details</a>-->
+<!--                            <button class="btn btn-primary btn-sm" onclick="handleApplyClick(${job.id})">Apply Now</button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>`;-->
+<!--            jobContainer.insertAdjacentHTML('beforeend', jobCard);-->
+<!--        });-->
+<!--        document.getElementById('jobCount').textContent = allJobs.length;-->
+<!--    }-->
+
+<!--    function renderPagination() {-->
+<!--        const paginationElement = document.getElementById('pagination');-->
+<!--        paginationElement.innerHTML = '';-->
+<!--        const totalPages = Math.ceil(allJobs.length / jobsPerPage);-->
+
+<!--        for (let i = 1; i <= totalPages; i++) {-->
+<!--            const li = document.createElement('li');-->
+<!--            li.className = `page-item ${i === currentPage ? 'active' : ''}`;-->
+<!--            li.innerHTML = `<a class="page-link" href="#">${i}</a>`;-->
+<!--            li.addEventListener('click', (e) => {-->
+<!--                e.preventDefault();-->
+<!--                displayPage(i);-->
+<!--                renderPagination();-->
+<!--                window.scrollTo(0, 0);-->
+<!--            });-->
+<!--            paginationElement.appendChild(li);-->
+<!--        }-->
+<!--    }-->
+
+<!--    function handleApplyClick(id) {-->
+<!--        // Modal logic goes here-->
+<!--    }-->
+<!--</script>-->
 <script>
-    function submitApplication(e) {
-        e.preventDefault();
-        if (window.JobHub) {
-            window.JobHub.showToast('Application submitted successfully!', 'success');
-        } else {
-            alert('Application submitted successfully!');
+    let allJobs = [];
+    let filteredJobs = []; // Search සහ Filters වලට පස්සේ ඉතිරි වන ටික
+    let currentPage = 1;
+    const jobsPerPage = 5;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadJobsFromDB();
+
+        // හැම Filter එකකටම Event Listener එකක් දාමු (ක්ලික් කරපු ගමන් වැඩ කරන්න)
+        document.querySelectorAll('.form-check-input, #salaryRange').forEach(element => {
+            element.addEventListener('change', applyFiltersAndSearch);
+        });
+
+        // Search Bar එකේ ටයිප් කරන කොටම හොයන්න
+        document.getElementById('jobSearch').addEventListener('input', applyFiltersAndSearch);
+
+        // Clear All button එක වැඩ කරවමු
+        document.getElementById('clearFilters').addEventListener('click', () => {
+            document.getElementById('filterForm').reset();
+            document.getElementById('salaryValue').textContent = '$0';
+            applyFiltersAndSearch();
+        });
+    });
+
+    // Salary slider එකේ අගය පෙන්වීම
+    document.getElementById('salaryRange').addEventListener('input', function(e) {
+        document.getElementById('salaryValue').textContent = '$' + (e.target.value / 1000) + 'K';
+    });
+
+    async function loadJobsFromDB() {
+        try {
+            const response = await fetch('http://localhost:8080/api/jobs/all');
+            allJobs = await response.json();
+            applyFiltersAndSearch(); // මුලින්ම ඔක්කොම පෙන්වන්න
+        } catch (error) {
+            console.error("Error:", error);
+            document.getElementById('jobListings').innerHTML = '<div class="alert alert-danger">Server connection failed.</div>';
         }
-        const modal = bootstrap.Modal.getInstance(document.getElementById('applyModal'));
-        if (modal) modal.hide();
-        e.target.reset();
+    }
+
+    function applyFiltersAndSearch() {
+        const searchText = document.getElementById('jobSearch').value.toLowerCase();
+        const minSalary = parseInt(document.getElementById('salaryRange').value);
+
+        // තෝරාගෙන තියෙන Checkbox වල IDs ගන්න
+        const getSelectedFilters = (ids) => ids.filter(id => document.getElementById(id).checked);
+
+        const selectedTypes = getSelectedFilters(['ft', 'pt', 'ct']);
+        const selectedModes = getSelectedFilters(['remote', 'onsite', 'hybrid']);
+        const selectedLevels = getSelectedFilters(['entry', 'mid', 'senior']);
+
+        filteredJobs = allJobs.filter(job => {
+            // 1. Text Search (Title, Company හෝ Location)
+            const matchesSearch = job.title.toLowerCase().includes(searchText) ||
+                job.companyName?.toLowerCase().includes(searchText) ||
+                job.location.toLowerCase().includes(searchText);
+
+            // 2. Salary Filter
+            const matchesSalary = job.salary >= minSalary;
+
+            // 3. Job Type Filter (කිසිවක් තෝරා නැත්නම් ඔක්කොම පෙන්වයි)
+            const matchesType = selectedTypes.length === 0 || selectedTypes.some(type =>
+                (type === 'ft' && job.jobType === 'FULL_TIME') ||
+                (type === 'pt' && job.jobType === 'PART_TIME') ||
+                (type === 'ct' && job.jobType === 'CONTRACT')
+            );
+
+            // 4. Experience Level & Work Mode (මේවා ඔයාගේ Backend එකේ තිබෙන විදිහට compare කරන්න)
+            // දැනට මම මේවා සරලව දාන්නම්:
+            const matchesLevel = selectedLevels.length === 0 || selectedLevels.includes(job.experienceLevel?.toLowerCase());
+            const matchesMode = selectedModes.length === 0 || selectedModes.includes(job.workMode?.toLowerCase());
+
+            return matchesSearch && matchesSalary && matchesType && matchesLevel && matchesMode;
+        });
+
+        displayPage(1);
+        renderPagination();
+    }
+
+    function displayPage(page) {
+        currentPage = page;
+        const jobContainer = document.getElementById('jobListings');
+        jobContainer.innerHTML = '';
+
+        const start = (page - 1) * jobsPerPage;
+        const end = start + jobsPerPage;
+        const pageItems = filteredJobs.slice(start, end);
+
+        if (pageItems.length === 0) {
+            jobContainer.innerHTML = '<div class="text-center py-5 text-muted">No jobs found matching your criteria.</div>';
+        }
+
+        pageItems.forEach(job => {
+            // ... ඔයාගේ පරණ jobCard HTML එක මෙතනට එන්න ඕනේ ...
+            let dateDisplay = "Recently posted";
+            if (job.postedDate) {
+                let date = Array.isArray(job.postedDate) ?
+                    new Date(job.postedDate[0], job.postedDate[1]-1, job.postedDate[2]) : new Date(job.postedDate);
+                dateDisplay = timeAgo(date);
+            }
+
+            const jobCard = `
+                <div class="job-listing-card border p-3 mb-3 rounded shadow-sm bg-white">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="d-flex">
+                            <div class="company-logo bg-primary bg-opacity-10 rounded-3 p-3 me-3">
+                                <i class="bi bi-building text-primary fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1 fw-semibold">
+                                    <a href="job-details.html?id=${job.id}" class="text-decoration-none text-dark">${job.title}</a>
+                                </h5>
+                                <p class="text-muted mb-2">${job.companyName || 'Verified Employer'}</p>
+                                <div class="d-flex flex-wrap gap-2 mb-3">
+                                    <span class="badge bg-light text-dark"><i class="bi bi-geo-alt me-1"></i>${job.location}</span>
+                                    <span class="badge bg-light text-dark"><i class="bi bi-clock me-1"></i>${job.jobType}</span>
+                                    <span class="badge bg-success bg-opacity-10 text-success">$${job.salary.toLocaleString()}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                        <small class="text-muted"><i class="bi bi-clock me-1"></i>${dateDisplay}</small>
+                        <div class="d-flex gap-2">
+                            <a href="job-details.html?id=${job.id}" class="btn btn-outline-primary btn-sm px-3">Details</a>
+                            <button class="btn btn-primary btn-sm px-3" onclick="handleApplyClick(${job.id})">Apply</button>
+                        </div>
+                    </div>
+                </div>`;
+            jobContainer.insertAdjacentHTML('beforeend', jobCard);
+        });
+
+        document.getElementById('jobCount').textContent = filteredJobs.length;
+    }
+
+    function renderPagination() {
+        const paginationElement = document.getElementById('pagination');
+        paginationElement.innerHTML = '';
+        const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
+
+        if (totalPages <= 1) return; // පේජ් එකයි නම් Pagination ඕනේ නෑ
+
+        for (let i = 1; i <= totalPages; i++) {
+            const li = document.createElement('li');
+            li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+            li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+            li.onclick = (e) => {
+                e.preventDefault();
+                displayPage(i);
+                renderPagination();
+                window.scrollTo(0, 0);
+            };
+            paginationElement.appendChild(li);
+        }
+    }
+
+    function timeAgo(date) {
+        const seconds = Math.floor((new Date() - date) / 1000);
+        let interval = Math.floor(seconds / 86400);
+        if (interval >= 1) return interval + "d ago";
+        interval = Math.floor(seconds / 3600);
+        if (interval >= 1) return interval + "h ago";
+        interval = Math.floor(seconds / 60);
+        if (interval >= 1) return interval + "m ago";
+        return "Just now";
     }
 </script>
 </body>

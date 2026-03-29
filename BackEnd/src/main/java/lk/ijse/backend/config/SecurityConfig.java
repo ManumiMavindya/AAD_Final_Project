@@ -3,6 +3,7 @@ package lk.ijse.backend.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -32,21 +33,23 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
+                        // 1. මේ ටික ඕනෑම කෙනෙක්ට (Public) බලන්න පුළුවන්
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/jobs/all").permitAll() // 👈 Jobs බලන්න හැමෝටම පුළුවන්
+                        .requestMatchers(HttpMethod.GET, "/api/jobs/{id}").permitAll() // 👈 Job එකක details බලන්නත් පුළුවන්
 
-                        // Company add කරන්න අවසර දීම (මෙතන /api/company/add එක අනිවාර්යයෙන්ම දාන්න)
+                        // 2. හැබැයි Job එකක් POST (Add) කරන්න නම් EMPLOYER වෙන්නම ඕනේ
+                        .requestMatchers(HttpMethod.POST, "/api/jobs/**").hasAuthority("EMPLOYER")
+
+                        // 3. අනිත් දේවල්
                         .requestMatchers("/api/company/add").hasAuthority("EMPLOYER")
-
-                        // Job add කරන්න අවසර දීම
-                        .requestMatchers("/api/jobs/**").hasAuthority("EMPLOYER")
-
                         .requestMatchers("/api/company/**").authenticated()
+                        .requestMatchers("/api/apply/**").authenticated()
+
                         .anyRequest().authenticated()
                 );
-        // ... (Session Management & JWT Filter කොටස අමතක කරන්න එපා)
+
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
-
         return http.build();
     }
     // 2. CORS නීති රීති (Rules) මෙතන අර්ථ දක්වන්න

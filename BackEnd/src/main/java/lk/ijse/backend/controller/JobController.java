@@ -53,4 +53,12 @@ public class JobController {
         List<JobDTO> myJobs = jobService.getJobsByUserEmail(email);
         return ResponseEntity.ok(myJobs);
     }
+
+    // Get Single Job by ID (Details page එක සඳහා)
+    @GetMapping("/{id}")
+    public ResponseEntity<JobDTO> getJobById(@PathVariable Long id) {
+        return jobService.getJobById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }

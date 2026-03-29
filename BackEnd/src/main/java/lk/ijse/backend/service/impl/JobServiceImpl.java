@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,6 +55,7 @@ public class JobServiceImpl implements JobService {
         job.setLocation(jobDTO.getLocation());
         job.setWorkArrangement(jobDTO.getWorkArrangement());
         job.setExperienceLevel(jobDTO.getExperienceLevel());
+        job.setPostedDate(java.time.LocalDateTime.now());
 
         job.setCompany(company); // Company එක set කරනවා
         job.setUser(currentUser); // අන්න! දැන් තමයි Job එක සහ User අතර සම්බන්ධය හැදෙන්නේ ✅
@@ -69,8 +71,9 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Job getJobById(Long id) {
-        return null;
+    public Optional<JobDTO> getJobById(Long id) {
+        return jobRepository.findById(id)
+                .map(job -> modelMapper.map(job, JobDTO.class));
     }
 
     // 3. READ (Get Jobs by Company) - Employer ta thamange jobs balanna
@@ -130,7 +133,8 @@ public class JobServiceImpl implements JobService {
                 job.getLocation(),
                 job.getWorkArrangement(),
                 job.getExperienceLevel(),
-                job.getCompany().getId()// Company name එක වගේ දේවල් DTO එකේ තිබේ නම්
+                job.getCompany().getId(),// Company name එක වගේ දේවල් DTO එකේ තිබේ නම්
+                job.getPostedDate()
         )).collect(Collectors.toList());
     }
 
@@ -142,7 +146,9 @@ public class JobServiceImpl implements JobService {
         // 2. ඒ Jobs (Entities) ටික JobDTO ලැයිස්තුවකට convert කරනවා
         return jobs.stream()
                 .map(job -> modelMapper.map(job, JobDTO.class))
-                .collect(Collectors.toList());    }
+                .collect(Collectors.toList());
+    }
+
 
 
 }
