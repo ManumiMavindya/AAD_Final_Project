@@ -43,7 +43,7 @@
             <div class="col-md-4">
                 <div class="input-group">
                     <span class="input-group-text bg-white border-end-0"><i class="bi bi-geo-alt text-muted"></i></span>
-                    <input type="text" class="form-control border-start-0" placeholder="City, state, or remote">
+                    <input type="text" class="form-control border-start-0" id="locationSearch" placeholder="City, state, or remote">
                 </div>
             </div>
             <div class="col-md-3">
@@ -118,119 +118,6 @@
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<!--<script>-->
-<!--    let allJobs = [];-->
-<!--    let currentPage = 1;-->
-<!--    const jobsPerPage = 5;-->
-
-<!--    document.addEventListener('DOMContentLoaded', loadJobsFromDB);-->
-
-<!--    // Salary range value update display-->
-<!--    document.getElementById('salaryRange').addEventListener('input', function(e) {-->
-<!--        document.getElementById('salaryValue').textContent = '$' + (e.target.value / 1000) + 'K';-->
-<!--    });-->
-
-<!--    function timeAgo(date) {-->
-<!--        const seconds = Math.floor((new Date() - date) / 1000);-->
-<!--        let interval = Math.floor(seconds / 86400);-->
-<!--        if (interval >= 1) return interval + "d ago";-->
-<!--        interval = Math.floor(seconds / 3600);-->
-<!--        if (interval >= 1) return interval + "h ago";-->
-<!--        interval = Math.floor(seconds / 60);-->
-<!--        if (interval >= 1) return interval + "m ago";-->
-<!--        return "Just now";-->
-<!--    }-->
-
-<!--    async function loadJobsFromDB() {-->
-<!--        try {-->
-<!--            const response = await fetch('http://localhost:8080/api/jobs/all');-->
-<!--            allJobs = await response.json();-->
-<!--            displayPage(1);-->
-<!--            renderPagination();-->
-<!--        } catch (error) {-->
-<!--            console.error("Error:", error);-->
-<!--            document.getElementById('jobListings').innerHTML = '<div class="alert alert-danger">Server connection failed.</div>';-->
-<!--        }-->
-<!--    }-->
-
-<!--    function displayPage(page) {-->
-<!--        currentPage = page;-->
-<!--        const jobContainer = document.getElementById('jobListings');-->
-<!--        jobContainer.innerHTML = '';-->
-
-<!--        const start = (page - 1) * jobsPerPage;-->
-<!--        const end = start + jobsPerPage;-->
-<!--        const pageItems = allJobs.slice(start, end);-->
-
-<!--        pageItems.forEach(job => {-->
-<!--            let dateDisplay = "Recently posted";-->
-<!--            if (job.postedDate) {-->
-<!--                let date;-->
-<!--                if (Array.isArray(job.postedDate)) {-->
-<!--                    date = new Date(job.postedDate[0], job.postedDate[1] - 1, job.postedDate[2], job.postedDate[3] || 0, job.postedDate[4] || 0);-->
-<!--                } else {-->
-<!--                    date = new Date(job.postedDate);-->
-<!--                }-->
-<!--                if (!isNaN(date.getTime())) dateDisplay = timeAgo(date);-->
-<!--            }-->
-
-<!--            const jobCard = `-->
-<!--                <div class="job-listing-card border p-3 mb-3 rounded shadow-sm bg-white">-->
-<!--                    <div class="d-flex justify-content-between align-items-start">-->
-<!--                        <div class="d-flex">-->
-<!--                            <div class="company-logo bg-primary bg-opacity-10 rounded-3 p-3 me-3">-->
-<!--                                <i class="bi bi-building text-primary fs-4"></i>-->
-<!--                            </div>-->
-<!--                            <div>-->
-<!--                                <h5 class="mb-1 fw-semibold">-->
-<!--                                    <a href="job-details.html?id=${job.id}" class="text-decoration-none text-dark">${job.title}</a>-->
-<!--                                </h5>-->
-<!--                                <p class="text-muted mb-2">${job.companyName || 'Verified Employer'}</p>-->
-<!--                                <div class="d-flex flex-wrap gap-2 mb-3">-->
-<!--                                    <span class="badge bg-light text-dark"><i class="bi bi-geo-alt me-1"></i>${job.location}</span>-->
-<!--                                    <span class="badge bg-light text-dark"><i class="bi bi-clock me-1"></i>${job.jobType}</span>-->
-<!--                                    <span class="badge bg-success bg-opacity-10 text-success">$${job.salary.toLocaleString()}</span>-->
-<!--                                </div>-->
-<!--                                <p class="text-muted small mb-0">${job.description ? job.description.substring(0, 140) : ''}...</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">-->
-<!--                        <small class="text-muted"><i class="bi bi-clock me-1"></i>${dateDisplay}</small>-->
-<!--                        <div class="d-flex gap-2">-->
-<!--                            <a href="job-details.html?id=${job.id}" class="btn btn-outline-primary btn-sm">View Details</a>-->
-<!--                            <button class="btn btn-primary btn-sm" onclick="handleApplyClick(${job.id})">Apply Now</button>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>`;-->
-<!--            jobContainer.insertAdjacentHTML('beforeend', jobCard);-->
-<!--        });-->
-<!--        document.getElementById('jobCount').textContent = allJobs.length;-->
-<!--    }-->
-
-<!--    function renderPagination() {-->
-<!--        const paginationElement = document.getElementById('pagination');-->
-<!--        paginationElement.innerHTML = '';-->
-<!--        const totalPages = Math.ceil(allJobs.length / jobsPerPage);-->
-
-<!--        for (let i = 1; i <= totalPages; i++) {-->
-<!--            const li = document.createElement('li');-->
-<!--            li.className = `page-item ${i === currentPage ? 'active' : ''}`;-->
-<!--            li.innerHTML = `<a class="page-link" href="#">${i}</a>`;-->
-<!--            li.addEventListener('click', (e) => {-->
-<!--                e.preventDefault();-->
-<!--                displayPage(i);-->
-<!--                renderPagination();-->
-<!--                window.scrollTo(0, 0);-->
-<!--            });-->
-<!--            paginationElement.appendChild(li);-->
-<!--        }-->
-<!--    }-->
-
-<!--    function handleApplyClick(id) {-->
-<!--        // Modal logic goes here-->
-<!--    }-->
-<!--</script>-->
 <script>
     let allJobs = [];
     let filteredJobs = []; // Search සහ Filters වලට පස්සේ ඉතිරි වන ටික
@@ -247,6 +134,7 @@
 
         // Search Bar එකේ ටයිප් කරන කොටම හොයන්න
         document.getElementById('jobSearch').addEventListener('input', applyFiltersAndSearch);
+        document.getElementById('locationSearch').addEventListener('input', applyFiltersAndSearch);
 
         // Clear All button එක වැඩ කරවමු
         document.getElementById('clearFilters').addEventListener('click', () => {
@@ -275,6 +163,7 @@
     function applyFiltersAndSearch() {
         const searchText = document.getElementById('jobSearch').value.toLowerCase();
         const minSalary = parseInt(document.getElementById('salaryRange').value);
+        const locationText = document.getElementById('locationSearch').value.toLowerCase().trim();
 
         // තෝරාගෙන තියෙන Checkbox වල IDs ගන්න
         const getSelectedFilters = (ids) => ids.filter(id => document.getElementById(id).checked);
@@ -289,6 +178,10 @@
                 job.companyName?.toLowerCase().includes(searchText) ||
                 job.location.toLowerCase().includes(searchText);
 
+            // 2. Location Search (දැන් වැඩ කරනවා!)
+            const matchesLocation = !locationText ||
+                job.location?.toLowerCase().includes(locationText);
+
             // 2. Salary Filter
             const matchesSalary = job.salary >= minSalary;
 
@@ -302,9 +195,9 @@
             // 4. Experience Level & Work Mode (මේවා ඔයාගේ Backend එකේ තිබෙන විදිහට compare කරන්න)
             // දැනට මම මේවා සරලව දාන්නම්:
             const matchesLevel = selectedLevels.length === 0 || selectedLevels.includes(job.experienceLevel?.toLowerCase());
-            const matchesMode = selectedModes.length === 0 || selectedModes.includes(job.workMode?.toLowerCase());
+            const matchesMode = selectedModes.length === 0 || selectedModes.includes(job.workArrangement?.toLowerCase());
 
-            return matchesSearch && matchesSalary && matchesType && matchesLevel && matchesMode;
+            return matchesSearch && matchesSalary && matchesLocation && matchesType && matchesLevel && matchesMode;
         });
 
         displayPage(1);

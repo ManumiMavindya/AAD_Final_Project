@@ -51,9 +51,14 @@
                 </div>
             </div>
             <div class="col-lg-4 mt-4 mt-lg-0 text-lg-end">
-                <button class="btn btn-primary btn-lg px-4" data-bs-toggle="modal" data-bs-target="#applyModal">
-                    <i class="bi bi-send me-2"></i>Apply Now
-                </button>
+                <div class="d-flex gap-2 justify-content-lg-end">
+                    <button class="btn btn-outline-primary btn-lg px-3 btn-save" id="saveJobBtn" onclick="toggleSaveJob()">
+                        <i class="bi bi-bookmark" id="saveIcon"></i>
+                    </button>
+                    <button class="btn btn-primary btn-lg px-4 flex-grow-1 flex-lg-grow-0" data-bs-toggle="modal" data-bs-target="#applyModal">
+                        <i class="bi bi-send me-2"></i>Apply Now
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -146,11 +151,19 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+
+    let currentJobId = null;
+
     document.addEventListener('DOMContentLoaded', function() {
         const urlParams = new URLSearchParams(window.location.search);
-        const jobId = urlParams.get('id');
-        if (jobId) fetchJobDetails(jobId);
-        else window.location.href = 'jobs.html';
+        currentJobId = urlParams.get('id');
+
+        if (currentJobId) {
+            fetchJobDetails(currentJobId);
+            checkIfSaved();
+        } else {
+            window.location.href = 'jobs.html';
+        }
     });
 
     async function fetchJobDetails(id) {
@@ -200,6 +213,41 @@
         } catch (error) {
             console.error("Error:", error);
             document.body.innerHTML = `<div class="container py-5 text-center"><h3>Job Not Found</h3><a href="jobs.html" class="btn btn-primary mt-3">Back to Jobs</a></div>`;
+        }
+    }
+
+    // --- Save Job Logic ---
+
+    function toggleSaveJob() {
+        let savedJobs = JSON.parse(localStorage.getItem('savedJobs')) || [];
+        const btn = document.getElementById('saveJobBtn');
+        const icon = document.getElementById('saveIcon');
+
+        if (savedJobs.includes(currentJobId)) {
+            // Unsave
+            savedJobs = savedJobs.filter(id => id !== currentJobId);
+            btn.classList.remove('active');
+            icon.classList.replace('bi-bookmark-fill', 'bi-bookmark');
+            alert("Job removed from saved list!");
+        } else {
+            // Save
+            savedJobs.push(currentJobId);
+            btn.classList.add('active');
+            icon.classList.replace('bi-bookmark', 'bi-bookmark-fill');
+            alert("Job saved successfully!");
+        }
+
+        localStorage.setItem('savedJobs', JSON.stringify(savedJobs));
+    }
+
+    function checkIfSaved() {
+        const savedJobs = JSON.parse(localStorage.getItem('savedJobs')) || [];
+        const btn = document.getElementById('saveJobBtn');
+        const icon = document.getElementById('saveIcon');
+
+        if (savedJobs.includes(currentJobId)) {
+            btn.classList.add('active');
+            icon.classList.replace('bi-bookmark', 'bi-bookmark-fill');
         }
     }
 
