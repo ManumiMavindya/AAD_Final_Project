@@ -50,4 +50,10 @@ public class JobApplicationController {
 
         return ResponseEntity.ok(applicationService.updateApplicationStatus(id, status));
     }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<JobApplicationDTO>> getApplicationsByUserId(@PathVariable Long userId) {
+        // Service එකේ දැනටමත් මේ method එක implement කරලා තියෙන නිසා ප්‍රශ්නයක් වෙන්නේ නැහැ
+        return ResponseEntity.ok(applicationService.getApplicationsByUserId(userId));
+    }
 }

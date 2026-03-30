@@ -6,347 +6,349 @@
     <title>Job Seeker Dashboard - JobHub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="../css/style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #334155;
+        }
+
+        /* Navbar */
+        .navbar { border-bottom: 1px solid #e2e8f0; }
+
+        /* --- New Welcome Blue Section --- */
+        .hero-section {
+            background: linear-gradient(135deg, #0d6efd 0%, #004dc7 100%);
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 20px rgba(13, 110, 253, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* පසුබිමට පොඩි decoration එකක් */
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .hero-section h3 { font-weight: 800; margin-bottom: 10px; }
+        .hero-section p { opacity: 0.9; font-weight: 500; }
+
+        /* Stats Cards */
+        .stat-card {
+            border: none;
+            border-radius: 16px;
+            transition: transform 0.3s ease;
+            background: white;
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        /* Dashboard Hover Cards */
+        .dashboard-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            background: white;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            border-color: #0d6efd;
+        }
+
+        .company-logo-box {
+            width: 50px;
+            height: 50px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0d6efd;
+            font-size: 1.5rem;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .bg-pending { background-color: #fef3c7; color: #92400e; }
+        .bg-shortlisted { background-color: #dcfce7; color: #166534; }
+        .bg-rejected { background-color: #fee2e2; color: #991b1b; }
+
+        .section-title {
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
 </head>
 <body>
-<div class="dashboard-wrapper">
-    <!-- Sidebar -->
-    <aside class="dashboard-sidebar">
-        <div class="sidebar-brand">
-            <a href="index.html" class="text-white text-decoration-none d-flex align-items-center">
-                <i class="bi bi-briefcase-fill me-2 fs-4"></i>
-                <span class="fs-5 fw-bold">JobHub</span>
-            </a>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-primary" href="index.html">
+            <i class="bi bi-briefcase-fill me-2"></i>JobHub
+        </a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item"><a class="nav-link fw-medium" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link fw-medium" href="jobs.html">Find Jobs</a></li>
+                <li class="nav-item mx-2 text-muted">|</li>
+                <li class="nav-item">
+                    <a class="nav-link fw-bold text-dark" href="profile.html">
+                        <i class="bi bi-person-circle me-1"></i> My Profile
+                    </a>
+                </li>
+                <li class="nav-item ms-lg-3">
+                    <button class="btn btn-outline-danger btn-sm fw-bold px-3">Sign Out</button>
+                </li>
+            </ul>
         </div>
+    </div>
+</nav>
 
-        <div class="sidebar-section">Main</div>
-        <nav class="nav flex-column">
-            <a class="nav-link active" href="seeker-dashboard.html">
-                <i class="bi bi-grid"></i>Dashboard
-            </a>
-            <a class="nav-link" href="jobs.html">
-                <i class="bi bi-search"></i>Find Jobs
-            </a>
-            <a class="nav-link" href="applications.html">
-                <i class="bi bi-file-earmark-text"></i>My Applications
-                <span class="badge bg-primary ms-auto">5</span>
-            </a>
-            <a class="nav-link" href="saved-jobs.html">
-                <i class="bi bi-bookmark"></i>Saved Jobs
-                <span class="badge bg-secondary ms-auto">12</span>
-            </a>
-        </nav>
+<div class="container py-5">
 
-        <div class="sidebar-section">Profile</div>
-        <nav class="nav flex-column">
-            <a class="nav-link" href="#">
-                <i class="bi bi-person"></i>My Profile
-            </a>
-            <a class="nav-link" href="#">
-                <i class="bi bi-file-earmark-pdf"></i>My Resume
-            </a>
-            <a class="nav-link" href="#">
-                <i class="bi bi-gear"></i>Settings
-            </a>
-        </nav>
-
-        <div class="sidebar-section">Account</div>
-        <nav class="nav flex-column">
-            <a class="nav-link" href="#">
-                <i class="bi bi-bell"></i>Notifications
-                <span class="badge bg-danger ms-auto">3</span>
-            </a>
-            <a class="nav-link text-danger" href="login.html">
-                <i class="bi bi-box-arrow-left"></i>Logout
-            </a>
-        </nav>
-    </aside>
-
-    <!-- Sidebar Overlay -->
-    <div class="sidebar-overlay"></div>
-
-    <!-- Main Content -->
-    <main class="dashboard-content">
-        <header class="dashboard-header">
-            <div>
-                <h5 class="mb-0 fw-bold">Welcome back, John!</h5>
-                <small class="text-muted">Here's what's happening with your job search</small>
+    <div class="hero-section">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h3>Welcome back, <span id="displayUserName">Job Seeker</span>! 👋</h3>
+                <p class="mb-0">Find your dream job and manage your applications efficiently.</p>
             </div>
-            <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-light notification-badge">
-                    <i class="bi bi-bell"></i>
-                    <span class="badge bg-danger">3</span>
-                </button>
-                <div class="dropdown">
-                    <button class="btn btn-light dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown">
-                        <img src="https://i.pravatar.cc/32?img=1" class="rounded-circle" alt="Profile">
-                        <span class="d-none d-md-inline">John Doe</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger" href="login.html"><i class="bi bi-box-arrow-left me-2"></i>Logout</a></li>
-                    </ul>
-                </div>
+            <div class="col-md-4 text-md-end d-none d-md-block">
+                <i class="bi bi-rocket-takeoff" style="font-size: 3.5rem; opacity: 0.3;"></i>
             </div>
-        </header>
+        </div>
+    </div>
 
-        <div class="dashboard-main">
-            <!-- Stats Cards -->
-            <div class="row g-4 mb-4">
-                <div class="col-sm-6 col-lg-3">
-                    <div class="stat-card">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <p class="stat-label mb-1">Applications</p>
-                                <h3 class="stat-value mb-0">24</h3>
-                            </div>
-                            <div class="stat-icon bg-primary bg-opacity-10">
-                                <i class="bi bi-file-earmark-text text-primary"></i>
-                            </div>
-                        </div>
-                        <small class="text-success"><i class="bi bi-arrow-up"></i> 12% from last month</small>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="stat-card">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <p class="stat-label mb-1">Interviews</p>
-                                <h3 class="stat-value mb-0">5</h3>
-                            </div>
-                            <div class="stat-icon bg-success bg-opacity-10">
-                                <i class="bi bi-calendar-check text-success"></i>
-                            </div>
-                        </div>
-                        <small class="text-success"><i class="bi bi-arrow-up"></i> 2 this week</small>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="stat-card">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <p class="stat-label mb-1">Profile Views</p>
-                                <h3 class="stat-value mb-0">142</h3>
-                            </div>
-                            <div class="stat-icon bg-warning bg-opacity-10">
-                                <i class="bi bi-eye text-warning"></i>
-                            </div>
-                        </div>
-                        <small class="text-success"><i class="bi bi-arrow-up"></i> 8% from last week</small>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="stat-card">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <p class="stat-label mb-1">Saved Jobs</p>
-                                <h3 class="stat-value mb-0">12</h3>
-                            </div>
-                            <div class="stat-icon bg-info bg-opacity-10">
-                                <i class="bi bi-bookmark text-info"></i>
-                            </div>
-                        </div>
-                        <small class="text-muted">3 expiring soon</small>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row g-4">
-                <!-- Profile Completion -->
-                <div class="col-lg-4">
-                    <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body p-4">
-                            <h6 class="fw-bold mb-3">Profile Completion</h6>
-                            <div class="text-center mb-3">
-                                <div class="position-relative d-inline-block">
-                                    <div class="profile-image-placeholder">
-                                        <i class="bi bi-person"></i>
-                                    </div>
-                                    <span class="position-absolute bottom-0 end-0 bg-warning text-dark rounded-circle p-1" style="font-size: 0.7rem;">
-                                            <i class="bi bi-pencil"></i>
-                                        </span>
-                                </div>
-                            </div>
-                            <h5 class="text-center fw-semibold mb-1">John Doe</h5>
-                            <p class="text-center text-muted small mb-3">Software Engineer</p>
-
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between small mb-1">
-                                    <span>Profile Strength</span>
-                                    <span class="text-primary fw-semibold">75%</span>
-                                </div>
-                                <div class="progress-bar-custom">
-                                    <div class="progress-fill" style="width: 75%;"></div>
-                                </div>
-                            </div>
-
-                            <p class="text-muted small mb-3">Complete your profile to improve visibility:</p>
-                            <ul class="list-unstyled small">
-                                <li class="mb-2 text-success"><i class="bi bi-check-circle-fill me-2"></i>Basic Information</li>
-                                <li class="mb-2 text-success"><i class="bi bi-check-circle-fill me-2"></i>Work Experience</li>
-                                <li class="mb-2 text-success"><i class="bi bi-check-circle-fill me-2"></i>Education</li>
-                                <li class="mb-2 text-warning"><i class="bi bi-exclamation-circle-fill me-2"></i>Add Skills</li>
-                                <li class="mb-2 text-muted"><i class="bi bi-circle me-2"></i>Upload Resume</li>
-                            </ul>
-                            <button class="btn btn-primary w-100">Complete Profile</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Recent Applications -->
-                <div class="col-lg-8">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-header bg-white border-0 py-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h6 class="fw-bold mb-0">Recent Applications</h6>
-                                <a href="applications.html" class="btn btn-sm btn-outline-primary">View All</a>
-                            </div>
-                        </div>
-                        <div class="card-body p-0">
-                            <div class="table-responsive">
-                                <table class="table mb-0">
-                                    <thead>
-                                    <tr>
-                                        <th>Job</th>
-                                        <th>Company</th>
-                                        <th>Applied</th>
-                                        <th>Status</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>
-                                            <a href="job-details.html" class="text-decoration-none fw-semibold">Senior Software Engineer</a>
-                                        </td>
-                                        <td>Google Inc.</td>
-                                        <td class="text-muted">Mar 10, 2026</td>
-                                        <td><span class="status-badge interview">Interview</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="job-details.html" class="text-decoration-none fw-semibold">Product Manager</a>
-                                        </td>
-                                        <td>Microsoft</td>
-                                        <td class="text-muted">Mar 8, 2026</td>
-                                        <td><span class="status-badge reviewing">Reviewing</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="job-details.html" class="text-decoration-none fw-semibold">UX Designer</a>
-                                        </td>
-                                        <td>Apple Inc.</td>
-                                        <td class="text-muted">Mar 5, 2026</td>
-                                        <td><span class="status-badge pending">Pending</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="job-details.html" class="text-decoration-none fw-semibold">Frontend Developer</a>
-                                        </td>
-                                        <td>Meta</td>
-                                        <td class="text-muted">Mar 2, 2026</td>
-                                        <td><span class="status-badge rejected">Not Selected</span></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Recommended Jobs -->
-            <div class="mt-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h6 class="fw-bold mb-0">Recommended for You</h6>
-                    <a href="jobs.html" class="btn btn-sm btn-outline-primary">See All Jobs</a>
-                </div>
-                <div class="row g-4">
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card border-0 shadow-sm h-100">
-                            <div class="card-body p-4">
-                                <div class="d-flex align-items-start mb-3">
-                                    <div class="company-logo bg-primary bg-opacity-10 rounded-3 p-2 me-3">
-                                        <i class="bi bi-google text-primary fs-5"></i>
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-1 fw-semibold">Full Stack Developer</h6>
-                                        <p class="text-muted small mb-0">Google Inc.</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge bg-light text-dark small">Remote</span>
-                                    <span class="badge bg-light text-dark small">$140K - $180K</span>
-                                </div>
-                                <p class="text-muted small mb-3">Build scalable web applications using modern technologies...</p>
-                                <div class="d-flex gap-2">
-                                    <a href="job-details.html" class="btn btn-outline-primary btn-sm flex-fill">View</a>
-                                    <button class="btn btn-primary btn-sm flex-fill">Apply</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card border-0 shadow-sm h-100">
-                            <div class="card-body p-4">
-                                <div class="d-flex align-items-start mb-3">
-                                    <div class="company-logo bg-success bg-opacity-10 rounded-3 p-2 me-3">
-                                        <i class="bi bi-spotify text-success fs-5"></i>
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-1 fw-semibold">Backend Engineer</h6>
-                                        <p class="text-muted small mb-0">Spotify</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge bg-light text-dark small">Hybrid</span>
-                                    <span class="badge bg-light text-dark small">$130K - $160K</span>
-                                </div>
-                                <p class="text-muted small mb-3">Design and implement backend services for music streaming...</p>
-                                <div class="d-flex gap-2">
-                                    <a href="job-details.html" class="btn btn-outline-primary btn-sm flex-fill">View</a>
-                                    <button class="btn btn-primary btn-sm flex-fill">Apply</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card border-0 shadow-sm h-100">
-                            <div class="card-body p-4">
-                                <div class="d-flex align-items-start mb-3">
-                                    <div class="company-logo bg-info bg-opacity-10 rounded-3 p-2 me-3">
-                                        <i class="bi bi-linkedin text-info fs-5"></i>
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-1 fw-semibold">DevOps Engineer</h6>
-                                        <p class="text-muted small mb-0">LinkedIn</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge bg-light text-dark small">On-site</span>
-                                    <span class="badge bg-light text-dark small">$150K - $190K</span>
-                                </div>
-                                <p class="text-muted small mb-3">Manage infrastructure and CI/CD pipelines at scale...</p>
-                                <div class="d-flex gap-2">
-                                    <a href="job-details.html" class="btn btn-outline-primary btn-sm flex-fill">View</a>
-                                    <button class="btn btn-primary btn-sm flex-fill">Apply</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card stat-card shadow-sm p-3">
+                <div class="d-flex align-items-center">
+                    <div class="icon-box bg-primary bg-opacity-10 text-primary me-3"><i class="bi bi-send-fill"></i></div>
+                    <div><h4  id="totalApps" class="fw-bold mb-0">12</h4><small class="text-muted">Total Applications</small></div>
                 </div>
             </div>
         </div>
-    </main>
+        <div class="col-md-4">
+            <div class="card stat-card shadow-sm p-3">
+                <div class="d-flex align-items-center">
+                    <div class="icon-box bg-success bg-opacity-10 text-success me-3"><i class="bi bi-chat-dots-fill"></i></div>
+                    <div><h4 id="totalInterviews" class="fw-bold mb-0">03</h4><small class="text-muted">Interviews</small></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card stat-card shadow-sm p-3">
+                <div class="d-flex align-items-center">
+                    <div class="icon-box bg-warning bg-opacity-10 text-warning me-3"><i class="bi bi-bookmark-star-fill"></i></div>
+                    <div><h4 id="totalSaved" class="fw-bold mb-0">08</h4><small class="text-muted">Saved Jobs</small></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 mb-4">
+            <h5 class="section-title"><i class="bi bi-file-earmark-text text-primary"></i> My Applications</h5>
+            <div id="applicationsList">
+                <div class="dashboard-card p-3 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <div class="company-logo-box me-3"><i class="bi bi-building"></i></div>
+                        <div>
+                            <h6 class="fw-bold mb-0">Java Backend Developer</h6>
+                            <small class="text-muted fw-medium d-block">ABC Solutions (Pvt) Ltd</small>
+                            <small class="text-muted" style="font-size: 0.75rem;">Applied: 2026-03-25</small>
+                        </div>
+                    </div>
+                    <div><span class="status-badge bg-shortlisted">Shortlisted</span></div>
+                </div>
+                <div class="dashboard-card p-3 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <div class="company-logo-box me-3"><i class="bi bi-building"></i></div>
+                        <div>
+                            <h6 class="fw-bold mb-0">Full Stack Intern</h6>
+                            <small class="text-muted fw-medium d-block">Tech-Start Global</small>
+                            <small class="text-muted" style="font-size: 0.75rem;">Applied: 2026-03-28</small>
+                        </div>
+                    </div>
+                    <div><span class="status-badge bg-pending">Pending</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 mb-4">
+            <h5 class="section-title"><i class="bi bi-bookmark-fill text-warning"></i> Saved Jobs</h5>
+            <div id="savedJobsList">
+                <div class="dashboard-card p-3">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="company-logo-box me-3" style="width: 40px; height: 40px; font-size: 1.2rem;">
+                            <i class="bi bi-building text-warning"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-0" style="font-size: 0.9rem;">Spring Boot Developer</h6>
+                            <small class="text-muted d-block" style="font-size: 0.8rem;">Innovation Lab</small>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-primary w-100 fw-bold py-2" style="border-radius: 8px;">Apply Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- Mobile Sidebar Toggle -->
-<button class="sidebar-toggle d-lg-none">
-    <i class="bi bi-list fs-4"></i>
-</button>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../js/main.js"></script>
-</body>
+<script>
+    const USER_ID = localStorage.getItem('userId');
+    const TOKEN = localStorage.getItem('token');
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // 1. LocalStorage එකෙන් User ගේ නම ගන්න (ඔයා login එකේදී 'userName' ලෙස save කරනවා නම්)
+        const USER_NAME = localStorage.getItem('userName');
+
+        // 2. නම තියෙනවා නම් විතරක් display එකේ පෙන්නන්න
+        if (USER_NAME) {
+            document.getElementById('displayUserName').textContent = USER_NAME;
+        }
+
+        if (!USER_ID) {
+            window.location.href = 'login.html';
+            return;
+        }
+        loadDashboardData();
+    });
+
+    async function loadDashboardData() {
+        try {
+            // A. Applications Fetch කිරීම (ඔයාගේ Controller එකේ @GetMapping("/user/{userId}") තියෙනවා කියලා හිතනවා)
+            const appResponse = await fetch(`http://localhost:8080/api/apply/user/${USER_ID}`, {
+                headers: {
+                    'Authorization': 'Bearer ' + TOKEN,
+                    'Content-Type': 'application/json'
+                }
+            });
+            const applications = await appResponse.json();
+
+            // B. Saved Jobs (LocalStorage එකෙන් ගන්නා IDs)
+            const savedJobIds = JSON.parse(localStorage.getItem('savedJobs')) || [];
+
+            updateStats(applications, savedJobIds);
+            renderApplications(applications);
+            renderSavedJobs(savedJobIds);
+
+        } catch (error) {
+            console.error("Error loading dashboard data:", error);
+        }
+    }
+
+    function updateStats(apps, saved) {
+        // HTML එකේ id="totalApps" වැනි tags ඇති බව තහවුරු කරගන්න
+        if(document.getElementById('totalApps'))
+            document.getElementById('totalApps').textContent = apps.length.toString().padStart(2, '0');
+
+        if(document.getElementById('totalSaved'))
+            document.getElementById('totalSaved').textContent = saved.length.toString().padStart(2, '0');
+
+        // ඔයාගේ Backend එකෙන් එන status එක "SHORTLISTED" ද බලන්න (Uppercase)
+        const interviews = apps.filter(a => a.status === 'SHORTLISTED').length;
+        if(document.getElementById('totalInterviews'))
+            document.getElementById('totalInterviews').textContent = interviews.toString().padStart(2, '0');
+    }
+
+    function renderApplications(apps) {
+        const container = document.getElementById('applicationsList');
+        if (!container) return;
+
+        if (apps.length === 0) {
+            container.innerHTML = '<div class="dashboard-card p-4 text-center text-muted small">No applications yet.</div>';
+            return;
+        }
+
+        container.innerHTML = apps.map(app => `
+            <div class="dashboard-card p-3 d-flex align-items-center justify-content-between shadow-sm">
+                <div class="d-flex align-items-center">
+                    <div class="company-logo-box me-3">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold mb-0">${app.jobTitle}</h6>
+                        <small class="text-muted fw-medium d-block">${app.companyName}</small>
+                        <small class="text-muted" style="font-size: 0.75rem;">Applied: ${new Date(app.applicationDate).toLocaleDateString()}</small>
+                    </div>
+                </div>
+                <div>
+                    <span class="status-badge bg-${app.status.toLowerCase()}">${app.status}</span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    async function renderSavedJobs(ids) {
+        const container = document.getElementById('savedJobsList');
+        if (!container) return;
+
+        if (ids.length === 0) {
+            container.innerHTML = '<div class="dashboard-card p-4 text-center text-muted small">No saved jobs.</div>';
+            return;
+        }
+
+        try {
+            const res = await fetch('http://localhost:8080/api/jobs/all');
+            const allJobs = await res.json();
+            const savedJobs = allJobs.filter(j => ids.includes(j.id.toString()));
+
+            container.innerHTML = savedJobs.map(job => `
+                <div class="dashboard-card p-3 shadow-sm">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="company-logo-box me-3" style="width: 40px; height: 40px; font-size: 1.2rem;">
+                            <i class="bi bi-building text-warning"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-0" style="font-size: 0.9rem;">${job.title}</h6>
+                            <small class="text-muted d-block" style="font-size: 0.8rem;">${job.companyName}</small>
+                        </div>
+                    </div>
+                    <a href="job-details.html?id=${job.id}" class="btn btn-sm btn-primary w-100 fw-bold py-2" style="border-radius: 8px;">Apply Now</a>
+                </div>
+            `).join('');
+        } catch (e) {
+            container.innerHTML = '<div class="text-danger small">Failed to load saved jobs.</div>';
+        }
+    }
+
+    function logout() {
+        localStorage.clear(); // ඔක්කොම clear කරන එක ආරක්ෂිතයි
+        window.location.href = 'login.html';
+    }
+</script></body>
 </html>
