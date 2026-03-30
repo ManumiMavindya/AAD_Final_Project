@@ -6,7 +6,53 @@
     <title>Find Jobs - JobHub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="../css/style.css" rel="stylesheet">
+    <style>
+        /* Card Hover Effect */
+        .job-listing-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            border: 1px solid #eee !important;
+        }
+
+        .job-listing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+            border-color: #0d6efd !important;
+        }
+
+        /* Modified Buttons */
+        .btn-details {
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-details:hover {
+            background-color: #f8f9fa;
+            color: #0d6efd;
+        }
+
+        .btn-apply-main {
+            border-radius: 8px;
+            font-weight: 600;
+            padding: 6px 20px;
+            box-shadow: 0 4px 6px rgba(13, 110, 253, 0.15);
+            transition: all 0.3s;
+        }
+
+        .btn-apply-main:hover {
+            box-shadow: 0 6px 12px rgba(13, 110, 253, 0.25);
+            transform: scale(1.02);
+        }
+
+        .company-logo {
+            transition: transform 0.3s ease;
+        }
+
+        .job-listing-card:hover .company-logo {
+            transform: scale(1.1);
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
@@ -33,23 +79,18 @@
 
 <section class="bg-primary py-4">
     <div class="container">
-        <div class="row g-3">
-            <div class="col-md-5">
-                <div class="input-group">
+        <div class="row g-3 justify-content-center">
+            <div class="col-md-6">
+                <div class="input-group input-group-lg">
                     <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
                     <input type="text" class="form-control border-start-0" id="jobSearch" placeholder="Job title, keywords, or company">
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="input-group">
+            <div class="col-md-5">
+                <div class="input-group input-group-lg">
                     <span class="input-group-text bg-white border-end-0"><i class="bi bi-geo-alt text-muted"></i></span>
                     <input type="text" class="form-control border-start-0" id="locationSearch" placeholder="City, state, or remote">
                 </div>
-            </div>
-            <div class="col-md-3">
-                <button type="button" class="btn btn-light w-100" onclick="loadJobsFromDB()">
-                    <i class="bi bi-search me-2"></i>Search Jobs
-                </button>
             </div>
         </div>
     </div>
@@ -120,23 +161,20 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     let allJobs = [];
-    let filteredJobs = []; // Search සහ Filters වලට පස්සේ ඉතිරි වන ටික
+    let filteredJobs = [];
     let currentPage = 1;
     const jobsPerPage = 5;
 
     document.addEventListener('DOMContentLoaded', () => {
         loadJobsFromDB();
 
-        // හැම Filter එකකටම Event Listener එකක් දාමු (ක්ලික් කරපු ගමන් වැඩ කරන්න)
         document.querySelectorAll('.form-check-input, #salaryRange').forEach(element => {
             element.addEventListener('change', applyFiltersAndSearch);
         });
 
-        // Search Bar එකේ ටයිප් කරන කොටම හොයන්න
         document.getElementById('jobSearch').addEventListener('input', applyFiltersAndSearch);
         document.getElementById('locationSearch').addEventListener('input', applyFiltersAndSearch);
 
-        // Clear All button එක වැඩ කරවමු
         document.getElementById('clearFilters').addEventListener('click', () => {
             document.getElementById('filterForm').reset();
             document.getElementById('salaryValue').textContent = '$0';
@@ -144,7 +182,6 @@
         });
     });
 
-    // Salary slider එකේ අගය පෙන්වීම
     document.getElementById('salaryRange').addEventListener('input', function(e) {
         document.getElementById('salaryValue').textContent = '$' + (e.target.value / 1000) + 'K';
     });
@@ -153,7 +190,7 @@
         try {
             const response = await fetch('http://localhost:8080/api/jobs/all');
             allJobs = await response.json();
-            applyFiltersAndSearch(); // මුලින්ම ඔක්කොම පෙන්වන්න
+            applyFiltersAndSearch();
         } catch (error) {
             console.error("Error:", error);
             document.getElementById('jobListings').innerHTML = '<div class="alert alert-danger">Server connection failed.</div>';
@@ -165,7 +202,6 @@
         const minSalary = parseInt(document.getElementById('salaryRange').value);
         const locationText = document.getElementById('locationSearch').value.toLowerCase().trim();
 
-        // තෝරාගෙන තියෙන Checkbox වල IDs ගන්න
         const getSelectedFilters = (ids) => ids.filter(id => document.getElementById(id).checked);
 
         const selectedTypes = getSelectedFilters(['ft', 'pt', 'ct']);
@@ -173,27 +209,21 @@
         const selectedLevels = getSelectedFilters(['entry', 'mid', 'senior']);
 
         filteredJobs = allJobs.filter(job => {
-            // 1. Text Search (Title, Company හෝ Location)
             const matchesSearch = job.title.toLowerCase().includes(searchText) ||
                 job.companyName?.toLowerCase().includes(searchText) ||
                 job.location.toLowerCase().includes(searchText);
 
-            // 2. Location Search (දැන් වැඩ කරනවා!)
             const matchesLocation = !locationText ||
                 job.location?.toLowerCase().includes(locationText);
 
-            // 2. Salary Filter
             const matchesSalary = job.salary >= minSalary;
 
-            // 3. Job Type Filter (කිසිවක් තෝරා නැත්නම් ඔක්කොම පෙන්වයි)
             const matchesType = selectedTypes.length === 0 || selectedTypes.some(type =>
                 (type === 'ft' && job.jobType === 'FULL_TIME') ||
                 (type === 'pt' && job.jobType === 'PART_TIME') ||
                 (type === 'ct' && job.jobType === 'CONTRACT')
             );
 
-            // 4. Experience Level & Work Mode (මේවා ඔයාගේ Backend එකේ තිබෙන විදිහට compare කරන්න)
-            // දැනට මම මේවා සරලව දාන්නම්:
             const matchesLevel = selectedLevels.length === 0 || selectedLevels.includes(job.experienceLevel?.toLowerCase());
             const matchesMode = selectedModes.length === 0 || selectedModes.includes(job.workArrangement?.toLowerCase());
 
@@ -218,7 +248,6 @@
         }
 
         pageItems.forEach(job => {
-            // ... ඔයාගේ පරණ jobCard HTML එක මෙතනට එන්න ඕනේ ...
             let dateDisplay = "Recently posted";
             if (job.postedDate) {
                 let date = Array.isArray(job.postedDate) ?
@@ -227,30 +256,30 @@
             }
 
             const jobCard = `
-                <div class="job-listing-card border p-3 mb-3 rounded shadow-sm bg-white">
+                <div class="job-listing-card border p-4 mb-3 rounded-4 shadow-sm bg-white">
                     <div class="d-flex justify-content-between align-items-start">
                         <div class="d-flex">
-                            <div class="company-logo bg-primary bg-opacity-10 rounded-3 p-3 me-3">
-                                <i class="bi bi-building text-primary fs-4"></i>
+                            <div class="company-logo bg-primary bg-opacity-10 rounded-4 p-3 me-3 d-flex align-items-center justify-content-center" style="width: 65px; height: 65px;">
+                                <i class="bi bi-building text-primary fs-3"></i>
                             </div>
                             <div>
-                                <h5 class="mb-1 fw-semibold">
+                                <h5 class="mb-1 fw-bold">
                                     <a href="job-details.html?id=${job.id}" class="text-decoration-none text-dark">${job.title}</a>
                                 </h5>
-                                <p class="text-muted mb-2">${job.companyName || 'Verified Employer'}</p>
+                                <p class="text-muted mb-2 fw-medium">${job.companyName || 'Verified Employer'}</p>
                                 <div class="d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge bg-light text-dark"><i class="bi bi-geo-alt me-1"></i>${job.location}</span>
-                                    <span class="badge bg-light text-dark"><i class="bi bi-clock me-1"></i>${job.jobType}</span>
-                                    <span class="badge bg-success bg-opacity-10 text-success">$${job.salary.toLocaleString()}</span>
+                                    <span class="badge bg-light text-secondary border px-2 py-2"><i class="bi bi-geo-alt me-1"></i>${job.location}</span>
+                                    <span class="badge bg-light text-secondary border px-2 py-2"><i class="bi bi-clock me-1"></i>${job.jobType}</span>
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-2">$${job.salary.toLocaleString()}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
-                        <small class="text-muted"><i class="bi bi-clock me-1"></i>${dateDisplay}</small>
-                        <div class="d-flex gap-2">
-                            <a href="job-details.html?id=${job.id}" class="btn btn-outline-primary btn-sm px-3">Details</a>
-                            <button class="btn btn-primary btn-sm px-3" onclick="handleApplyClick(${job.id})">Apply</button>
+                        <small class="text-muted fw-light"><i class="bi bi-calendar3 me-2"></i>${dateDisplay}</small>
+                        <div class="d-flex gap-3">
+                            <a href="job-details.html?id=${job.id}" class="btn btn-outline-primary btn-sm px-4 btn-details">View Details</a>
+                            <button class="btn btn-primary btn-sm px-4 btn-apply-main" onclick="handleApplyClick(${job.id})">Apply Now</button>
                         </div>
                     </div>
                 </div>`;
@@ -265,7 +294,7 @@
         paginationElement.innerHTML = '';
         const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
 
-        if (totalPages <= 1) return; // පේජ් එකයි නම් Pagination ඕනේ නෑ
+        if (totalPages <= 1) return;
 
         for (let i = 1; i <= totalPages; i++) {
             const li = document.createElement('li');
@@ -290,6 +319,11 @@
         interval = Math.floor(seconds / 60);
         if (interval >= 1) return interval + "m ago";
         return "Just now";
+    }
+
+    function handleApplyClick(id) {
+        // Apply function logic here
+        console.log("Applying for job ID:", id);
     }
 </script>
 </body>

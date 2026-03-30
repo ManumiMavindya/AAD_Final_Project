@@ -20,11 +20,6 @@ public class JobApplicationController {
     @Autowired
     private JobApplicationService applicationService;
 
-//    @PostMapping("/submit")
-//    public ResponseEntity<String> apply(@RequestBody JobApplicationDTO dto) {
-//        return ResponseEntity.ok(applicationService.applyForJob(dto));
-//    }
-
     @PostMapping(value = "/submit-with-cv", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<String> applyWithCv(
             @RequestParam("jobId") Long jobId,

@@ -18,4 +18,7 @@ public class JobApplicationDTO {
     private String contactNo;
     private String cvPath; // add CV
 
+    private String jobTitle;
+    private String companyName;
+
 }

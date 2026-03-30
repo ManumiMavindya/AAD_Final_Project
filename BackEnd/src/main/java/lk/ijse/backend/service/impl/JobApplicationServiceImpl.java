@@ -43,25 +43,6 @@ public class JobApplicationServiceImpl implements JobApplicationService {
     private EmailServiceImpl emailService;
 
     @Override
-    public String applyForJob(JobApplicationDTO dto) {
-        Job job = jobRepository.findById(dto.getJobId())
-                .orElseThrow(() -> new RuntimeException("Job not found"));
-
-        User user = userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        JobApplication application = new JobApplication();
-        application.setJob(job);
-        application.setUser(user);
-        application.setApplicationDate(LocalDate.now());
-        application.setStatus("PENDING");
-        application.setContactNo(dto.getContactNo());
-
-        applicationRepository.save(application);
-        return "Application submitted successfully!";
-    }
-
-    @Override
     public String applyWithCv(Long jobId, Long userId, MultipartFile file, String contactNo) {
         try {
             // 1. File එක save කරන path එක
@@ -156,6 +137,7 @@ public class JobApplicationServiceImpl implements JobApplicationService {
             throw new RuntimeException("Could not store file. Error: " + e.getMessage());
         }
     }
+
     @Override
     public List<JobApplicationDTO> getApplicationsByJobId(Long jobId) {
 // Job එකට අදාළ applications list එක අරගෙන DTO වලට convert කරනවා
@@ -168,8 +150,11 @@ public class JobApplicationServiceImpl implements JobApplicationService {
                         app.getApplicationDate(),
                         app.getStatus(),
                         app.getContactNo(),
-                        app.getCvPath()
-                )).collect(Collectors.toList());    }
+                        app.getCvPath(),
+                        app.getJob().getTitle(),
+                        app.getJob().getCompany().getCompanyName()
+                )).collect(Collectors.toList());
+    }
 
     @Override
     public Resource downloadCv(Long applicationId) {
@@ -213,4 +198,20 @@ public class JobApplicationServiceImpl implements JobApplicationService {
         return "Application status updated to " + status + " and seeker notified.";
     }
 
+    @Override
+    public List<JobApplicationDTO> getApplicationsByUserId(Long userId) {
+        return applicationRepository.findAll().stream()
+                .filter(app -> app.getUser().getId().equals(userId))
+                .map(app -> new JobApplicationDTO(
+                        app.getId(),
+                        app.getJob().getId(),
+                        app.getUser().getId(),
+                        app.getApplicationDate(),
+                        app.getStatus(),
+                        app.getContactNo(),
+                        app.getCvPath(),
+                        app.getJob().getTitle(),
+                        app.getJob().getCompany().getCompanyName()
+                )).collect(Collectors.toList());
+    }
 }
