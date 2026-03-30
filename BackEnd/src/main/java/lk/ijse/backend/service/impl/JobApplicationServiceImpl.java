@@ -62,62 +62,6 @@ public class JobApplicationServiceImpl implements JobApplicationService {
     }
 
     @Override
-//    public String applyWithCv(Long jobId, Long userId, MultipartFile file, String contactNo) {
-//        try {
-//            // 1. File එක save කරන path එක
-//            String uploadDir = "C:/JobHub/CVs/";
-//            File folder = new File(uploadDir);
-//            if (!folder.exists()) {
-//                folder.mkdirs();
-//            }
-//
-//            // File එකේ නම unique කරගන්න Seeker ID සහ Job ID එකතු කරනවා
-//            String fileName = userId + "_" + jobId + "_" + file.getOriginalFilename();
-//            Path filePath = Paths.get(uploadDir + fileName);
-//
-//            // File එක නියමිත folder එකට copy කරනවා
-//            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-//
-//            // 2. Database එකේ data save කිරීම
-//            Job job = jobRepository.findById(jobId)
-//                    .orElseThrow(() -> new RuntimeException("Job not found"));
-//            User user = userRepository.findById(userId)
-//                    .orElseThrow(() -> new RuntimeException("User not found"));
-//
-//            JobApplication application = new JobApplication();
-//            application.setJob(job);
-//            application.setUser(user);
-//            application.setApplicationDate(LocalDate.now());
-//            application.setStatus("PENDING");
-//            application.setContactNo(contactNo);
-//            application.setCvPath(filePath.toString()); // Path එක String එකක් විදිහට save වෙනවා
-//
-//            applicationRepository.save(application);
-//
-//            // 1. Seeker ට confirmation mail එකක් යැවීම
-//            String seekerEmail = user.getEmail();
-//            emailService.sendSimpleEmail(
-//                    seekerEmail,
-//                    "Application Received",
-//                    "Hi " + user.getName() + ", you applied for " + job.getTitle() + " successfully!"
-//            );
-//
-//            // 2. Employer ට notification mail එකක් යැවීම
-//            // Company එක අයිති User (Employer) ගේ email එක මෙතනින් ගන්නවා
-//            String employerEmail = job.getCompany().getUser().getEmail();
-//            emailService.sendSimpleEmail(
-//                    employerEmail,
-//                    "New Applicant for " + job.getTitle(),
-//                    "Hello, a new candidate (" + user.getName() + ") has applied for your job post."
-//            );
-//
-//            return "Applied successfully! Emails sent to Seeker and Employer.";
-//
-//        } catch (IOException e) {
-//            throw new RuntimeException("Could not store file. Error: " + e.getMessage());
-//        }
-//
-//    }
     public String applyWithCv(Long jobId, Long userId, MultipartFile file, String contactNo) {
         try {
             // 1. File එක save කරන path එක
