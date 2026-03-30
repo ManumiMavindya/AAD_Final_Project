@@ -6,57 +6,182 @@
     <title>Job Details - JobHub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="../css/style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #1e293b;
+        }
+
+        .navbar {
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 40px 0;
+        }
+
+        .company-logo {
+            width: 80px;
+            height: 80px;
+            background-color: #eff6ff;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .company-logo i {
+            font-size: 2.5rem;
+            color: #0062ff;
+        }
+
+        /* Badges */
+        .badge-outline {
+            background: transparent;
+            border: 1px solid #e2e8f0;
+            color: #64748b;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .badge-salary {
+            background-color: #f0fdf4;
+            color: #166534;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        /* Cards */
+        .card {
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .job-overview-card .card-body div {
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+        }
+
+        .job-overview-card .card-body div:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .overview-icon {
+            width: 35px;
+            height: 35px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: #0062ff;
+        }
+
+        /* Buttons */
+        .btn-save {
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        .btn-save:hover, .btn-save.active {
+            background-color: #fff1f2;
+            border-color: #f43f5e;
+            color: #f43f5e;
+        }
+
+        .btn-apply-now {
+            border-radius: 12px;
+            padding: 12px 30px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 98, 255, 0.2);
+        }
+
+        /* Breadcrumb */
+        .breadcrumb-item a {
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* Modal */
+        .modal-content {
+            border-radius: 24px;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 10px 15px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 4px rgba(0, 98, 255, 0.1);
+            border-color: #0062ff;
+        }
+    </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
     <div class="container">
-        <a class="navbar-brand fw-bold text-primary" href="index.html">
+        <a class="navbar-brand fw-bold text-primary fs-4" href="index.html">
             <i class="bi bi-briefcase-fill me-2"></i>JobHub
         </a>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="jobs.html">Find Jobs</a></li>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link fw-medium" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link fw-medium" href="jobs.html">Find Jobs</a></li>
             </ul>
         </div>
     </div>
 </nav>
 
-<section class="bg-light py-4">
-    <div class="container" id="mainHeader">
-        <nav aria-label="breadcrumb" class="mb-3">
-            <ol class="breadcrumb small">
+<section class="hero-section">
+    <div class="container">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none">Home</a></li>
                 <li class="breadcrumb-item"><a href="jobs.html" class="text-decoration-none">Jobs</a></li>
-                <li class="breadcrumb-item active" id="breadcrumbJobTitle">Job Details</li>
+                <li class="breadcrumb-item active" id="breadcrumbJobTitle">Details</li>
             </ol>
         </nav>
 
         <div class="row align-items-center">
             <div class="col-lg-8">
-                <div class="d-flex align-items-start">
-                    <div class="company-logo bg-primary bg-opacity-10 rounded-3 p-3 me-4" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
-                        <i class="bi bi-building text-primary fs-1"></i>
+                <div class="d-flex align-items-center flex-wrap flex-md-nowrap">
+                    <div class="company-logo shadow-sm mb-3 mb-md-0 me-md-4">
+                        <i class="bi bi-building"></i>
                     </div>
                     <div>
-                        <h1 class="h2 fw-bold mb-1" id="detTitle">Loading Job Title...</h1>
-                        <p class="text-muted mb-2" id="detCompany">Loading Company...</p>
+                        <h1 class="fw-bold mb-1" id="detTitle">Loading Job Title...</h1>
+                        <p class="fs-5 text-secondary mb-3" id="detCompany">Loading Company...</p>
                         <div class="d-flex flex-wrap gap-2">
-                            <span class="badge bg-white text-dark border" id="detLocation"></span>
-                            <span class="badge bg-white text-dark border" id="detType"></span>
-                            <span class="badge bg-success bg-opacity-10 text-success fw-bold" id="detSalary"></span>
+                            <span class="badge-outline" id="detLocation"><i class="bi bi-geo-alt me-1"></i> -</span>
+                            <span class="badge-outline" id="detType"><i class="bi bi-clock me-1"></i> -</span>
+                            <span class="badge-salary" id="detSalary">$0</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 mt-4 mt-lg-0 text-lg-end">
-                <div class="d-flex gap-2 justify-content-lg-end">
-                    <button class="btn btn-outline-primary btn-lg px-3 btn-save" id="saveJobBtn" onclick="toggleSaveJob()">
-                        <i class="bi bi-bookmark" id="saveIcon"></i>
+                <div class="d-flex gap-3 justify-content-lg-end">
+                    <button class="btn btn-save btn-lg px-3 shadow-sm" id="saveJobBtn" onclick="toggleSaveJob()">
+                        <i class="bi bi-bookmark fs-5" id="saveIcon"></i>
                     </button>
-                    <button class="btn btn-primary btn-lg px-4 flex-grow-1 flex-lg-grow-0" data-bs-toggle="modal" data-bs-target="#applyModal">
-                        <i class="bi bi-send me-2"></i>Apply Now
+                    <button class="btn btn-primary btn-apply-now btn-lg px-5 shadow-sm flex-grow-1 flex-lg-grow-0" data-bs-toggle="modal" data-bs-target="#applyModal">
+                        Apply Now
                     </button>
                 </div>
             </div>
@@ -68,50 +193,69 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-body p-4">
-                        <h5 class="fw-bold mb-3 border-bottom pb-2">Job Description</h5>
-                        <p id="detDescription" style="white-space: pre-line; line-height: 1.7; color: #444;">
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-body p-4 p-md-5">
+                        <h4 class="fw-bold mb-4">Job Description</h4>
+                        <div id="detDescription" style="white-space: pre-line; line-height: 1.8; color: #334155; font-size: 1.05rem;">
                             Loading full job description...
-                        </p>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-4">
-                <div class="card border-0 shadow-sm mb-4 sticky-lg-top" style="top: 90px;">
+                <div class="card job-overview-card shadow-sm border-0 sticky-lg-top" style="top: 100px;">
                     <div class="card-body p-4">
-                        <h6 class="fw-bold mb-4 border-bottom pb-2">Job Overview</h6>
+                        <h5 class="fw-bold mb-4">Job Overview</h5>
 
-                        <div class="mb-3">
-                            <small class="text-muted d-block mb-1"><i class="bi bi-calendar-event me-2"></i>Job Posted</small>
-                            <span class="fw-semibold" id="sidePostedDate">-</span>
+                        <div>
+                            <small class="text-muted d-block mb-1">Date Posted</small>
+                            <div class="d-flex align-items-center">
+                                <span class="overview-icon"><i class="bi bi-calendar3"></i></span>
+                                <span class="fw-bold" id="sidePostedDate">-</span>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <small class="text-muted d-block mb-1"><i class="bi bi-briefcase me-2"></i>Job Type</small>
-                            <span class="fw-semibold" id="sideJobType">-</span>
+                        <div>
+                            <small class="text-muted d-block mb-1">Employment Type</small>
+                            <div class="d-flex align-items-center">
+                                <span class="overview-icon"><i class="bi bi-briefcase"></i></span>
+                                <span class="fw-bold" id="sideJobType">-</span>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <small class="text-muted d-block mb-1"><i class="bi bi-laptop me-2"></i>Work Arrangement</small>
-                            <span id="sideWorkMode" class="badge bg-info bg-opacity-10 text-info">-</span>
+                        <div>
+                            <small class="text-muted d-block mb-1">Work Arrangement</small>
+                            <div class="d-flex align-items-center">
+                                <span class="overview-icon"><i class="bi bi-laptop"></i></span>
+                                <span class="badge bg-primary bg-opacity-10 text-primary fw-bold px-3 py-2" id="sideWorkMode">-</span>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <small class="text-muted d-block mb-1"><i class="bi bi-bar-chart me-2"></i>Experience Level</small>
-                            <span class="fw-semibold" id="sideExperience">-</span>
+                        <div>
+                            <small class="text-muted d-block mb-1">Experience Level</small>
+                            <div class="d-flex align-items-center">
+                                <span class="overview-icon"><i class="bi bi-bar-chart"></i></span>
+                                <span class="fw-bold" id="sideExperience">-</span>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <small class="text-muted d-block mb-1"><i class="bi bi-cash-stack me-2"></i>Salary Range</small>
-                            <span class="text-success fw-bold" id="sideSalary">-</span>
+                        <div>
+                            <small class="text-muted d-block mb-1">Annual Salary</small>
+                            <div class="d-flex align-items-center">
+                                <span class="overview-icon text-success bg-success bg-opacity-10"><i class="bi bi-cash-stack"></i></span>
+                                <span class="text-success fw-bold fs-5" id="sideSalary">-</span>
+                            </div>
                         </div>
 
-                        <div class="mb-0">
-                            <small class="text-muted d-block mb-1"><i class="bi bi-geo-alt me-2"></i>Location</small>
-                            <span class="fw-semibold" id="sideLocation">-</span>
+                        <div>
+                            <small class="text-muted d-block mb-1">Location</small>
+                            <div class="d-flex align-items-center">
+                                <span class="overview-icon"><i class="bi bi-geo-alt"></i></span>
+                                <span class="fw-bold" id="sideLocation">-</span>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -121,31 +265,32 @@
 
 <div class="modal fade" id="applyModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow">
-            <div class="modal-header border-0">
-                <h5 class="modal-title fw-bold">Submit Your Application</h5>
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header px-4 pt-4 border-0">
+                <h4 class="modal-title fw-bold">Submit Your Application</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body p-4">
                 <form id="applyForm">
                     <div class="mb-3">
-                        <label class="form-label small fw-bold">Full Name</label>
-                        <input type="text" class="form-control" id="applicantName" placeholder="Enter your full name" required>
+                        <label class="form-label fw-bold small">Full Name</label>
+                        <input type="text" class="form-control form-control-lg" id="applicantName" placeholder="Your name" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label small fw-bold">Email Address</label>
-                        <input type="email" class="form-control" id="applicantEmail" placeholder="name@example.com" required>
+                        <label class="form-label fw-bold small">Email Address</label>
+                        <input type="email" class="form-control form-control-lg" id="applicantEmail" placeholder="email@example.com" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label small fw-bold">Contact Number</label>
-                        <input type="tel" class="form-control" id="applicantPhone" placeholder="07X XXX XXXX" required>
+                        <label class="form-label fw-bold small">Contact Number</label>
+                        <input type="tel" class="form-control form-control-lg" id="applicantPhone" placeholder="07X XXX XXXX" required>
                     </div>
                     <div class="mb-4">
-                        <label class="form-label small fw-bold">Upload Resume (PDF)</label>
-                        <input type="file" class="form-control" id="resumeFile" accept=".pdf" required>
+                        <label class="form-label fw-bold small">Upload Resume (PDF)</label>
+                        <input type="file" class="form-control form-control-lg" id="resumeFile" accept=".pdf" required>
+                        <small class="text-muted">Only PDF files are accepted.</small>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 py-2">
-                        <i class="bi bi-cloud-upload me-2"></i>Submit Application
+                    <button type="submit" class="btn btn-primary w-100 py-3 fw-bold shadow-sm">
+                        Send Application
                     </button>
                 </form>
             </div>
@@ -155,7 +300,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-
+    // --- JavaScript Logic (ඔයාගේ කලින් code එක එලෙසම තබා ඇත) ---
     let currentJobId = null;
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -177,30 +322,24 @@
 
             const job = await response.json();
 
-            // Headers
             document.getElementById('detTitle').textContent = job.title;
             document.getElementById('breadcrumbJobTitle').textContent = job.title;
-            document.getElementById('detCompany').innerHTML = `${job.companyName || 'Verified Employer'} <i class="bi bi-check-circle-fill text-primary ms-1 small" title="Verified"></i>`;
+            document.getElementById('detCompany').innerHTML = `${job.companyName || 'Verified Employer'} <i class="bi bi-check-circle-fill text-primary ms-1 small"></i>`;
 
-            // Badges
             document.getElementById('detLocation').innerHTML = `<i class="bi bi-geo-alt me-1"></i>${job.location}`;
             document.getElementById('detType').innerHTML = `<i class="bi bi-clock me-1"></i>${job.jobType.replace('_', ' ')}`;
             document.getElementById('detSalary').innerHTML = `<i class="bi bi-currency-dollar me-1"></i>$${job.salary.toLocaleString()}`;
 
-            // Description
             document.getElementById('detDescription').textContent = job.description;
 
-            // Sidebar - මම මෙතන job.workMode කියන එක use කරනවා. Backend එකේ field එක වෙනස් නම් ඒක දාන්න.
             document.getElementById('sideJobType').textContent = job.jobType.replace('_', ' ');
             document.getElementById('sideSalary').textContent = `$${job.salary.toLocaleString()} / year`;
             document.getElementById('sideLocation').textContent = job.location;
             document.getElementById('sideExperience').textContent = job.experienceLevel || 'Not Specified';
 
-            // Work Arrangement update
             const workModeText = job.workArrangement || 'Not Specified';
             document.getElementById('sideWorkMode').textContent = workModeText.replace('_', ' ');
 
-            // Date Formatting
             if (job.postedDate) {
                 let date;
                 if (Array.isArray(job.postedDate)) {
@@ -220,27 +359,22 @@
         }
     }
 
-    // --- Save Job Logic ---
-
     function toggleSaveJob() {
         let savedJobs = JSON.parse(localStorage.getItem('savedJobs')) || [];
         const btn = document.getElementById('saveJobBtn');
         const icon = document.getElementById('saveIcon');
 
         if (savedJobs.includes(currentJobId)) {
-            // Unsave
             savedJobs = savedJobs.filter(id => id !== currentJobId);
             btn.classList.remove('active');
             icon.classList.replace('bi-bookmark-fill', 'bi-bookmark');
             alert("Job removed from saved list!");
         } else {
-            // Save
             savedJobs.push(currentJobId);
             btn.classList.add('active');
             icon.classList.replace('bi-bookmark', 'bi-bookmark-fill');
             alert("Job saved successfully!");
         }
-
         localStorage.setItem('savedJobs', JSON.stringify(savedJobs));
     }
 
@@ -248,17 +382,14 @@
         const savedJobs = JSON.parse(localStorage.getItem('savedJobs')) || [];
         const btn = document.getElementById('saveJobBtn');
         const icon = document.getElementById('saveIcon');
-
         if (savedJobs.includes(currentJobId)) {
             btn.classList.add('active');
             icon.classList.replace('bi-bookmark', 'bi-bookmark-fill');
         }
     }
 
-    // PDF Upload Logic - මීළඟට මේක Backend එකට සම්බන්ධ කරමු
     document.getElementById('applyForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-
         const loggedInUserId = localStorage.getItem('userId');
         if (!loggedInUserId) {
             alert("Please login to apply for this job!");
@@ -266,7 +397,6 @@
             return;
         }
 
-        // --- මෙතන ඉඳන් තමයි try block එක පටන් ගන්න ඕනේ ---
         try {
             const formData = new FormData();
             const jobId = new URLSearchParams(window.location.search).get('id');
@@ -277,7 +407,6 @@
             formData.append('file', document.getElementById('resumeFile').files[0]);
 
             const submitBtn = e.target.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Submitting...';
 
@@ -285,17 +414,13 @@
 
             const response = await fetch('http://localhost:8080/api/apply/submit-with-cv', {
                 method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                },
+                headers: { 'Authorization': 'Bearer ' + token },
                 body: formData
             });
 
             if (response.ok) {
-                const msg = await response.text();
-                alert("Success: " + msg);
-                const modal = bootstrap.Modal.getInstance(document.getElementById('applyModal'));
-                modal.hide();
+                alert("Application submitted successfully!");
+                bootstrap.Modal.getInstance(document.getElementById('applyModal')).hide();
                 e.target.reset();
             } else {
                 const errorMsg = await response.text();
@@ -305,12 +430,9 @@
             console.error("Error:", error);
             alert("Server connection failed!");
         } finally {
-            // බටන් එක ආයේ reset කරන එක මෙතන කරන්න ඕනේ
             const submitBtn = e.target.querySelector('button[type="submit"]');
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="bi bi-cloud-upload me-2"></i>Submit Application';
-            }
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Send Application';
         }
     });
 </script>
