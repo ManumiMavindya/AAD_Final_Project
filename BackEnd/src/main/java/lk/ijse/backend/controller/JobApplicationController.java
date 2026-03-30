@@ -5,8 +5,10 @@ import lk.ijse.backend.service.JobApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,9 +20,19 @@ public class JobApplicationController {
     @Autowired
     private JobApplicationService applicationService;
 
-    @PostMapping("/submit")
-    public ResponseEntity<String> apply(@RequestBody JobApplicationDTO dto) {
-        return ResponseEntity.ok(applicationService.applyForJob(dto));
+//    @PostMapping("/submit")
+//    public ResponseEntity<String> apply(@RequestBody JobApplicationDTO dto) {
+//        return ResponseEntity.ok(applicationService.applyForJob(dto));
+//    }
+
+    @PostMapping(value = "/submit-with-cv", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<String> applyWithCv(
+            @RequestParam("jobId") Long jobId,
+            @RequestParam("userId") Long userId,
+            @RequestParam("contactNo") String contactNo,
+            @RequestParam("file") MultipartFile file) {
+
+        return ResponseEntity.ok(applicationService.applyWithCv(jobId, userId, file, contactNo));
     }
 
     @GetMapping("/job/{jobId}")

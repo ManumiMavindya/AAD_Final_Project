@@ -55,13 +55,70 @@ public class JobApplicationServiceImpl implements JobApplicationService {
         application.setUser(user);
         application.setApplicationDate(LocalDate.now());
         application.setStatus("PENDING");
+        application.setContactNo(dto.getContactNo());
 
         applicationRepository.save(application);
         return "Application submitted successfully!";
     }
 
     @Override
-    public String applyWithCv(Long jobId, Long userId, MultipartFile file) {
+//    public String applyWithCv(Long jobId, Long userId, MultipartFile file, String contactNo) {
+//        try {
+//            // 1. File එක save කරන path එක
+//            String uploadDir = "C:/JobHub/CVs/";
+//            File folder = new File(uploadDir);
+//            if (!folder.exists()) {
+//                folder.mkdirs();
+//            }
+//
+//            // File එකේ නම unique කරගන්න Seeker ID සහ Job ID එකතු කරනවා
+//            String fileName = userId + "_" + jobId + "_" + file.getOriginalFilename();
+//            Path filePath = Paths.get(uploadDir + fileName);
+//
+//            // File එක නියමිත folder එකට copy කරනවා
+//            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+//
+//            // 2. Database එකේ data save කිරීම
+//            Job job = jobRepository.findById(jobId)
+//                    .orElseThrow(() -> new RuntimeException("Job not found"));
+//            User user = userRepository.findById(userId)
+//                    .orElseThrow(() -> new RuntimeException("User not found"));
+//
+//            JobApplication application = new JobApplication();
+//            application.setJob(job);
+//            application.setUser(user);
+//            application.setApplicationDate(LocalDate.now());
+//            application.setStatus("PENDING");
+//            application.setContactNo(contactNo);
+//            application.setCvPath(filePath.toString()); // Path එක String එකක් විදිහට save වෙනවා
+//
+//            applicationRepository.save(application);
+//
+//            // 1. Seeker ට confirmation mail එකක් යැවීම
+//            String seekerEmail = user.getEmail();
+//            emailService.sendSimpleEmail(
+//                    seekerEmail,
+//                    "Application Received",
+//                    "Hi " + user.getName() + ", you applied for " + job.getTitle() + " successfully!"
+//            );
+//
+//            // 2. Employer ට notification mail එකක් යැවීම
+//            // Company එක අයිති User (Employer) ගේ email එක මෙතනින් ගන්නවා
+//            String employerEmail = job.getCompany().getUser().getEmail();
+//            emailService.sendSimpleEmail(
+//                    employerEmail,
+//                    "New Applicant for " + job.getTitle(),
+//                    "Hello, a new candidate (" + user.getName() + ") has applied for your job post."
+//            );
+//
+//            return "Applied successfully! Emails sent to Seeker and Employer.";
+//
+//        } catch (IOException e) {
+//            throw new RuntimeException("Could not store file. Error: " + e.getMessage());
+//        }
+//
+//    }
+    public String applyWithCv(Long jobId, Long userId, MultipartFile file, String contactNo) {
         try {
             // 1. File එක save කරන path එක
             String uploadDir = "C:/JobHub/CVs/";
@@ -70,11 +127,8 @@ public class JobApplicationServiceImpl implements JobApplicationService {
                 folder.mkdirs();
             }
 
-            // File එකේ නම unique කරගන්න Seeker ID සහ Job ID එකතු කරනවා
             String fileName = userId + "_" + jobId + "_" + file.getOriginalFilename();
             Path filePath = Paths.get(uploadDir + fileName);
-
-            // File එක නියමිත folder එකට copy කරනවා
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             // 2. Database එකේ data save කිරීම
@@ -88,35 +142,76 @@ public class JobApplicationServiceImpl implements JobApplicationService {
             application.setUser(user);
             application.setApplicationDate(LocalDate.now());
             application.setStatus("PENDING");
-            application.setCvPath(filePath.toString()); // Path එක String එකක් විදිහට save වෙනවා
+            application.setContactNo(contactNo);
+            application.setCvPath(filePath.toString());
 
             applicationRepository.save(application);
 
-            // 1. Seeker ට confirmation mail එකක් යැවීම
-            String seekerEmail = user.getEmail();
-            emailService.sendSimpleEmail(
-                    seekerEmail,
-                    "Application Received",
-                    "Hi " + user.getName() + ", you applied for " + job.getTitle() + " successfully!"
-            );
+            // --- HTML EMAIL TEMPLATES ---
 
-            // 2. Employer ට notification mail එකක් යැවීම
-            // Company එක අයිති User (Employer) ගේ email එක මෙතනින් ගන්නවා
+            // 1. Seeker (අයදුම්කරු) සඳහා HTML එක
+            String seekerHtml =
+                    "<div style='font-family: Arial, sans-serif; border: 1px solid #e0e0e0; padding: 25px; border-radius: 12px; max-width: 600px;'>" +
+                            "<h2 style='color: #2ecc71;'>Application Received! ✅</h2>" +
+                            "<p>Hi <b>" + user.getName() + "</b>,</p>" +
+                            "<p>You have successfully applied for <b>" + job.getTitle() + "</b> at <b>" + job.getCompany().getCompanyName() + "</b>.</p>" +
+                            "<div style='background-color: #f9f9f9; padding: 15px; border-left: 4px solid #3498db; margin: 20px 0;'>" +
+                            "<p style='margin: 0; color: #7f8c8d;'>The employer has been notified. They will review your application soon.</p>" +
+                            "</div>" +
+                            "<p style='font-size: 12px; color: #bdc3c7;'>Regards, <br>JobHub Team</p>" +
+                            "</div>";
+
+            // 2. Employer (සමාගම) සඳහා HTML එක (With Professional Note & Branding)
+            String employerHtml =
+                    "<div style='font-family: Arial, sans-serif; border: 1px solid #e0e0e0; padding: 25px; border-radius: 12px; max-width: 600px;'>" +
+                            "<h2 style='color: #2c3e50;'>New Applicant Alert! 📧</h2>" +
+                            "<p>Hello <b>" + job.getCompany().getCompanyName() + "</b>,</p>" +
+                            "<p>A new candidate has applied for your job post: <b style='color: #2980b9;'>" + job.getTitle() + "</b></p>" +
+
+                            "<table style='width: 100%; border-collapse: collapse; margin: 20px 0;'>" +
+                            "<tr><td style='padding: 10px; border: 1px solid #eee;'><b>Name:</b></td><td style='padding: 10px; border: 1px solid #eee;'>" + user.getName() + "</td></tr>" +
+                            "<tr><td style='padding: 10px; border: 1px solid #eee;'><b>Email:</b></td><td style='padding: 10px; border: 1px solid #eee;'>" + user.getEmail() + "</td></tr>" +
+                            "<tr><td style='padding: 10px; border: 1px solid #eee;'><b>Contact No:</b></td><td style='padding: 10px; border: 1px solid #eee;'>" + contactNo + "</td></tr>" +
+                            "</table>" +
+
+                            // --- CV Attachment Note ---
+                            "<div style='background-color: #fff9db; padding: 15px; border-radius: 8px; border: 1px dashed #f1c40f; margin-bottom: 20px;'>" +
+                            "<p style='margin: 0; color: #856404; font-weight: bold;'>📎 Attachment Included:</p>" +
+                            "<p style='margin: 5px 0 0 0; color: #856404; font-size: 14px;'>Please find the candidate's CV attached to this email for your review.</p>" +
+                            "</div>" +
+
+                            "<p style='color: #27ae60;'><b>Review the full profile on your JobHub dashboard.</b></p>" +
+
+                            // --- Footer with Branding ---
+                            "<hr style='border: 0; border-top: 1px solid #eee; margin-top: 25px;' />" +
+                            "<div style='text-align: center;'>" +
+                            "<p style='font-size: 12px; color: #95a5a6; margin: 0;'>This is an automated notification from your recruitment portal.</p>" +
+                            "<p style='font-size: 13px; color: #7f8c8d; margin-top: 5px; font-weight: bold;'>" +
+                            "Powered by <span style='color: #2980b9;'>JobHub</span> Recruitment System" +
+                            "</p>" +
+                            "</div>" +
+                            "</div>";
+
+            // --- EMAIL SENDING ---
+
+            // 1. Seeker ට යවනවා (Attachment අවශ්‍ය නැත)
+            emailService.sendHtmlEmail(user.getEmail(), "Application Confirmed: " + job.getTitle(), seekerHtml, filePath.toString());
+
+            // 2. Employer ට යවනවා (Attachment සමඟ)
             String employerEmail = job.getCompany().getUser().getEmail();
-            emailService.sendSimpleEmail(
+            emailService.sendHtmlEmail(
                     employerEmail,
-                    "New Applicant for " + job.getTitle(),
-                    "Hello, a new candidate (" + user.getName() + ") has applied for your job post."
+                    "New Applicant: " + job.getTitle(),
+                    employerHtml,
+                    filePath.toString()
             );
 
-            return "Applied successfully! Emails sent to Seeker and Employer.";
+            return "Applied successfully! Professional emails sent.";
 
         } catch (IOException e) {
             throw new RuntimeException("Could not store file. Error: " + e.getMessage());
         }
-
     }
-
     @Override
     public List<JobApplicationDTO> getApplicationsByJobId(Long jobId) {
 // Job එකට අදාළ applications list එක අරගෙන DTO වලට convert කරනවා
@@ -128,6 +223,7 @@ public class JobApplicationServiceImpl implements JobApplicationService {
                         app.getUser().getId(),
                         app.getApplicationDate(),
                         app.getStatus(),
+                        app.getContactNo(),
                         app.getCvPath()
                 )).collect(Collectors.toList());    }
 

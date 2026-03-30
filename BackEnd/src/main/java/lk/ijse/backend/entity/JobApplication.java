@@ -17,6 +17,7 @@ public class JobApplication {
 
     private LocalDate applicationDate;
     private String status;// e.g., PENDING, ACCEPTED, REJECTED
+    private String contactNo;
     private String cvPath; // add CV
 
     @ManyToOne

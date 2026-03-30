@@ -136,6 +136,10 @@
                         <label class="form-label small fw-bold">Email Address</label>
                         <input type="email" class="form-control" id="applicantEmail" placeholder="name@example.com" required>
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Contact Number</label>
+                        <input type="tel" class="form-control" id="applicantPhone" placeholder="07X XXX XXXX" required>
+                    </div>
                     <div class="mb-4">
                         <label class="form-label small fw-bold">Upload Resume (PDF)</label>
                         <input type="file" class="form-control" id="resumeFile" accept=".pdf" required>
@@ -254,7 +258,60 @@
     // PDF Upload Logic - මීළඟට මේක Backend එකට සම්බන්ධ කරමු
     document.getElementById('applyForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        alert("Uploading Resume to Server... (Integration in progress)");
+
+        const loggedInUserId = localStorage.getItem('userId');
+        if (!loggedInUserId) {
+            alert("Please login to apply for this job!");
+            window.location.href = 'login.html';
+            return;
+        }
+
+        // --- මෙතන ඉඳන් තමයි try block එක පටන් ගන්න ඕනේ ---
+        try {
+            const formData = new FormData();
+            const jobId = new URLSearchParams(window.location.search).get('id');
+
+            formData.append('jobId', jobId);
+            formData.append('userId', loggedInUserId);
+            formData.append('contactNo', document.getElementById('applicantPhone').value);
+            formData.append('file', document.getElementById('resumeFile').files[0]);
+
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Submitting...';
+
+            const token = localStorage.getItem('token');
+
+            const response = await fetch('http://localhost:8080/api/apply/submit-with-cv', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                body: formData
+            });
+
+            if (response.ok) {
+                const msg = await response.text();
+                alert("Success: " + msg);
+                const modal = bootstrap.Modal.getInstance(document.getElementById('applyModal'));
+                modal.hide();
+                e.target.reset();
+            } else {
+                const errorMsg = await response.text();
+                alert("Submission failed: " + errorMsg);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Server connection failed!");
+        } finally {
+            // බටන් එක ආයේ reset කරන එක මෙතන කරන්න ඕනේ
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="bi bi-cloud-upload me-2"></i>Submit Application';
+            }
+        }
     });
 </script>
 </body>

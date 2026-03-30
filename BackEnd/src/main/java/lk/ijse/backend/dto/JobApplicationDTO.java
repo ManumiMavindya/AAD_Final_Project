@@ -15,6 +15,7 @@ public class JobApplicationDTO {
     private Long userId;
     private LocalDate applicationDate;
     private String status;
+    private String contactNo;
     private String cvPath; // add CV
 
 }
