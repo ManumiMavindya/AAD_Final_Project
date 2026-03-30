@@ -124,12 +124,12 @@
                 <li class="nav-item"><a class="nav-link fw-medium" href="jobs.html">Find Jobs</a></li>
                 <li class="nav-item mx-2 text-muted">|</li>
                 <li class="nav-item">
-                    <a class="nav-link fw-bold text-dark" href="profile.html">
-                        <i class="bi bi-person-circle me-1"></i> My Profile
+                    <a class="nav-link fw-bold text-dark" href="#" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                        <i class="bi bi-pencil-square me-1"></i> Edit Profile
                     </a>
                 </li>
                 <li class="nav-item ms-lg-3">
-                    <button class="btn btn-outline-danger btn-sm fw-bold px-3">Sign Out</button>
+                    <button class="btn btn-outline-danger btn-sm fw-bold px-3" onclick="logout()">Sign Out</button>
                 </li>
             </ul>
         </div>
@@ -225,6 +225,33 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 20px; border: none;">
+            <div class="modal-header border-0 pt-4 px-4">
+                <h5 class="fw-bold">Update Profile Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body px-4">
+                <form id="updateProfileForm">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted">Full Name</label>
+                        <input type="text" class="form-control shadow-sm" id="editName" style="border-radius: 10px;">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted">Email Address</label>
+                        <input type="email" class="form-control shadow-sm" id="editEmail" style="border-radius: 10px;" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted">Contact Number</label>
+                        <input type="text" class="form-control shadow-sm" id="editContact" style="border-radius: 10px;">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 fw-bold py-2 mt-3 shadow-sm" style="border-radius: 12px;">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -232,25 +259,28 @@
     const TOKEN = localStorage.getItem('token');
 
     document.addEventListener('DOMContentLoaded', () => {
-
-        // 1. LocalStorage එකෙන් User ගේ නම ගන්න (ඔයා login එකේදී 'userName' ලෙස save කරනවා නම්)
-        const USER_NAME = localStorage.getItem('userName');
-
-        // 2. නම තියෙනවා නම් විතරක් display එකේ පෙන්නන්න
-        if (USER_NAME) {
-            document.getElementById('displayUserName').textContent = USER_NAME;
-        }
-
+        // 1. Login වී නැත්නම් redirect කිරීම
         if (!USER_ID) {
             window.location.href = 'login.html';
             return;
         }
+
+        // 2. Welcome section එකට නම පෙන්වීම
+        const USER_NAME = localStorage.getItem('userName');
+        if (USER_NAME && document.getElementById('displayUserName')) {
+            document.getElementById('displayUserName').textContent = USER_NAME;
+        }
+
+        // 3. Dashboard Data load කිරීම
         loadDashboardData();
+
+        // 4. Modal එකට අදාළ Event Listeners (Profile Update)
+        setupProfileUpdate();
     });
 
     async function loadDashboardData() {
         try {
-            // A. Applications Fetch කිරීම (ඔයාගේ Controller එකේ @GetMapping("/user/{userId}") තියෙනවා කියලා හිතනවා)
+            // A. Applications Fetch කිරීම
             const appResponse = await fetch(`http://localhost:8080/api/apply/user/${USER_ID}`, {
                 headers: {
                     'Authorization': 'Bearer ' + TOKEN,
@@ -259,7 +289,7 @@
             });
             const applications = await appResponse.json();
 
-            // B. Saved Jobs (LocalStorage එකෙන් ගන්නා IDs)
+            // B. Saved Jobs (LocalStorage එකෙන්)
             const savedJobIds = JSON.parse(localStorage.getItem('savedJobs')) || [];
 
             updateStats(applications, savedJobIds);
@@ -271,20 +301,20 @@
         }
     }
 
+    // Stats පෙන්වන Logic එක
     function updateStats(apps, saved) {
-        // HTML එකේ id="totalApps" වැනි tags ඇති බව තහවුරු කරගන්න
         if(document.getElementById('totalApps'))
             document.getElementById('totalApps').textContent = apps.length.toString().padStart(2, '0');
 
         if(document.getElementById('totalSaved'))
             document.getElementById('totalSaved').textContent = saved.length.toString().padStart(2, '0');
 
-        // ඔයාගේ Backend එකෙන් එන status එක "SHORTLISTED" ද බලන්න (Uppercase)
-        const interviews = apps.filter(a => a.status === 'SHORTLISTED').length;
+        const interviews = apps.filter(a => a.status === 'SHORTLISTED' || a.status === 'INTERVIEW').length;
         if(document.getElementById('totalInterviews'))
             document.getElementById('totalInterviews').textContent = interviews.toString().padStart(2, '0');
     }
 
+    // Applications List එක පෙන්වීම
     function renderApplications(apps) {
         const container = document.getElementById('applicationsList');
         if (!container) return;
@@ -297,9 +327,7 @@
         container.innerHTML = apps.map(app => `
             <div class="dashboard-card p-3 d-flex align-items-center justify-content-between shadow-sm">
                 <div class="d-flex align-items-center">
-                    <div class="company-logo-box me-3">
-                        <i class="bi bi-building"></i>
-                    </div>
+                    <div class="company-logo-box me-3"><i class="bi bi-building"></i></div>
                     <div>
                         <h6 class="fw-bold mb-0">${app.jobTitle}</h6>
                         <small class="text-muted fw-medium d-block">${app.companyName}</small>
@@ -313,6 +341,7 @@
         `).join('');
     }
 
+    // Saved Jobs List එක පෙන්වීම
     async function renderSavedJobs(ids) {
         const container = document.getElementById('savedJobsList');
         if (!container) return;
@@ -328,7 +357,7 @@
             const savedJobs = allJobs.filter(j => ids.includes(j.id.toString()));
 
             container.innerHTML = savedJobs.map(job => `
-                <div class="dashboard-card p-3 shadow-sm">
+                <div class="dashboard-card p-3 shadow-sm mb-3">
                     <div class="d-flex align-items-center mb-3">
                         <div class="company-logo-box me-3" style="width: 40px; height: 40px; font-size: 1.2rem;">
                             <i class="bi bi-building text-warning"></i>
@@ -346,9 +375,59 @@
         }
     }
 
+    // Profile Update කරන Functionality එක Setup කිරීම
+    function setupProfileUpdate() {
+        const modalElement = document.getElementById('editProfileModal');
+        const formElement = document.getElementById('updateProfileForm');
+
+        if (modalElement) {
+            // Modal එක පෙන්වන විට දැනට තියෙන Data පුරවන්න
+            modalElement.addEventListener('show.bs.modal', () => {
+                document.getElementById('editName').value = localStorage.getItem('userName') || "";
+                document.getElementById('editEmail').value = localStorage.getItem('userEmail') || "";
+                document.getElementById('editContact').value = localStorage.getItem('userContact') || "";
+            });
+        }
+
+        if (formElement) {
+            formElement.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const updatedData = {
+                    name: document.getElementById('editName').value,
+                    contactNo: document.getElementById('editContact').value
+                };
+
+                try {
+                    const response = await fetch(`http://localhost:8080/api/users/update/${USER_ID}`, {
+                        method: 'PUT', // ඔයාගේ backend එකේ @PutMapping නම් PUT දාන්න
+                        headers: {
+                            'Authorization': 'Bearer ' + TOKEN,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(updatedData)
+                    });
+
+                    if (response.ok) {
+                        alert("Profile updated successfully! ✅");
+                        localStorage.setItem('userName', updatedData.name);
+                        localStorage.setItem('userContact', updatedData.contactNo);
+                        location.reload();
+                    } else {
+                        alert("Update failed. Please check your connection.");
+                    }
+                } catch (err) {
+                    console.error("Update Error:", err);
+                    alert("Something went wrong!");
+                }
+            });
+        }
+    }
+
     function logout() {
-        localStorage.clear(); // ඔක්කොම clear කරන එක ආරක්ෂිතයි
+        localStorage.clear();
         window.location.href = 'login.html';
     }
-</script></body>
+</script>
+</body>
 </html>
