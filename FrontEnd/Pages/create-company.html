@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <style>
         body { background-color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; color: #334155; }
@@ -205,7 +207,6 @@
         document.getElementById('dispDesc').textContent = data.description;
         document.getElementById('dispWeb').href = data.website;
         document.getElementById('dispWeb').textContent = data.website;
-        // Backend එකේ uploads/logos කියන folder එකට මැච් වෙන්න URL එක
         document.getElementById('dispLogo').src = `http://localhost:8080/uploads/logos/${data.logoUrl}`;
     }
 
@@ -237,15 +238,18 @@
             description: document.getElementById('compDescription').value
         };
 
-        // Backend එකේ @RequestPart("company") නමට සමාන විය යුතුයි
         formData.append('company', new Blob([JSON.stringify(companyData)], { type: 'application/json' }));
 
-        // Backend එකේ @RequestPart("logo") නමට සමාන විය යුතුයි
         const logoFile = document.getElementById('logoFile').files[0];
         if (logoFile) {
             formData.append('logo', logoFile);
         } else {
-            Swal.fire('Wait!', 'Please upload a company logo.', 'warning');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Logo Required',
+                text: 'Please upload a company logo to continue.',
+                confirmButtonColor: '#0d6efd'
+            });
             return;
         }
 
@@ -254,23 +258,32 @@
         btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Saving...';
 
         try {
-            // Backend එකේ අපි හැදුව අලුත් endpoint එක: /api/company/setup
             const response = await fetch('http://localhost:8080/api/company/add', {
                 method: 'POST',
                 headers: { 'Authorization': 'Bearer ' + token },
-                body: formData // Content-Type header එක මෙතනදී දාන්න එපා (Browser එක auto හදාගන්නවා)
+                body: formData
             });
 
             if (response.ok) {
-                // Swal.fire({ icon: 'success', title: 'Success!', text: 'Profile saved successfully.' });
-                return alert("success")
-                window.location.href = 'post-job.html';
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Profile Saved!',
+                    text: 'Your company profile has been updated successfully. 🏢',
+                    confirmButtonColor: '#0d6efd'
+                }).then(() => {
+                    window.location.href = 'post-job.html';
+                });
             } else {
                 const errorMsg = await response.text();
-                throw new Error(errorMsg || "Failed to save");
+                throw new Error(errorMsg || "Failed to save profile");
             }
         } catch (error) {
-            Swal.fire({ icon: 'error', title: 'Error', text: error.message });
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error.message,
+                confirmButtonColor: '#d33'
+            });
         } finally {
             btn.disabled = false;
             btn.innerHTML = 'Save Profile';
@@ -283,9 +296,20 @@
     }
 
     function logout() {
-        localStorage.clear();
-        window.location.href = 'login.html';
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You will be logged out of your account!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Yes, Log Out'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.clear();
+                window.location.href = 'login.html';
+            }
+        });
     }
-</script>
-</body>
+</script></body>
 </html>

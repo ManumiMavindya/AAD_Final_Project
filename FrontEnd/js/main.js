@@ -189,20 +189,28 @@ function toggleSaveJob(btn) {
     const icon = btn.querySelector('i');
     const isSaved = btn.classList.contains('saved');
 
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true
+    });
+
     if (isSaved) {
         btn.classList.remove('saved');
         icon.classList.remove('bi-bookmark-fill');
         icon.classList.add('bi-bookmark');
         btn.title = 'Save Job';
         removeFromSavedJobs(jobId);
-        showToast('Job removed from saved jobs', 'info');
+        Toast.fire({ icon: 'info', title: 'Removed from saved jobs' });
     } else {
         btn.classList.add('saved');
         icon.classList.remove('bi-bookmark');
         icon.classList.add('bi-bookmark-fill');
         btn.title = 'Unsave Job';
         addToSavedJobs(jobId);
-        showToast('Job saved successfully!', 'success');
+        Toast.fire({ icon: 'success', title: 'Job saved successfully!' });
     }
 }
 
@@ -265,16 +273,15 @@ function handleResumeUpload(file) {
     const maxSize = 5 * 1024 * 1024; // 5MB
 
     if (!allowedTypes.includes(file.type)) {
-        showToast('Please upload a PDF or Word document', 'error');
+        Swal.fire({ icon: 'error', title: 'Invalid File', text: 'Please upload a PDF or Word document' });
         return;
     }
 
     if (file.size > maxSize) {
-        showToast('File size must be less than 5MB', 'error');
+        Swal.fire({ icon: 'error', title: 'File Too Large', text: 'File size must be less than 5MB' });
         return;
     }
 
-    // Show uploaded file info
     const uploadArea = document.querySelector('.resume-upload-area');
     if (uploadArea) {
         uploadArea.innerHTML = `
@@ -287,7 +294,7 @@ function handleResumeUpload(file) {
         `;
     }
 
-    showToast('Resume uploaded successfully!', 'success');
+    Swal.fire({ icon: 'success', title: 'Uploaded!', text: 'Resume uploaded successfully!', timer: 2000, showConfirmButton: false });
 }
 
 function resetResumeUpload() {
@@ -323,54 +330,6 @@ function initFormValidation() {
             form.classList.add('was-validated');
         });
     });
-
-    // Password strength indicator
-    const passwordInput = document.getElementById('password');
-    const strengthIndicator = document.getElementById('passwordStrength');
-
-    if (passwordInput && strengthIndicator) {
-        passwordInput.addEventListener('input', function() {
-            const strength = calculatePasswordStrength(this.value);
-            updatePasswordStrengthUI(strength, strengthIndicator);
-        });
-    }
-
-    // Confirm password validation
-    const confirmPassword = document.getElementById('confirmPassword');
-    if (passwordInput && confirmPassword) {
-        confirmPassword.addEventListener('input', function() {
-            if (this.value !== passwordInput.value) {
-                this.setCustomValidity('Passwords do not match');
-            } else {
-                this.setCustomValidity('');
-            }
-        });
-    }
-}
-
-function calculatePasswordStrength(password) {
-    let strength = 0;
-
-    if (password.length >= 8) strength++;
-    if (password.length >= 12) strength++;
-    if (/[a-z]/.test(password)) strength++;
-    if (/[A-Z]/.test(password)) strength++;
-    if (/[0-9]/.test(password)) strength++;
-    if (/[^a-zA-Z0-9]/.test(password)) strength++;
-
-    return Math.min(strength, 4);
-}
-
-function updatePasswordStrengthUI(strength, indicator) {
-    const levels = ['Very Weak', 'Weak', 'Fair', 'Strong', 'Very Strong'];
-    const colors = ['#ef4444', '#f59e0b', '#fbbf24', '#22c55e', '#16a34a'];
-
-    indicator.innerHTML = `
-        <div class="progress-bar-custom mt-2">
-            <div class="progress-fill" style="width: ${(strength / 4) * 100}%; background-color: ${colors[strength]}"></div>
-        </div>
-        <small class="text-muted">${levels[strength]}</small>
-    `;
 }
 
 // Search Suggestions
@@ -380,21 +339,13 @@ function initSearchSuggestions() {
 
     if (searchInput && suggestionsContainer) {
         const suggestions = [
-            'Software Engineer',
-            'Product Manager',
-            'UX Designer',
-            'Data Analyst',
-            'Marketing Manager',
-            'Sales Representative',
-            'Project Manager',
-            'DevOps Engineer',
-            'Frontend Developer',
-            'Backend Developer'
+            'Software Engineer', 'Product Manager', 'UX Designer', 'Data Analyst',
+            'Marketing Manager', 'Sales Representative', 'Project Manager',
+            'DevOps Engineer', 'Frontend Developer', 'Backend Developer'
         ];
 
         searchInput.addEventListener('input', function() {
             const value = this.value.toLowerCase();
-
             if (value.length < 2) {
                 suggestionsContainer.innerHTML = '';
                 suggestionsContainer.style.display = 'none';
@@ -402,7 +353,6 @@ function initSearchSuggestions() {
             }
 
             const matches = suggestions.filter(s => s.toLowerCase().includes(value));
-
             if (matches.length > 0) {
                 suggestionsContainer.innerHTML = matches.map(match => `
                     <a href="#" class="list-group-item list-group-item-action" onclick="selectSuggestion('${match}'); return false;">
@@ -415,7 +365,6 @@ function initSearchSuggestions() {
             }
         });
 
-        // Hide suggestions when clicking outside
         document.addEventListener('click', function(e) {
             if (!searchInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
                 suggestionsContainer.style.display = 'none';
@@ -427,68 +376,30 @@ function initSearchSuggestions() {
 function selectSuggestion(value) {
     const searchInput = document.getElementById('jobSearch');
     const suggestionsContainer = document.getElementById('searchSuggestions');
-
     if (searchInput) searchInput.value = value;
     if (suggestionsContainer) suggestionsContainer.style.display = 'none';
 }
 
-// Toast Notifications
+// Toast Notifications (Integrated with SweetAlert2)
 function showToast(message, type = 'info') {
-    const toastContainer = document.getElementById('toastContainer') || createToastContainer();
-
-    const toastId = 'toast-' + Date.now();
-    const iconMap = {
-        success: 'bi-check-circle-fill text-success',
-        error: 'bi-exclamation-circle-fill text-danger',
-        warning: 'bi-exclamation-triangle-fill text-warning',
-        info: 'bi-info-circle-fill text-primary'
-    };
-
-    const toast = document.createElement('div');
-    toast.id = toastId;
-    toast.className = 'toast show fade-in';
-    toast.setAttribute('role', 'alert');
-    toast.innerHTML = `
-        <div class="toast-header">
-            <i class="bi ${iconMap[type]} me-2"></i>
-            <strong class="me-auto">${type.charAt(0).toUpperCase() + type.slice(1)}</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-        </div>
-        <div class="toast-body">${message}</div>
-    `;
-
-    toastContainer.appendChild(toast);
-
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-        toast.remove();
-    }, 5000);
-
-    // Close button functionality
-    toast.querySelector('.btn-close').addEventListener('click', () => {
-        toast.remove();
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'bottom-end',
+        showConfirmButton: false,
+        timer: 4000,
+        timerProgressBar: true
     });
-}
 
-function createToastContainer() {
-    const container = document.createElement('div');
-    container.id = 'toastContainer';
-    container.className = 'toast-container position-fixed bottom-0 end-0 p-3';
-    container.style.zIndex = '1100';
-    document.body.appendChild(container);
-    return container;
+    Toast.fire({ icon: type, title: message });
 }
 
 // Initialize Notifications
 function initNotifications() {
     const notificationBtns = document.querySelectorAll('.notification-btn');
-
     notificationBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             const badge = this.querySelector('.badge');
-            if (badge) {
-                badge.style.display = 'none';
-            }
+            if (badge) badge.style.display = 'none';
         });
     });
 }
@@ -497,10 +408,7 @@ function initNotifications() {
 function openApplyModal(jobId, jobTitle) {
     const modal = document.getElementById('applyModal');
     const jobTitleElement = modal.querySelector('#applyJobTitle');
-
-    if (jobTitleElement) {
-        jobTitleElement.textContent = jobTitle;
-    }
+    if (jobTitleElement) jobTitleElement.textContent = jobTitle;
 
     const bsModal = new bootstrap.Modal(modal);
     bsModal.show();
@@ -509,39 +417,44 @@ function openApplyModal(jobId, jobTitle) {
 function submitApplication(e) {
     e.preventDefault();
 
-    // Simulate application submission
-    showToast('Application submitted successfully!', 'success');
+    Swal.fire({
+        title: 'Submitting...',
+        text: 'Please wait while we process your application.',
+        allowOutsideClick: false,
+        didOpen: () => { Swal.showLoading(); }
+    });
 
-    const modal = bootstrap.Modal.getInstance(document.getElementById('applyModal'));
-    if (modal) {
-        modal.hide();
-    }
-
-    // Reset form
-    e.target.reset();
-    resetResumeUpload();
+    setTimeout(() => {
+        Swal.fire({ icon: 'success', title: 'Success!', text: 'Application submitted successfully!', confirmButtonColor: '#0d6efd' });
+        const modal = bootstrap.Modal.getInstance(document.getElementById('applyModal'));
+        if (modal) modal.hide();
+        e.target.reset();
+        resetResumeUpload();
+    }, 1500);
 }
 
-// Status Update (for employer/admin dashboards)
+// Status Update
 function updateApplicationStatus(applicationId, newStatus) {
-    // Simulate status update
-    showToast(`Application status updated to ${newStatus}`, 'success');
-
-    // Update UI
-    const statusBadge = document.querySelector(`[data-application-id="${applicationId}"] .status-badge`);
-    if (statusBadge) {
-        statusBadge.className = `status-badge ${newStatus.toLowerCase()}`;
-        statusBadge.textContent = newStatus;
-    }
+    Swal.fire({
+        title: 'Update Status?',
+        text: `Are you sure you want to mark this as ${newStatus}?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#0d6efd',
+        confirmButtonText: 'Yes, update'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            showToast(`Status updated to ${newStatus}`, 'success');
+            const statusBadge = document.querySelector(`[data-application-id="${applicationId}"] .status-badge`);
+            if (statusBadge) {
+                statusBadge.className = `status-badge ${newStatus.toLowerCase()}`;
+                statusBadge.textContent = newStatus;
+            }
+        }
+    });
 }
 
-// Charts initialization (for dashboards)
-function initCharts() {
-    // This is a placeholder for chart initialization
-    // In a real implementation, you would use a charting library like Chart.js
-}
-
-// Export functions for use in other files
+// Export functions
 window.JobHub = {
     showToast,
     openApplyModal,

@@ -2,7 +2,7 @@ let currentCompanyId = null;
 
 async function getCompanyId() {
     const token = localStorage.getItem('token');
-    const userId = localStorage.getItem('userId'); // userId එක ගන්නවා
+    const userId = localStorage.getItem('userId');
 
     if (!userId || userId === "undefined") {
         console.error("User ID found as undefined. Please login again.");
@@ -10,7 +10,6 @@ async function getCompanyId() {
     }
 
     try {
-        // userId එක පාවිච්චි කරලා Company එක ඉල්ලනවා
         const response = await fetch(`http://localhost:8080/api/company/user/${userId}`, {
             headers: {
                 'Authorization': 'Bearer ' + token,
@@ -32,19 +31,19 @@ async function getCompanyId() {
 
 document.addEventListener('DOMContentLoaded', getCompanyId);
 
-// Submit logic එක ඔයාගේ විදිහටම තියන්න...
-
-// පිටුව load වුණු ගමන් ID එක ගන්න
-document.addEventListener('DOMContentLoaded', getCompanyId);
-
 document.getElementById('postJobForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
     const token = localStorage.getItem('token');
 
-    // currentCompanyId එක තාම ලැබිලා නැත්නම් error එකක් පෙන්වන්න
+    // currentCompanyId එක තාම ලැබිලා නැත්නම් SweetAlert එකක් පෙන්වන්න
     if (!currentCompanyId) {
-        alert("Please set up your company profile first!");
+        Swal.fire({
+            icon: 'warning',
+            title: 'Profile Incomplete',
+            text: 'Please set up your company profile first!',
+            confirmButtonColor: '#0d6efd'
+        });
         return;
     }
 
@@ -57,9 +56,18 @@ document.getElementById('postJobForm').addEventListener('submit', function(e) {
         location: document.getElementById('location').value,
         salary: document.getElementById('salary').value,
         description: document.getElementById('description').value,
-        // මෙන්න මේක තමයි වැදගත්ම දේ
         companyId: currentCompanyId
     };
+
+    // Loading Alert එකක් පෙන්වනවා Publish වෙනකල්
+    Swal.fire({
+        title: 'Publishing Job...',
+        text: 'Please wait a moment.',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
 
     fetch('http://localhost:8080/api/jobs/add', {
         method: 'POST',
@@ -71,11 +79,30 @@ document.getElementById('postJobForm').addEventListener('submit', function(e) {
     })
         .then(response => {
             if (response.ok) {
-                alert('Job published successfully! 🚀');
-                window.location.href = 'employer-dashboard.html';
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Job published successfully! 🚀',
+                    confirmButtonColor: '#0d6efd'
+                }).then(() => {
+                    window.location.href = 'employer-dashboard.html';
+                });
             } else {
-                alert('Failed to publish job. Check your connection or login again.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Publish Failed',
+                    text: 'Failed to publish job. Check your connection or login again.',
+                    confirmButtonColor: '#d33'
+                });
             }
         })
-        .catch(err => console.error("Error:", err));
+        .catch(err => {
+            console.error("Error:", err);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Something went wrong. Please try again later.',
+                confirmButtonColor: '#d33'
+            });
+        });
 });

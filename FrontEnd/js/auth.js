@@ -27,15 +27,31 @@ document.addEventListener('DOMContentLoaded', () => {
             })
                 .then(response => {
                     if (response.ok) {
-                        alert('Registration Successful! Please login.');
-                        window.location.href = 'login.html';
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Registration Successful!',
+                            text: 'Please login to continue.',
+                            confirmButtonColor: '#0d6efd'
+                        }).then(() => {
+                            window.location.href = 'login.html';
+                        });
                     } else {
-                        alert('Registration failed. Email might already exist.');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Registration Failed',
+                            text: 'Email might already exist. Please try another.',
+                            confirmButtonColor: '#d33'
+                        });
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Server error. Please try again later.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Server Error',
+                        text: 'Please try again later.',
+                        confirmButtonColor: '#d33'
+                    });
                 });
         });
     }
@@ -49,6 +65,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
+            // පටන් ගද්දීම loading එකක් පෙන්නමු
+            Swal.fire({
+                title: 'Signing in...',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
             fetch('http://localhost:8080/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -59,8 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     else throw new Error('Invalid Credentials');
                 })
                 .then(data => {
-                    // 🛑 මේ කොටස තමයි වැදගත්ම!
-                    // Backend එකෙන් 'userId' කියලා ආවේ නැත්නම් 'id' කියලා හරි ගන්නවා.
                     const finalUserId = data.userId || data.id;
 
                     localStorage.setItem('token', data.token);
@@ -68,34 +89,44 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('userRole', data.role);
                     localStorage.setItem('userId', finalUserId);
 
-                    console.log("Login Successful! Data received:", data);
-                    console.log("Saved User ID:", finalUserId);
-
-                    alert('Welcome back, ' + data.name + '!');
-
-                    if (data.role === 'JOB_SEEKER') {
-                        window.location.href = 'seeker-dashboard.html';
-                    } else if (data.role === 'EMPLOYER') {
-                        // කෙලින්ම checkEmployerCompany එකට ID එක යවනවා
-                        checkEmployerCompany(finalUserId, data.token);
-                    } else {
-                        alert('Undefined Role!');
-                    }
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Welcome back!',
+                        text: 'Hello ' + data.name + ', redirecting...',
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        if (data.role === 'JOB_SEEKER') {
+                            window.location.href = 'seeker-dashboard.html';
+                        } else if (data.role === 'EMPLOYER') {
+                            checkEmployerCompany(finalUserId, data.token);
+                        } else {
+                            Swal.fire('Error', 'Undefined Role!', 'error');
+                        }
+                    });
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Login failed! Please check your email and password.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Login Failed',
+                        text: 'Invalid email or password!',
+                        confirmButtonColor: '#d33'
+                    });
                 });
         });
     }
 
-    // Employer ට Company එකක් තියෙනවද කියලා බලන Function එක
     function checkEmployerCompany(userId, token) {
-        // මෙතනදී userId එක 'undefined' ද කියලා තදින්ම පරීක්ෂා කරනවා
         if (!userId || userId === "undefined") {
-            console.error("Critical Error: userId is missing!");
-            alert("System error: User identification failed. Please login again.");
-            window.location.href = 'login.html';
+            Swal.fire({
+                icon: 'error',
+                title: 'System Error',
+                text: 'User identification failed. Please login again.',
+                confirmButtonColor: '#d33'
+            }).then(() => {
+                window.location.href = 'login.html';
+            });
             return;
         }
 
@@ -106,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (res.ok) {
                     window.location.href = 'employer-dashboard.html';
                 } else {
-                    // 404 ආවොත් කියන්නේ Company එකක් නැහැ කියන එක
                     window.location.href = 'create-company.html';
                 }
             })
@@ -120,6 +150,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // --- 3. LOGOUT FUNCTION ---
 function logout() {
-    localStorage.clear();
-    window.location.href = 'login.html';
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You will be signed out from your account!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#0d6efd',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Yes, Logout'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+    });
 }

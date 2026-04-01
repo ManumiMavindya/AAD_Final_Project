@@ -6,7 +6,9 @@
     <title>Saved Jobs - JobHub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="../css/style.css" rel="stylesheet">
+
 </head>
 <body>
 <div class="dashboard-wrapper">
@@ -283,13 +285,41 @@
 <script>
     function submitApplication(e) {
         e.preventDefault();
-        if (window.JobHub) {
-            window.JobHub.showToast('Application submitted successfully!', 'success');
-        }
-        const modal = bootstrap.Modal.getInstance(document.getElementById('applyModal'));
-        if (modal) modal.hide();
-        e.target.reset();
+
+        // 1. මුලින්ම පෙන්වන Loading Alert එක
+        Swal.fire({
+            title: 'Submitting...',
+            text: 'Please wait while we process your application.',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        // Backend එකට යන්න යන කාලය simulate කරන්න පොඩි delay එකක් (optional)
+        setTimeout(() => {
+            // 2. සාර්ථක වුණාම පෙන්වන Success Alert එක
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'Application submitted successfully! ✅',
+                confirmButtonColor: '#0d6efd',
+                timer: 2000,
+                showConfirmButton: false
+            }).then(() => {
+                // Modal එක වහනවා
+                const modal = bootstrap.Modal.getInstance(document.getElementById('applyModal'));
+                if (modal) modal.hide();
+
+                // Form එක reset කරනවා
+                e.target.reset();
+
+                // වෙනත් මොනවා හරි toast එකක් පෙන්වන්න ඕනේ නම් පරණ විදිහටම මෙතන තියෙනවා
+                if (window.JobHub) {
+                    // window.JobHub.showToast('Application sent!', 'success');
+                }
+            });
+        }, 1500);
     }
-</script>
-</body>
+</script></body>
 </html>

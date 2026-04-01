@@ -6,6 +6,8 @@
     <title>My Applications - JobHub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <style>
         body { background-color: #f4f7f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -117,58 +119,78 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // මෙතනට ඔයාගේ ඇත්තම User ID එක දෙන්න (පස්සේ මේක login එකෙන් ගන්න)
-        const userId = 1;
+        // LocalStorage එකෙන් ඇත්තම User ID එක ගන්නවා
+        const userId = localStorage.getItem('userId');
+        const token = localStorage.getItem('token');
         const container = document.getElementById('applications-container');
+
+        // පාවිච්චි කරන කෙනා Login වෙලා නැත්නම් login එකට යවනවා
+        if (!userId || userId === "undefined") {
+            window.location.href = 'login.html';
+            return;
+        }
 
         async function loadData() {
             try {
+                // Loader එකක් පෙන්වනවා දත්ත එනකල් (Optional but good)
+                container.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <div class="spinner-border text-primary" role="status"></div>
+                        <p class="mt-2 text-muted">Loading your applications...</p>
+                    </div>`;
+
                 // ඔයාගේ Backend API එක Call කරනවා
-                const response = await fetch(`http://localhost:8080/api/applications/user/${userId}`);
+                const response = await fetch(`http://localhost:8080/api/applications/user/${userId}`, {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+
+                if (!response.ok) throw new Error("Failed to fetch data");
+
                 const data = await response.json();
 
                 container.innerHTML = ''; // Loader එක අයින් කරනවා
 
                 if (data.length === 0) {
                     container.innerHTML = `
-                            <div class="col-12 text-center py-5">
-                                <i class="bi bi-inbox fs-1 text-muted"></i>
-                                <h4 class="mt-3 text-muted">No applications yet!</h4>
-                                <a href="jobs.html" class="btn btn-primary mt-2">Find your first job</a>
-                            </div>`;
+                        <div class="col-12 text-center py-5">
+                            <i class="bi bi-inbox fs-1 text-muted"></i>
+                            <h4 class="mt-3 text-muted">No applications yet!</h4>
+                            <p class="text-muted">You haven't applied for any jobs so far.</p>
+                            <a href="jobs.html" class="btn btn-primary mt-2 px-4 shadow-sm" style="border-radius: 10px;">Find your first job</a>
+                        </div>`;
                     return;
                 }
 
                 data.forEach(app => {
                     // Status එක අනුව පාට වෙනස් කරන Logic එක
-                    let statusClass = "bg-pending";
-                    if (app.status === 'SHORTLISTED') statusClass = "bg-shortlisted";
-                    if (app.status === 'REJECTED') statusClass = "bg-rejected";
+                    let statusClass = "bg-warning bg-opacity-10 text-warning"; // Default: Pending
+                    if (app.status === 'APPROVED' || app.status === 'SHORTLISTED') statusClass = "bg-success bg-opacity-10 text-success";
+                    if (app.status === 'REJECTED') statusClass = "bg-danger bg-opacity-10 text-danger";
 
                     const card = `
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card app-card shadow-sm h-100 p-3">
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card app-card shadow-sm h-100 p-3 border-0 rounded-4">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center mb-4">
-                                        <div class="company-icon me-3">
-                                            <i class="bi bi-building-check fs-3"></i>
+                                        <div class="company-icon me-3 bg-primary bg-opacity-10 rounded-3 p-3 d-flex align-items-center justify-content-center" style="width: 55px; height: 55px;">
+                                            <i class="bi bi-building-check fs-3 text-primary"></i>
                                         </div>
                                         <div>
                                             <h5 class="fw-bold mb-0">${app.jobTitle}</h5>
-                                            <p class="text-primary small mb-0">${app.companyName}</p>
+                                            <p class="text-primary small mb-0 fw-medium">${app.companyName}</p>
                                         </div>
                                     </div>
 
                                     <div class="d-flex justify-content-between text-muted small mb-3">
-                                        <span><i class="bi bi-calendar3 me-1"></i> ${app.applicationDate}</span>
-                                        <span><i class="bi bi-telephone me-1"></i> ${app.contactNo}</span>
+                                        <span><i class="bi bi-calendar3 me-1 text-primary"></i> ${app.applicationDate || 'Recent'}</span>
+                                        <span><i class="bi bi-telephone me-1 text-primary"></i> ${app.contactNo}</span>
                                     </div>
 
-                                    <hr class="text-light">
+                                    <hr class="opacity-25">
 
                                     <div class="d-flex justify-content-between align-items-center mt-3">
-                                        <span class="status-pill ${statusClass}">${app.status}</span>
-                                        <button class="btn btn-link btn-sm text-decoration-none p-0">View Details <i class="bi bi-arrow-right"></i></button>
+                                        <span class="badge ${statusClass} border-0 px-3 py-2" style="border-radius: 8px; font-size: 0.75rem;">${app.status}</span>
+                                        <button class="btn btn-link btn-sm text-decoration-none p-0 fw-bold">View Details <i class="bi bi-arrow-right"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -178,10 +200,20 @@
 
             } catch (error) {
                 console.error("API Error:", error);
+
+                // Error එකක් ආවොත් SweetAlert එකක් පෙන්වනවා
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Connection Error',
+                    text: 'Could not connect to the server. Please make sure your backend is running.',
+                    confirmButtonColor: '#d33'
+                });
+
                 container.innerHTML = `
-                        <div class="alert alert-danger w-100 text-center">
-                            <b>Connection Error:</b> Could not connect to the Spring Boot server. Make sure it's running on port 8080.
-                        </div>`;
+                    <div class="alert alert-danger w-100 text-center border-0 rounded-4 shadow-sm">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <b>Connection Error:</b> Could not connect to the Spring Boot server.
+                    </div>`;
             }
         }
 
