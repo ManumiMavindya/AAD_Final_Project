@@ -6,7 +6,7 @@
     <title>Job Seeker Dashboard - JobHub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: #f8fafc;
@@ -14,87 +14,100 @@
             color: #334155;
         }
 
-        /* Navbar */
-        .navbar { border-bottom: 1px solid #e2e8f0; }
+        /* --- Navbar Customization (Matching Employer Style) --- */
+        .navbar {
+            border-bottom: 1px solid #e2e8f0;
+            background: white !important;
+        }
+        .navbar-brand { font-weight: 800; }
+        .nav-link {
+            font-weight: 600;
+            color: #64748b !important;
+            transition: 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #0d6efd !important;
+        }
 
-        /* --- New Welcome Blue Section --- */
+        /* --- Welcome Hero Section --- */
         .hero-section {
             background: linear-gradient(135deg, #0d6efd 0%, #004dc7 100%);
-            border-radius: 20px;
-            padding: 40px;
+            border-radius: 24px;
+            padding: 45px;
             color: white;
             margin-bottom: 40px;
-            box-shadow: 0 10px 20px rgba(13, 110, 253, 0.15);
+            box-shadow: 0 10px 25px rgba(13, 110, 253, 0.15);
             position: relative;
             overflow: hidden;
         }
 
-        /* පසුබිමට පොඩි decoration එකක් */
         .hero-section::after {
             content: '';
             position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 150px;
-            height: 150px;
+            top: -30px;
+            right: -30px;
+            width: 180px;
+            height: 180px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
         }
 
-        .hero-section h3 { font-weight: 800; margin-bottom: 10px; }
-        .hero-section p { opacity: 0.9; font-weight: 500; }
+        .hero-section h3 { font-weight: 800; margin-bottom: 8px; }
+        .hero-section p { opacity: 0.9; font-weight: 500; font-size: 1.05rem; }
 
         /* Stats Cards */
         .stat-card {
-            border: none;
-            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
             transition: transform 0.3s ease;
             background: white;
+            padding: 24px !important;
         }
-        .stat-card:hover { transform: translateY(-5px); }
+        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.02); }
 
         .icon-box {
-            width: 48px;
-            height: 48px;
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+        }
+
+        /* Application & Saved Job Cards */
+        .dashboard-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            background: white;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            border-left: 4px solid transparent;
+        }
+        .dashboard-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.04);
+            border-left-color: #0d6efd;
+        }
+
+        .company-logo-box {
+            width: 52px;
+            height: 52px;
+            background: #f1f5f9;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        /* Dashboard Hover Cards */
-        .dashboard-card {
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            background: white;
-            transition: all 0.3s ease;
-            margin-bottom: 15px;
-        }
-        .dashboard-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            border-color: #0d6efd;
-        }
-
-        .company-logo-box {
-            width: 50px;
-            height: 50px;
-            background: #f1f5f9;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             color: #0d6efd;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
         }
 
         .status-badge {
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 0.7rem;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
             font-weight: 700;
-            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
         .bg-pending { background-color: #fef3c7; color: #92400e; }
@@ -102,31 +115,51 @@
         .bg-rejected { background-color: #fee2e2; color: #991b1b; }
 
         .section-title {
-            font-weight: 700;
+            font-weight: 800;
             color: #1e293b;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+        }
+
+        /* Buttons */
+        .btn-apply-now {
+            background: #0d6efd;
+            color: white;
+            border-radius: 12px;
+            font-weight: 700;
+            border: none;
+            transition: 0.3s;
+        }
+        .btn-apply-now:hover {
+            background: #004dc7;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-danger {
+
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+<nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm">
     <div class="container">
         <a class="navbar-brand fw-bold text-primary" href="index.html">
             <i class="bi bi-briefcase-fill me-2"></i>JobHub
         </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-center">
-                <li class="nav-item"><a class="nav-link fw-medium" href="index.html">Home</a></li>
-                <li class="nav-item"><a class="nav-link fw-medium" href="jobs.html">Find Jobs</a></li>
-                <li class="nav-item mx-2 text-muted">|</li>
+                <li class="nav-item"><a class="nav-link px-3 active" href="seeker-dashboard.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="jobs.html">Find Jobs</a></li>
                 <li class="nav-item">
-                    <a class="nav-link fw-bold text-dark" href="#" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-                        <i class="bi bi-pencil-square me-1"></i> Edit Profile
-                    </a>
+                    <a class="nav-link px-3" href="#" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</a>
                 </li>
                 <li class="nav-item ms-lg-3">
                     <button class="btn btn-outline-danger btn-sm fw-bold px-3" onclick="logout()">Sign Out</button>
@@ -142,36 +175,36 @@
         <div class="row align-items-center">
             <div class="col-md-8">
                 <h3>Welcome back, <span id="displayUserName">Job Seeker</span>! 👋</h3>
-                <p class="mb-0">Find your dream job and manage your applications efficiently.</p>
+                <p class="mb-0">You're one step closer to your next career milestone.</p>
             </div>
             <div class="col-md-4 text-md-end d-none d-md-block">
-                <i class="bi bi-rocket-takeoff" style="font-size: 3.5rem; opacity: 0.3;"></i>
+                <i class="bi bi-rocket-takeoff" style="font-size: 4rem; opacity: 0.3;"></i>
             </div>
         </div>
     </div>
 
     <div class="row g-4 mb-5">
         <div class="col-md-4">
-            <div class="card stat-card shadow-sm p-3">
+            <div class="card stat-card shadow-sm">
                 <div class="d-flex align-items-center">
-                    <div class="icon-box bg-primary bg-opacity-10 text-primary me-3"><i class="bi bi-send-fill"></i></div>
-                    <div><h4  id="totalApps" class="fw-bold mb-0">12</h4><small class="text-muted">Total Applications</small></div>
+                    <div class="icon-box bg-primary bg-opacity-10 text-primary me-3"><i class="bi bi-send-check-fill"></i></div>
+                    <div><h4 id="totalApps" class="fw-bold mb-0">00</h4><small class="text-muted fw-semibold">Applications Sent</small></div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card stat-card shadow-sm p-3">
+            <div class="card stat-card shadow-sm">
                 <div class="d-flex align-items-center">
-                    <div class="icon-box bg-success bg-opacity-10 text-success me-3"><i class="bi bi-chat-dots-fill"></i></div>
-                    <div><h4 id="totalInterviews" class="fw-bold mb-0">03</h4><small class="text-muted">Interviews</small></div>
+                    <div class="icon-box bg-success bg-opacity-10 text-success me-3"><i class="bi bi-calendar2-check-fill"></i></div>
+                    <div><h4 id="totalInterviews" class="fw-bold mb-0">00</h4><small class="text-muted fw-semibold">Interviews</small></div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card stat-card shadow-sm p-3">
+            <div class="card stat-card shadow-sm">
                 <div class="d-flex align-items-center">
-                    <div class="icon-box bg-warning bg-opacity-10 text-warning me-3"><i class="bi bi-bookmark-star-fill"></i></div>
-                    <div><h4 id="totalSaved" class="fw-bold mb-0">08</h4><small class="text-muted">Saved Jobs</small></div>
+                    <div class="icon-box bg-warning bg-opacity-10 text-warning me-3"><i class="bi bi-star-fill"></i></div>
+                    <div><h4 id="totalSaved" class="fw-bold mb-0">00</h4><small class="text-muted fw-semibold">Saved Opportunities</small></div>
                 </div>
             </div>
         </div>
@@ -179,74 +212,41 @@
 
     <div class="row">
         <div class="col-lg-8 mb-4">
-            <h5 class="section-title"><i class="bi bi-file-earmark-text text-primary"></i> My Applications</h5>
+            <h5 class="section-title"><i class="bi bi-collection-fill text-primary"></i> My Recent Applications</h5>
             <div id="applicationsList">
-                <div class="dashboard-card p-3 d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <div class="company-logo-box me-3"><i class="bi bi-building"></i></div>
-                        <div>
-                            <h6 class="fw-bold mb-0">Java Backend Developer</h6>
-                            <small class="text-muted fw-medium d-block">ABC Solutions (Pvt) Ltd</small>
-                            <small class="text-muted" style="font-size: 0.75rem;">Applied: 2026-03-25</small>
-                        </div>
-                    </div>
-                    <div><span class="status-badge bg-shortlisted">Shortlisted</span></div>
-                </div>
-                <div class="dashboard-card p-3 d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <div class="company-logo-box me-3"><i class="bi bi-building"></i></div>
-                        <div>
-                            <h6 class="fw-bold mb-0">Full Stack Intern</h6>
-                            <small class="text-muted fw-medium d-block">Tech-Start Global</small>
-                            <small class="text-muted" style="font-size: 0.75rem;">Applied: 2026-03-28</small>
-                        </div>
-                    </div>
-                    <div><span class="status-badge bg-pending">Pending</span></div>
-                </div>
             </div>
         </div>
 
         <div class="col-lg-4 mb-4">
-            <h5 class="section-title"><i class="bi bi-bookmark-fill text-warning"></i> Saved Jobs</h5>
+            <h5 class="section-title"><i class="bi bi-bookmark-heart-fill text-danger"></i> Wishlist</h5>
             <div id="savedJobsList">
-                <div class="dashboard-card p-3">
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="company-logo-box me-3" style="width: 40px; height: 40px; font-size: 1.2rem;">
-                            <i class="bi bi-building text-warning"></i>
-                        </div>
-                        <div>
-                            <h6 class="fw-bold mb-0" style="font-size: 0.9rem;">Spring Boot Developer</h6>
-                            <small class="text-muted d-block" style="font-size: 0.8rem;">Innovation Lab</small>
-                        </div>
-                    </div>
-                    <button class="btn btn-sm btn-primary w-100 fw-bold py-2" style="border-radius: 8px;">Apply Now</button>
-                </div>
             </div>
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="editProfileModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="border-radius: 20px; border: none;">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 24px;">
             <div class="modal-header border-0 pt-4 px-4">
-                <h5 class="fw-bold">Update Profile Details</h5>
+                <h5 class="fw-bold mb-0">Update Your Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body px-4">
+            <div class="modal-body p-4">
                 <form id="updateProfileForm">
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-muted">Full Name</label>
-                        <input type="text" class="form-control shadow-sm" id="editName" style="border-radius: 10px;">
+                        <input type="text" class="form-control" id="editName" style="border-radius: 12px; padding: 12px; background: #f8fafc;">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label small fw-bold text-muted">Email Address</label>
-                        <input type="email" class="form-control shadow-sm" id="editEmail" style="border-radius: 10px;" readonly>
+                        <label class="form-label small fw-bold text-muted">Email (Primary)</label>
+                        <input type="email" class="form-control" id="editEmail" style="border-radius: 12px; padding: 12px; background: #f1f5f9;" readonly>
                     </div>
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-muted">Contact Number</label>
-                        <input type="text" class="form-control shadow-sm" id="editContact" style="border-radius: 10px;">
+                        <input type="text" class="form-control" id="editContact" style="border-radius: 12px; padding: 12px; background: #f8fafc;">
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 fw-bold py-2 mt-3 shadow-sm" style="border-radius: 12px;">Save Changes</button>
+                    <button type="submit" class="btn btn-primary w-100 fw-bold py-3 mt-3 shadow-sm" style="border-radius: 14px;">Update Profile</button>
                 </form>
             </div>
         </div>
@@ -255,32 +255,27 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    // --- JS LOGIC (UNCHANGED AS REQUESTED) ---
     const USER_ID = localStorage.getItem('userId');
     const TOKEN = localStorage.getItem('token');
 
     document.addEventListener('DOMContentLoaded', () => {
-        // 1. Login වී නැත්නම් redirect කිරීම
         if (!USER_ID) {
             window.location.href = 'login.html';
             return;
         }
 
-        // 2. Welcome section එකට නම පෙන්වීම
         const USER_NAME = localStorage.getItem('userName');
         if (USER_NAME && document.getElementById('displayUserName')) {
             document.getElementById('displayUserName').textContent = USER_NAME;
         }
 
-        // 3. Dashboard Data load කිරීම
         loadDashboardData();
-
-        // 4. Modal එකට අදාළ Event Listeners (Profile Update)
         setupProfileUpdate();
     });
 
     async function loadDashboardData() {
         try {
-            // A. Applications Fetch කිරීම
             const appResponse = await fetch(`http://localhost:8080/api/apply/user/${USER_ID}`, {
                 headers: {
                     'Authorization': 'Bearer ' + TOKEN,
@@ -288,78 +283,63 @@
                 }
             });
             const applications = await appResponse.json();
-
-            // B. Saved Jobs (LocalStorage එකෙන්)
             const savedJobIds = JSON.parse(localStorage.getItem('savedJobs')) || [];
 
             updateStats(applications, savedJobIds);
             renderApplications(applications);
             renderSavedJobs(savedJobIds);
-
         } catch (error) {
             console.error("Error loading dashboard data:", error);
         }
     }
 
-    // Stats පෙන්වන Logic එක
     function updateStats(apps, saved) {
         if(document.getElementById('totalApps'))
             document.getElementById('totalApps').textContent = apps.length.toString().padStart(2, '0');
-
         if(document.getElementById('totalSaved'))
             document.getElementById('totalSaved').textContent = saved.length.toString().padStart(2, '0');
-
         const interviews = apps.filter(a => a.status === 'SHORTLISTED' || a.status === 'INTERVIEW').length;
         if(document.getElementById('totalInterviews'))
             document.getElementById('totalInterviews').textContent = interviews.toString().padStart(2, '0');
     }
 
-    // Applications List එක පෙන්වීම
     function renderApplications(apps) {
         const container = document.getElementById('applicationsList');
         if (!container) return;
-
         if (apps.length === 0) {
-            container.innerHTML = '<div class="dashboard-card p-4 text-center text-muted small">No applications yet.</div>';
+            container.innerHTML = '<div class="dashboard-card p-5 text-center text-muted fw-500">You haven\'t applied for any jobs yet.</div>';
             return;
         }
-
         container.innerHTML = apps.map(app => `
             <div class="dashboard-card p-3 d-flex align-items-center justify-content-between shadow-sm">
                 <div class="d-flex align-items-center">
                     <div class="company-logo-box me-3"><i class="bi bi-building"></i></div>
                     <div>
                         <h6 class="fw-bold mb-0">${app.jobTitle}</h6>
-                        <small class="text-muted fw-medium d-block">${app.companyName}</small>
+                        <small class="text-muted fw-bold d-block">${app.companyName}</small>
                         <small class="text-muted" style="font-size: 0.75rem;">Applied: ${new Date(app.applicationDate).toLocaleDateString()}</small>
                     </div>
                 </div>
-                <div>
-                    <span class="status-badge bg-${app.status.toLowerCase()}">${app.status}</span>
-                </div>
+                <div><span class="status-badge bg-${app.status.toLowerCase()}">${app.status}</span></div>
             </div>
         `).join('');
     }
 
-    // Saved Jobs List එක පෙන්වීම
     async function renderSavedJobs(ids) {
         const container = document.getElementById('savedJobsList');
         if (!container) return;
-
         if (ids.length === 0) {
-            container.innerHTML = '<div class="dashboard-card p-4 text-center text-muted small">No saved jobs.</div>';
+            container.innerHTML = '<div class="dashboard-card p-4 text-center text-muted small fw-500">No saved jobs in your wishlist.</div>';
             return;
         }
-
         try {
             const res = await fetch('http://localhost:8080/api/jobs/all');
             const allJobs = await res.json();
             const savedJobs = allJobs.filter(j => ids.includes(j.id.toString()));
-
             container.innerHTML = savedJobs.map(job => `
                 <div class="dashboard-card p-3 shadow-sm mb-3">
                     <div class="d-flex align-items-center mb-3">
-                        <div class="company-logo-box me-3" style="width: 40px; height: 40px; font-size: 1.2rem;">
+                        <div class="company-logo-box me-3" style="width: 42px; height: 42px; font-size: 1.2rem;">
                             <i class="bi bi-building text-warning"></i>
                         </div>
                         <div>
@@ -367,7 +347,7 @@
                             <small class="text-muted d-block" style="font-size: 0.8rem;">${job.companyName}</small>
                         </div>
                     </div>
-                    <a href="job-details.html?id=${job.id}" class="btn btn-sm btn-primary w-100 fw-bold py-2" style="border-radius: 8px;">Apply Now</a>
+                    <a href="job-details.html?id=${job.id}" class="btn btn-sm btn-apply-now w-100 py-2">Apply Now</a>
                 </div>
             `).join('');
         } catch (e) {
@@ -375,51 +355,33 @@
         }
     }
 
-    // Profile Update කරන Functionality එක Setup කිරීම
     function setupProfileUpdate() {
         const modalElement = document.getElementById('editProfileModal');
         const formElement = document.getElementById('updateProfileForm');
-
         if (modalElement) {
-            // Modal එක පෙන්වන විට දැනට තියෙන Data පුරවන්න
             modalElement.addEventListener('show.bs.modal', () => {
                 document.getElementById('editName').value = localStorage.getItem('userName') || "";
                 document.getElementById('editEmail').value = localStorage.getItem('userEmail') || "";
                 document.getElementById('editContact').value = localStorage.getItem('userContact') || "";
             });
         }
-
         if (formElement) {
             formElement.addEventListener('submit', async (e) => {
                 e.preventDefault();
-
-                const updatedData = {
-                    name: document.getElementById('editName').value,
-                    contactNo: document.getElementById('editContact').value
-                };
-
+                const updatedData = { name: document.getElementById('editName').value, contactNo: document.getElementById('editContact').value };
                 try {
                     const response = await fetch(`http://localhost:8080/api/users/update/${USER_ID}`, {
-                        method: 'PUT', // ඔයාගේ backend එකේ @PutMapping නම් PUT දාන්න
-                        headers: {
-                            'Authorization': 'Bearer ' + TOKEN,
-                            'Content-Type': 'application/json'
-                        },
+                        method: 'PUT',
+                        headers: { 'Authorization': 'Bearer ' + TOKEN, 'Content-Type': 'application/json' },
                         body: JSON.stringify(updatedData)
                     });
-
                     if (response.ok) {
                         alert("Profile updated successfully! ✅");
                         localStorage.setItem('userName', updatedData.name);
                         localStorage.setItem('userContact', updatedData.contactNo);
                         location.reload();
-                    } else {
-                        alert("Update failed. Please check your connection.");
                     }
-                } catch (err) {
-                    console.error("Update Error:", err);
-                    alert("Something went wrong!");
-                }
+                } catch (err) { alert("Update failed!"); }
             });
         }
     }

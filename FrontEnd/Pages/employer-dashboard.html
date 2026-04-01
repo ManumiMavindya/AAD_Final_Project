@@ -3,192 +3,363 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employer Dashboard | JobHub</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Employer Dashboard - JobHub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
-            color: #1e293b;
-            margin: 0;
-            overflow: hidden; /* Dashboard එක ඇතුළේ scroll නොවී content එක විතරක් scroll වෙන්න */
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #334155;
         }
 
-        .dashboard-wrapper {
-            display: flex;
-            height: 100vh;
-        }
+        /* Navbar Customization */
+        .navbar { border-bottom: 1px solid #e2e8f0; background: white !important; }
+        .nav-link { font-weight: 600; color: #64748b !important; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { color: #0d6efd !important; }
 
-        /* --- Sidebar Styling --- */
-        .dashboard-sidebar {
-            width: 280px;
-            background: #0f172a; /* Navy Blue background */
+        /* Blue Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #0d6efd 0%, #004dc7 100%);
+            border-radius: 24px;
+            padding: 50px 40px;
             color: white;
-            padding: 2.5rem 1.2rem;
-            display: flex;
-            flex-direction: column;
-            z-index: 1000;
-        }
-
-        .logo-section {
-            padding: 0 1rem;
-            margin-bottom: 3rem;
-        }
-
-        .logo-section h3 {
-            font-weight: 700;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-        }
-
-        /* --- Navigation Links --- */
-        .nav-link {
-            position: relative; /* Indicator එක පෙළගස්වන්න අවශ්‍යයි */
-            color: #94a3b8;
-            padding: 0.9rem 1.2rem;
-            border-radius: 12px;
-            margin-bottom: 0.6rem;
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(13, 110, 253, 0.2);
+            position: relative;
             overflow: hidden;
         }
 
-        .nav-link i {
-            margin-right: 14px;
-            font-size: 1.2rem;
-        }
-
-        /* 🔵 නිල් පාට Active/Hover Indicator එක (ඔයා එවපු පින්තූරේ විදිහට) */
-        .nav-link::before {
-            content: "";
+        .hero-section::after {
+            content: '';
             position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%) scaleY(0); /* මුලින් හීනියට තියෙන්නේ */
-            width: 5px;
-            height: 24px; /* ඉරේ උස */
-            background-color: #3b82f6; /* Bright Blue */
-            border-radius: 0 4px 4px 0;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            opacity: 0;
+            top: -30px;
+            right: -30px;
+            width: 180px;
+            height: 180px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
         }
 
-        /* Hover & Active Effects */
-        .nav-link:hover, .nav-link.active {
-            background: rgba(255, 255, 255, 0.08);
-            color: white;
+        .hero-section h2 { font-weight: 800; margin-bottom: 10px; }
+
+        /* Stats Cards Hover Effect (ඔයා ඉල්ලපු කොටස) */
+        .stat-card {
+            border: none;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
-        /* Hover හෝ Active වුණාම නිල් ඉර පෙන්වීම */
-        .nav-link:hover::before, .nav-link.active::before {
-            transform: translateY(-50%) scaleY(1);
-            opacity: 1;
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08) !important;
         }
 
-        .nav-link.text-danger:hover {
-            background: rgba(239, 68, 68, 0.1);
-            color: #ef4444;
-        }
-
-        /* --- Main Content Area --- */
-        .dashboard-content {
-            flex: 1;
-            height: 100vh;
-            background-color: #f8fafc;
-        }
-
-        /* Iframe styling */
-        #content-frame {
-            width: 100%;
+        /* Job Cards Styling */
+        .job-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            background: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 25px;
             height: 100%;
+        }
+
+        .job-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+            border-color: #0d6efd;
+        }
+
+        .icon-square {
+            width: 55px;
+            height: 55px;
+            background: #f1f5f9;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0d6efd;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+        }
+
+        .btn-action {
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-delete {
+            background-color: #fff1f2;
+            color: #e11d48;
             border: none;
         }
+        .btn-delete:hover { background-color: #ffe4e6; color: #be123c; }
 
-        hr.opacity-10 {
-            border-color: rgba(255, 255, 255, 0.1);
+        .section-title {
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .stats-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
 
-<div class="dashboard-wrapper">
-    <aside class="dashboard-sidebar shadow-lg">
-        <div class="logo-section">
-            <h3 class="text-white">
-                <i class="bi bi-rocket-takeoff-fill me-2 text-primary"></i>JobHub
-            </h3>
+<nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-primary" href="index.html">
+            <i class="bi bi-briefcase-fill me-2"></i>JobHub
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item"><a class="nav-link px-3 active" href="employer-dashboard.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="post-job.html">Post a Job</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="create-company.html" data-bs-toggle="modal" data-bs-target="#profileModal">Company Profile</a></li>
+                <li class="nav-item ms-lg-3">
+                    <button class="btn btn-outline-danger btn-sm fw-bold px-3" onclick="logout()">Sign Out</button>
+                </li>
+            </ul>
         </div>
+    </div>
+</nav>
 
-        <nav class="nav flex-column flex-grow-1">
-            <a class="nav-link active" onclick="loadPage('overview.html', this)">
-                <i class="bi bi-grid-1x2"></i> Overview
-            </a>
-            <a class="nav-link" onclick="loadPage('create-company.html', this)">
-                <i class="bi bi-building"></i> Company Profile
-            </a>
-            <a class="nav-link" onclick="loadPage('post-job.html', this)">
-                <i class="bi bi-plus-square"></i> Post a Job
-            </a>
-            <a class="nav-link" onclick="loadPage('my-jobs.html', this)">
-                <i class="bi bi-briefcase"></i> Manage Jobs
-            </a>
-            <a class="nav-link" onclick="loadPage('applicants.html', this)">
-                <i class="bi bi-people"></i> Applicants
-            </a>
+<div class="container py-5">
 
-            <div class="mt-auto">
-                <hr class="my-4 opacity-10">
-                <a class="nav-link text-danger" href="#" onclick="logout()">
-                    <i class="bi bi-box-arrow-left"></i> Sign Out
+    <div class="hero-section">
+        <div class="row align-items-center">
+            <div class="col-md-7">
+                <h2>Welcome back, <span id="companyNameDisplay">Company Name</span>! 🏢</h2>
+                <p class="mb-0 text-white-50">Manage your job postings and find the best talent for your team.</p>
+            </div>
+            <div class="col-md-5 text-md-end d-none d-md-block">
+                <a href="post-job.html" class="btn btn-light btn-lg fw-bold px-4 py-3 shadow-sm" style="border-radius: 15px; color: #0d6efd;">
+                    <i class="bi bi-plus-lg me-2"></i>Post New Job
                 </a>
             </div>
-        </nav>
-    </aside>
+        </div>
+    </div>
 
-    <main class="dashboard-content">
-        <iframe src="overview.html" id="content-frame"></iframe>
-    </main>
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card stat-card shadow-sm p-4">
+                <div class="d-flex align-items-center">
+                    <div class="icon-square bg-primary bg-opacity-10 mb-0 me-3"><i class="bi bi-megaphone"></i></div>
+                    <div><h3 id="activeJobsCount" class="fw-800 mb-0">03</h3><small class="text-muted fw-600">Active Jobs</small></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card stat-card shadow-sm p-4">
+                <div class="d-flex align-items-center">
+                    <div class="icon-square bg-success bg-opacity-10 mb-0 me-3" style="color: #198754;"><i class="bi bi-people"></i></div>
+                    <div><h3 id="totalApplicantsCount" class="fw-800 mb-0">15</h3><small class="text-muted fw-600">Total Applicants</small></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h5 class="section-title"><i class="bi bi-grid-fill text-primary"></i> Your Posted Jobs</h5>
+    <div class="row g-4" id="employerJobsList">
+        <div class="col-md-6 col-lg-4">
+            <div class="job-card shadow-sm">
+                <div class="icon-square"><i class="bi bi-code-slash"></i></div>
+                <h5 class="fw-bold mb-1">Senior Java Developer</h5>
+                <p class="text-muted small mb-3"><i class="bi bi-geo-alt me-1"></i>Colombo, Sri Lanka</p>
+                <div class="d-flex gap-2 mt-4">
+                    <button onclick="viewApplicants(101)" class="btn btn-primary btn-action flex-grow-1"><i class="bi bi-eye me-1"></i> 8 Applicants</button>
+                    <button onclick="deleteJob(101)" class="btn btn-delete btn-action"><i class="bi bi-trash"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="job-card shadow-sm">
+                <div class="icon-square" style="color: #ffc107; background: #fff9e6;"><i class="bi bi-palette"></i></div>
+                <h5 class="fw-bold mb-1">UI/UX Designer</h5>
+                <p class="text-muted small mb-3"><i class="bi bi-geo-alt me-1"></i>Remote</p>
+                <div class="d-flex gap-2 mt-4">
+                    <button onclick="viewApplicants(102)" class="btn btn-primary btn-action flex-grow-1"><i class="bi bi-eye me-1"></i> 5 Applicants</button>
+                    <button onclick="deleteJob(102)" class="btn btn-delete btn-action"><i class="bi bi-trash"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="job-card shadow-sm">
+                <div class="icon-square" style="color: #198754; background: #eef7f1;"><i class="bi bi-graph-up-arrow"></i></div>
+                <h5 class="fw-bold mb-1">Marketing Manager</h5>
+                <p class="text-muted small mb-3"><i class="bi bi-geo-alt me-1"></i>Kandy, Sri Lanka</p>
+                <div class="d-flex gap-2 mt-4">
+                    <button onclick="viewApplicants(103)" class="btn btn-primary btn-action flex-grow-1"><i class="bi bi-eye me-1"></i> 2 Applicants</button>
+                    <button onclick="deleteJob(103)" class="btn btn-delete btn-action"><i class="bi bi-trash"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<script>
-    // පේජ් එක මාරු කිරීම සහ Sidebar එකේ Active පන්තිය මාරු කිරීම
-    function loadPage(pageUrl, element) {
-        // Iframe එකේ source එක වෙනස් කරනවා
-        document.getElementById('content-frame').src = pageUrl;
-
-        // කලින් තිබුණ Active ලින්ක් එක අයින් කරනවා
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.classList.remove('active');
-        });
-
-        // දැන් ක්ලික් කරපු ලින්ක් එක Active කරනවා
-        element.classList.add('active');
-    }
-
-    function logout() {
-        if (confirm("Are you sure you want to sign out?")) {
-            localStorage.clear();
-            window.location.replace('login.html');
-        }
-    }
-
-    // ආරම්භයේදී Token එක පරීක්ෂා කිරීම
-    window.onload = function() {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            window.location.href = 'login.html';
-        }
-    };
-</script>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+
+    const API_BASE_URL = "http://localhost:8080/api";
+    const token = localStorage.getItem('token');
+    const currentUserId = localStorage.getItem('userId');
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if (!token || !currentUserId || currentUserId === "undefined") {
+            console.error("Auth error: No token or userId found!");
+            window.location.href = 'login.html';
+            return;
+        }
+        fetchCompanyAndJobs();
+    });
+
+    async function fetchCompanyAndJobs() {
+        try {
+            const res = await fetch(`${API_BASE_URL}/company/user/${currentUserId}`, {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+
+            if (!res.ok) throw new Error("Company not found");
+
+            const company = await res.json();
+
+            // UI එක Update කිරීම
+            if(document.getElementById('companyNameDisplay')) {
+                document.getElementById('companyNameDisplay').textContent = company.name;
+            }
+
+            // 🛑 මෙන්න මෙතන තමයි කලින් error එක ආවේ - නම නිවැරදි කළා
+            fetchEmployerJobs(company.id);
+            fetchStats(company.id);
+
+        } catch (err) {
+            console.error("Error fetching company details:", err);
+        }
+    }
+
+    // Stats (Counts) load කරන එක
+    async function fetchStats(companyId) {
+        try {
+            // සටහන: ඔයාගේ backend එකේ stats endpoint එකක් නැත්නම් මේක error වෙන්න පුළුවන්
+            const res = await fetch(`${API_BASE_URL}/jobs/company/${companyId}`, {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            const jobs = await res.json();
+            if(document.getElementById('activeJobsCount')) {
+                document.getElementById('activeJobsCount').textContent = jobs.length.toString().padStart(2, '0');
+            }
+        } catch (err) { console.error("Stats error:", err); }
+    }
+
+    async function fetchEmployerJobs(companyId) {
+        try {
+            const res = await fetch(`${API_BASE_URL}/jobs/company/${companyId}`, {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            const jobs = await res.json();
+
+            const container = document.getElementById('employerJobsList');
+            if(!container) return;
+
+            container.innerHTML = '';
+            jobs.forEach(job => {
+                const iconData = getJobIcon(job.title);
+                const card = `
+                <div class="col-md-6 col-lg-4">
+                    <div class="job-card shadow-sm">
+                        <div class="icon-square" style="color: ${iconData.color}; background: ${iconData.bg};">
+                            <i class="bi ${iconData.icon}"></i>
+                        </div>
+                        <h5 class="fw-bold mb-1">${job.title}</h5>
+                        <p class="text-muted small mb-3"><i class="bi bi-geo-alt me-1"></i>${job.location}</p>
+                        <div class="d-flex gap-2 mt-4">
+                            <button onclick="viewApplicants(${job.id}, '${job.title}')" class="btn btn-primary btn-action flex-grow-1">
+                                <i class="bi bi-eye me-1"></i> View Applicants
+                            </button>
+                            <button onclick="deleteJob(${job.id})" class="btn btn-delete btn-action">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>`;
+                container.insertAdjacentHTML('beforeend', card);
+            });
+        } catch (err) { console.error("Jobs load error:", err); }
+    }
+
+    // Title එක අනුව Icon එක තෝරන එක
+    function getJobIcon(title) {
+        const t = title.toLowerCase();
+        if (t.includes('java') || t.includes('dev')) return { icon: 'bi-code-slash', color: '#0d6efd', bg: '#f1f5f9' };
+        if (t.includes('design') || t.includes('ui')) return { icon: 'bi-palette', color: '#ffc107', bg: '#fff9e6' };
+        return { icon: 'bi-briefcase', color: '#198754', bg: '#eef7f1' };
+    }
+
+    // 🛑 Applicants බලන Modal එකේ logic එක
+    async function viewApplicants(jobId, jobTitle) {
+        // Modal එකේ title එක සෙට් කරන තැන check කරනවා null ද කියලා
+        const titleElem = document.getElementById('modalJobTitle');
+        if (titleElem) titleElem.textContent = jobTitle;
+
+        const tableBody = document.getElementById('applicantsTableBody');
+        if (tableBody) tableBody.innerHTML = '<tr><td colspan="5" class="text-center">Loading...</td></tr>';
+
+        try {
+            // Modal එක open කිරීම (Bootstrap 5 way)
+            const modalElem = document.getElementById('applicantsModal');
+            const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElem);
+            modalInstance.show();
+
+            const res = await fetch(`${API_BASE_URL}/apply/job/${jobId}`, {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            const applicants = await res.json();
+
+            if (tableBody) {
+                tableBody.innerHTML = '';
+                if (applicants.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4">No applicants yet.</td></tr>';
+                    return;
+                }
+
+                applicants.forEach(app => {
+                    tableBody.innerHTML += `
+                    <tr>
+                        <td><b>${app.userId}</b></td> <td>${app.contactNo}</td>
+                        <td><button class="btn btn-sm btn-link" onclick="window.open('${API_BASE_URL}/apply/download/${app.id}')">Download CV</button></td>
+                        <td><span class="badge bg-primary">${app.status}</span></td>
+                        <td>
+                            <select class="form-select form-select-sm" onchange="updateStatus(${app.id}, this.value)">
+                                <option value="PENDING">Pending</option>
+                                <option value="SHORTLISTED">Shortlist</option>
+                                <option value="REJECTED">Reject</option>
+                            </select>
+                        </td>
+                    </tr>`;
+                });
+            }
+        } catch (err) { console.error("Modal load error:", err); }
+    }
+</script>
 </body>
 </html>

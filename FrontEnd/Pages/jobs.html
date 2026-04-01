@@ -6,56 +6,118 @@
     <title>Find Jobs - JobHub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        body {
+            background-color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #334155;
+        }
+
+        /* --- Navbar (Matching Employer Style) --- */
+        .navbar {
+            border-bottom: 1px solid #e2e8f0;
+            background: white !important;
+        }
+        .navbar-brand { font-weight: 800; }
+        .nav-link {
+            font-weight: 600;
+            color: #64748b !important;
+            transition: 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #0d6efd !important;
+        }
+
+        /* Hero/Search Section */
+        .search-banner {
+            background: linear-gradient(135deg, #0d6efd 0%, #004dc7 100%);
+            padding: 50px 0;
+            margin-bottom: 40px;
+        }
+
+        .input-group-lg > .form-control, .input-group-lg > .input-group-text {
+            border-radius: 12px;
+            border: none;
+        }
+
         /* Card Hover Effect */
         .job-listing-card {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: all 0.3s ease;
             cursor: pointer;
-            border: 1px solid #eee !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 20px !important;
+            background: white;
         }
 
         .job-listing-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.05) !important;
             border-color: #0d6efd !important;
         }
 
         /* Modified Buttons */
         .btn-details {
-            border-radius: 8px;
-            font-weight: 500;
+            border-radius: 10px;
+            font-weight: 600;
+            border: 1px solid #e2e8f0;
+            color: #64748b;
             transition: all 0.3s;
         }
 
         .btn-details:hover {
-            background-color: #f8f9fa;
-            color: #0d6efd;
+            background-color: #f1f5f9;
+            color: #1e293b;
         }
 
         .btn-apply-main {
-            border-radius: 8px;
-            font-weight: 600;
-            padding: 6px 20px;
-            box-shadow: 0 4px 6px rgba(13, 110, 253, 0.15);
+            background: #0d6efd;
+            border-radius: 10px;
+            font-weight: 700;
+            padding: 8px 24px;
+            border: none;
+            color: white;
             transition: all 0.3s;
         }
 
         .btn-apply-main:hover {
-            box-shadow: 0 6px 12px rgba(13, 110, 253, 0.25);
-            transform: scale(1.02);
+            background: #004dc7;
+            box-shadow: 0 8px 15px rgba(13, 110, 253, 0.2);
+            transform: scale(1.03);
+            color: white;
         }
 
         .company-logo {
             transition: transform 0.3s ease;
+            background: rgba(13, 110, 253, 0.08) !important;
         }
 
-        .job-listing-card:hover .company-logo {
-            transform: scale(1.1);
+        /* Sidebar Filter */
+        .filter-sidebar {
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            padding: 25px !important;
+        }
+
+        .form-check-input:checked {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+
+        .status-badge-count {
+            background: rgba(13, 110, 253, 0.1);
+            color: #0d6efd;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+
+<nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm">
     <div class="container">
         <a class="navbar-brand fw-bold text-primary" href="index.html">
             <i class="bi bi-briefcase-fill me-2"></i>JobHub
@@ -64,75 +126,69 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link active" href="jobs.html">Find Jobs</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">For Employers</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="post-job.html">Post a Job</a></li>
-                    </ul>
-                </li>
+            <ul class="navbar-nav ms-auto align-items-center" id="navItems">
+                <li class="nav-item"><a class="nav-link px-3 active" href="jobs.html">Find Jobs</a></li>
             </ul>
         </div>
     </div>
 </nav>
 
-<section class="bg-primary py-4">
+<section class="search-banner">
     <div class="container">
         <div class="row g-3 justify-content-center">
             <div class="col-md-6">
-                <div class="input-group input-group-lg">
-                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
-                    <input type="text" class="form-control border-start-0" id="jobSearch" placeholder="Job title, keywords, or company">
+                <div class="input-group input-group-lg shadow-sm">
+                    <span class="input-group-text bg-white border-0"><i class="bi bi-search text-primary"></i></span>
+                    <input type="text" class="form-control border-0" id="jobSearch" placeholder="Job title, keywords, or company">
                 </div>
             </div>
             <div class="col-md-5">
-                <div class="input-group input-group-lg">
-                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-geo-alt text-muted"></i></span>
-                    <input type="text" class="form-control border-start-0" id="locationSearch" placeholder="City, state, or remote">
+                <div class="input-group input-group-lg shadow-sm">
+                    <span class="input-group-text bg-white border-0"><i class="bi bi-geo-alt text-primary"></i></span>
+                    <input type="text" class="form-control border-0" id="locationSearch" placeholder="City, state, or remote">
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<section class="py-4">
+<section class="py-2">
     <div class="container">
         <div class="row">
             <div class="col-lg-3 mb-4">
-                <div class="filter-sidebar p-3 bg-white rounded shadow-sm border">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="fw-bold mb-0">Filters</h6>
-                        <button class="btn btn-sm btn-link text-muted p-0 text-decoration-none" id="clearFilters">Clear All</button>
+                <div class="filter-sidebar shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h6 class="fw-bold mb-0">Apply Filters</h6>
+                        <button class="btn btn-sm btn-link text-primary p-0 text-decoration-none fw-bold" id="clearFilters">Reset</button>
                     </div>
 
                     <form id="filterForm">
                         <div class="filter-section mb-4">
-                            <h6 class="small fw-bold mb-3">Job Type</h6>
-                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="ft"><label class="form-check-label small" for="ft">Full-time</label></div>
-                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="pt"><label class="form-check-label small" for="pt">Part-time</label></div>
-                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="ct"><label class="form-check-label small" for="ct">Contract</label></div>
+                            <h6 class="small fw-bold mb-3 text-uppercase text-muted" style="letter-spacing: 1px;">Job Type</h6>
+                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="ft"><label class="form-check-label small fw-500" for="ft">Full-time</label></div>
+                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="pt"><label class="form-check-label small fw-500" for="pt">Part-time</label></div>
+                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="ct"><label class="form-check-label small fw-500" for="ct">Contract</label></div>
                         </div>
 
                         <div class="filter-section mb-4">
-                            <h6 class="small fw-bold mb-3">Work Mode</h6>
-                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="remote"><label class="form-check-label small" for="remote">Remote</label></div>
-                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="onsite"><label class="form-check-label small" for="onsite">On-site</label></div>
-                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="hybrid"><label class="form-check-label small" for="hybrid">Hybrid</label></div>
+                            <h6 class="small fw-bold mb-3 text-uppercase text-muted" style="letter-spacing: 1px;">Work Mode</h6>
+                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="remote"><label class="form-check-label small fw-500" for="remote">Remote</label></div>
+                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="onsite"><label class="form-check-label small fw-500" for="onsite">On-site</label></div>
+                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="hybrid"><label class="form-check-label small fw-500" for="hybrid">Hybrid</label></div>
                         </div>
 
                         <div class="filter-section mb-4">
-                            <h6 class="small fw-bold mb-3">Experience Level</h6>
-                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="entry"><label class="form-check-label small" for="entry">Entry Level</label></div>
-                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="mid"><label class="form-check-label small" for="mid">Mid Level</label></div>
-                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="senior"><label class="form-check-label small" for="senior">Senior Level</label></div>
+                            <h6 class="small fw-bold mb-3 text-uppercase text-muted" style="letter-spacing: 1px;">Experience</h6>
+                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="entry"><label class="form-check-label small fw-500" for="entry">Entry Level</label></div>
+                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="mid"><label class="form-check-label small fw-500" for="mid">Mid Level</label></div>
+                            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="senior"><label class="form-check-label small fw-500" for="senior">Senior Level</label></div>
                         </div>
 
                         <div class="filter-section mb-2">
-                            <h6 class="small fw-bold mb-3">Salary Range</h6>
-                            <input type="range" class="form-range" id="salaryRange" min="0" max="250000" step="5000" value="0">
-                            <div class="d-flex justify-content-between small text-muted">
-                                <span>$0</span><span id="salaryValue">$0</span><span>$250K+</span>
+                            <h6 class="small fw-bold mb-3 text-uppercase text-muted" style="letter-spacing: 1px;">Min. Salary</h6>
+                            <input type="range" class="form-range mb-2" id="salaryRange" min="0" max="250000" step="5000" value="0">
+                            <div class="d-flex justify-content-between small fw-bold">
+                                <span class="text-muted">$0</span><span id="salaryValue" class="text-primary">$0</span><span class="text-muted">$250K+</span>
                             </div>
                         </div>
                     </form>
@@ -141,8 +197,11 @@
 
             <div class="col-lg-9">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <p class="mb-0 text-muted"><strong id="jobCount">0</strong> jobs found</p>
-                    <select class="form-select form-select-sm" style="width: auto;">
+                    <div>
+                        <span class="status-badge-count me-2" id="jobCount">0</span>
+                        <span class="text-muted fw-medium">available opportunities</span>
+                    </div>
+                    <select class="form-select form-select-sm border-0 shadow-sm" style="width: auto; border-radius: 8px; padding: 8px 15px;">
                         <option>Newest First</option>
                         <option>Salary: High to Low</option>
                     </select>
@@ -150,8 +209,8 @@
 
                 <div id="jobListings"></div>
 
-                <nav class="mt-4">
-                    <ul class="pagination justify-content-center" id="pagination"></ul>
+                <nav class="mt-5">
+                    <ul class="pagination justify-content-center border-0" id="pagination"></ul>
                 </nav>
             </div>
         </div>
@@ -160,12 +219,49 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    // --- Navbar Update Logic ---
+    function updateNavbar() {
+        const navItems = document.getElementById('navItems');
+        const token = localStorage.getItem('token');
+        const userRole = localStorage.getItem('userRole'); // 'EMPLOYER' හෝ 'JOB_SEEKER'
+
+        let content = `<li class="nav-item"><a class="nav-link px-3 active" href="jobs.html">Find Jobs</a></li>`;
+
+        if (token) {
+            if (userRole === 'EMPLOYER') {
+                content += `
+                    <li class="nav-item"><a class="nav-link px-3" href="employer-dashboard.html">Employer Portal</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="post-job.html">Post a Job</a></li>`;
+            } else {
+                content += `<li class="nav-item"><a class="nav-link px-3" href="seeker-dashboard.html">My Dashboard</a></li>`;
+            }
+            content += `
+                <li class="nav-item ms-lg-3">
+                    <button class="btn btn-outline-danger btn-sm fw-bold px-3" style="border-radius: 10px;" onclick="logout()">Sign Out</button>
+                </li>`;
+        } else {
+            content += `
+                <li class="nav-item ms-lg-2"><a class="nav-link px-3" href="login.html">Login</a></li>
+                <li class="nav-item ms-lg-2">
+                    <a class="btn btn-primary btn-sm fw-bold px-4 text-white" href="register.html" style="border-radius: 10px; background: #0d6efd; border:none;">Register</a>
+                </li>`;
+        }
+        navItems.innerHTML = content;
+    }
+
+    function logout() {
+        localStorage.clear();
+        window.location.href = 'login.html';
+    }
+
+    // --- JS LOGIC (UNCHANGED) ---
     let allJobs = [];
     let filteredJobs = [];
     let currentPage = 1;
     const jobsPerPage = 5;
 
     document.addEventListener('DOMContentLoaded', () => {
+        updateNavbar(); // Navbar එක මුලින්ම update කරන්න
         loadJobsFromDB();
 
         document.querySelectorAll('.form-check-input, #salaryRange').forEach(element => {
@@ -193,7 +289,7 @@
             applyFiltersAndSearch();
         } catch (error) {
             console.error("Error:", error);
-            document.getElementById('jobListings').innerHTML = '<div class="alert alert-danger">Server connection failed.</div>';
+            document.getElementById('jobListings').innerHTML = '<div class="alert alert-danger border-0 rounded-4">Server connection failed.</div>';
         }
     }
 
@@ -244,7 +340,7 @@
         const pageItems = filteredJobs.slice(start, end);
 
         if (pageItems.length === 0) {
-            jobContainer.innerHTML = '<div class="text-center py-5 text-muted">No jobs found matching your criteria.</div>';
+            jobContainer.innerHTML = '<div class="text-center py-5 text-muted fw-bold">No jobs found matching your criteria.</div>';
         }
 
         pageItems.forEach(job => {
@@ -256,7 +352,7 @@
             }
 
             const jobCard = `
-                <div class="job-listing-card border p-4 mb-3 rounded-4 shadow-sm bg-white">
+                <div class="job-listing-card border p-4 mb-3 shadow-sm">
                     <div class="d-flex justify-content-between align-items-start">
                         <div class="d-flex">
                             <div class="company-logo bg-primary bg-opacity-10 rounded-4 p-3 me-3 d-flex align-items-center justify-content-center" style="width: 65px; height: 65px;">
@@ -266,20 +362,20 @@
                                 <h5 class="mb-1 fw-bold">
                                     <a href="job-details.html?id=${job.id}" class="text-decoration-none text-dark">${job.title}</a>
                                 </h5>
-                                <p class="text-muted mb-2 fw-medium">${job.companyName || 'Verified Employer'}</p>
-                                <div class="d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge bg-light text-secondary border px-2 py-2"><i class="bi bi-geo-alt me-1"></i>${job.location}</span>
-                                    <span class="badge bg-light text-secondary border px-2 py-2"><i class="bi bi-clock me-1"></i>${job.jobType}</span>
-                                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-2">$${job.salary.toLocaleString()}</span>
+                                <p class="text-muted mb-2 fw-bold small text-uppercase" style="letter-spacing: 0.5px;">${job.companyName || 'Verified Employer'}</p>
+                                <div class="d-flex flex-wrap gap-2 mb-2">
+                                    <span class="badge bg-light text-secondary border-0 px-3 py-2" style="border-radius: 8px;"><i class="bi bi-geo-alt me-1"></i>${job.location}</span>
+                                    <span class="badge bg-light text-secondary border-0 px-3 py-2" style="border-radius: 8px;"><i class="bi bi-clock me-1"></i>${job.jobType}</span>
+                                    <span class="badge bg-success bg-opacity-10 text-success border-0 px-3 py-2" style="border-radius: 8px;">LKR ${job.salary.toLocaleString()}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
-                        <small class="text-muted fw-light"><i class="bi bi-calendar3 me-2"></i>${dateDisplay}</small>
-                        <div class="d-flex gap-3">
-                            <a href="job-details.html?id=${job.id}" class="btn btn-outline-primary btn-sm px-4 btn-details">View Details</a>
-                            <button class="btn btn-primary btn-sm px-4 btn-apply-main" onclick="handleApplyClick(${job.id})">Apply Now</button>
+                    <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top border-light">
+                        <small class="text-muted fw-medium"><i class="bi bi-calendar3 me-2 text-primary"></i>${dateDisplay}</small>
+                        <div class="d-flex gap-2">
+                            <a href="job-details.html?id=${job.id}" class="btn btn-details btn-sm px-4">Details</a>
+                            <button class="btn btn-apply-main btn-sm px-4" onclick="handleApplyClick(${job.id})">Apply Now</button>
                         </div>
                     </div>
                 </div>`;
@@ -298,8 +394,8 @@
 
         for (let i = 1; i <= totalPages; i++) {
             const li = document.createElement('li');
-            li.className = `page-item ${i === currentPage ? 'active' : ''}`;
-            li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+            li.className = `page-item mx-1 ${i === currentPage ? 'active' : ''}`;
+            li.innerHTML = `<a class="page-link border-0 rounded-3 shadow-sm fw-bold" href="#">${i}</a>`;
             li.onclick = (e) => {
                 e.preventDefault();
                 displayPage(i);
@@ -322,8 +418,13 @@
     }
 
     function handleApplyClick(id) {
-        // Apply function logic here
-        console.log("Applying for job ID:", id);
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert("Please login first to apply for jobs!");
+            window.location.href = 'login.html';
+        } else {
+            window.location.href = `job-details.html?id=${id}`;
+        }
     }
 </script>
 </body>
