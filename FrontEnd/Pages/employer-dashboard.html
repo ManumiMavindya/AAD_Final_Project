@@ -44,7 +44,7 @@
 
         .hero-section h2 { font-weight: 800; margin-bottom: 10px; }
 
-        /* Stats Cards Hover Effect (ඔයා ඉල්ලපු කොටස) */
+        /* Stats Cards */
         .stat-card {
             border: none;
             border-radius: 20px;
@@ -57,7 +57,7 @@
             box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08) !important;
         }
 
-        /* Job Cards Styling */
+        /* Job Cards */
         .job-card {
             border: 1px solid #e2e8f0;
             border-radius: 18px;
@@ -110,12 +110,20 @@
             gap: 12px;
         }
 
-        .stats-badge {
-            background: rgba(255,255,255,0.2);
-            padding: 5px 15px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 600;
+        /* Modal Table */
+        .custom-table thead th {
+            background-color: #f8fafc;
+            color: #64748b;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            padding: 15px;
+            border: none;
+        }
+        .custom-table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f1f5f9;
         }
     </style>
 </head>
@@ -133,7 +141,7 @@
             <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item"><a class="nav-link px-3 active" href="employer-dashboard.html">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link px-3" href="post-job.html">Post a Job</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="create-company.html" data-bs-toggle="modal" data-bs-target="#profileModal">Company Profile</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="create-company.html">Company Profile</a></li>
                 <li class="nav-item ms-lg-3">
                     <button class="btn btn-outline-danger btn-sm fw-bold px-3" onclick="logout()">Sign Out</button>
                 </li>
@@ -143,7 +151,6 @@
 </nav>
 
 <div class="container py-5">
-
     <div class="hero-section">
         <div class="row align-items-center">
             <div class="col-md-7">
@@ -163,7 +170,7 @@
             <div class="card stat-card shadow-sm p-4">
                 <div class="d-flex align-items-center">
                     <div class="icon-square bg-primary bg-opacity-10 mb-0 me-3"><i class="bi bi-megaphone"></i></div>
-                    <div><h3 id="activeJobsCount" class="fw-800 mb-0">03</h3><small class="text-muted fw-600">Active Jobs</small></div>
+                    <div><h3 id="activeJobsCount" class="fw-800 mb-0">00</h3><small class="text-muted fw-600">Active Jobs</small></div>
                 </div>
             </div>
         </div>
@@ -171,46 +178,40 @@
             <div class="card stat-card shadow-sm p-4">
                 <div class="d-flex align-items-center">
                     <div class="icon-square bg-success bg-opacity-10 mb-0 me-3" style="color: #198754;"><i class="bi bi-people"></i></div>
-                    <div><h3 id="totalApplicantsCount" class="fw-800 mb-0">15</h3><small class="text-muted fw-600">Total Applicants</small></div>
+                    <div><h3 id="totalApplicantsCount" class="fw-800 mb-0">00</h3><small class="text-muted fw-600">Total Applicants</small></div>
                 </div>
             </div>
         </div>
     </div>
 
     <h5 class="section-title"><i class="bi bi-grid-fill text-primary"></i> Your Posted Jobs</h5>
-    <div class="row g-4" id="employerJobsList">
-        <div class="col-md-6 col-lg-4">
-            <div class="job-card shadow-sm">
-                <div class="icon-square"><i class="bi bi-code-slash"></i></div>
-                <h5 class="fw-bold mb-1">Senior Java Developer</h5>
-                <p class="text-muted small mb-3"><i class="bi bi-geo-alt me-1"></i>Colombo, Sri Lanka</p>
-                <div class="d-flex gap-2 mt-4">
-                    <button onclick="viewApplicants(101)" class="btn btn-primary btn-action flex-grow-1"><i class="bi bi-eye me-1"></i> 8 Applicants</button>
-                    <button onclick="deleteJob(101)" class="btn btn-delete btn-action"><i class="bi bi-trash"></i></button>
-                </div>
-            </div>
-        </div>
+    <div class="row g-4" id="employerJobsList"></div>
+</div>
 
-        <div class="col-md-6 col-lg-4">
-            <div class="job-card shadow-sm">
-                <div class="icon-square" style="color: #ffc107; background: #fff9e6;"><i class="bi bi-palette"></i></div>
-                <h5 class="fw-bold mb-1">UI/UX Designer</h5>
-                <p class="text-muted small mb-3"><i class="bi bi-geo-alt me-1"></i>Remote</p>
-                <div class="d-flex gap-2 mt-4">
-                    <button onclick="viewApplicants(102)" class="btn btn-primary btn-action flex-grow-1"><i class="bi bi-eye me-1"></i> 5 Applicants</button>
-                    <button onclick="deleteJob(102)" class="btn btn-delete btn-action"><i class="bi bi-trash"></i></button>
+<div class="modal fade" id="applicantsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 24px;">
+            <div class="modal-header border-0 px-4 pt-4">
+                <div>
+                    <h4 class="fw-800 mb-0">Applicants for <span id="modalJobTitle" class="text-primary"></span></h4>
+                    <p class="text-muted small">Review and manage candidate applications.</p>
                 </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        </div>
-
-        <div class="col-md-6 col-lg-4">
-            <div class="job-card shadow-sm">
-                <div class="icon-square" style="color: #198754; background: #eef7f1;"><i class="bi bi-graph-up-arrow"></i></div>
-                <h5 class="fw-bold mb-1">Marketing Manager</h5>
-                <p class="text-muted small mb-3"><i class="bi bi-geo-alt me-1"></i>Kandy, Sri Lanka</p>
-                <div class="d-flex gap-2 mt-4">
-                    <button onclick="viewApplicants(103)" class="btn btn-primary btn-action flex-grow-1"><i class="bi bi-eye me-1"></i> 2 Applicants</button>
-                    <button onclick="deleteJob(103)" class="btn btn-delete btn-action"><i class="bi bi-trash"></i></button>
+            <div class="modal-body px-4 pb-4">
+                <div class="table-responsive">
+                    <table class="table custom-table align-middle">
+                        <thead>
+                        <tr>
+                            <th>Job Seeker</th>
+                            <th>Contact Info</th>
+                            <th>Resume / CV</th>
+                            <th>Current Status</th>
+                            <th class="text-end">Update Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="applicantsTableBody"></tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -219,56 +220,44 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-
     const API_BASE_URL = "http://localhost:8080/api";
     const token = localStorage.getItem('token');
     const currentUserId = localStorage.getItem('userId');
 
     document.addEventListener('DOMContentLoaded', () => {
         if (!token || !currentUserId || currentUserId === "undefined") {
-            console.error("Auth error: No token or userId found!");
             window.location.href = 'login.html';
             return;
         }
         fetchCompanyAndJobs();
     });
 
+    function logout() {
+        localStorage.clear();
+        window.location.href = 'login.html';
+    }
+
     async function fetchCompanyAndJobs() {
         try {
             const res = await fetch(`${API_BASE_URL}/company/user/${currentUserId}`, {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
-
             if (!res.ok) throw new Error("Company not found");
-
             const company = await res.json();
-
-            // UI එක Update කිරීම
-            if(document.getElementById('companyNameDisplay')) {
-                document.getElementById('companyNameDisplay').textContent = company.name;
-            }
-
-            // 🛑 මෙන්න මෙතන තමයි කලින් error එක ආවේ - නම නිවැරදි කළා
+            document.getElementById('companyNameDisplay').textContent = company.companyName || "Employer";
             fetchEmployerJobs(company.id);
             fetchStats(company.id);
-
-        } catch (err) {
-            console.error("Error fetching company details:", err);
-        }
+        } catch (err) { console.error(err); }
     }
 
-    // Stats (Counts) load කරන එක
     async function fetchStats(companyId) {
         try {
-            // සටහන: ඔයාගේ backend එකේ stats endpoint එකක් නැත්නම් මේක error වෙන්න පුළුවන්
             const res = await fetch(`${API_BASE_URL}/jobs/company/${companyId}`, {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             const jobs = await res.json();
-            if(document.getElementById('activeJobsCount')) {
-                document.getElementById('activeJobsCount').textContent = jobs.length.toString().padStart(2, '0');
-            }
-        } catch (err) { console.error("Stats error:", err); }
+            document.getElementById('activeJobsCount').textContent = jobs.length.toString().padStart(2, '0');
+        } catch (err) { console.error(err); }
     }
 
     async function fetchEmployerJobs(companyId) {
@@ -277,14 +266,12 @@
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             const jobs = await res.json();
-
             const container = document.getElementById('employerJobsList');
-            if(!container) return;
-
             container.innerHTML = '';
+
             jobs.forEach(job => {
                 const iconData = getJobIcon(job.title);
-                const card = `
+                container.insertAdjacentHTML('beforeend', `
                 <div class="col-md-6 col-lg-4">
                     <div class="job-card shadow-sm">
                         <div class="icon-square" style="color: ${iconData.color}; background: ${iconData.bg};">
@@ -301,13 +288,11 @@
                             </button>
                         </div>
                     </div>
-                </div>`;
-                container.insertAdjacentHTML('beforeend', card);
+                </div>`);
             });
-        } catch (err) { console.error("Jobs load error:", err); }
+        } catch (err) { console.error(err); }
     }
 
-    // Title එක අනුව Icon එක තෝරන එක
     function getJobIcon(title) {
         const t = title.toLowerCase();
         if (t.includes('java') || t.includes('dev')) return { icon: 'bi-code-slash', color: '#0d6efd', bg: '#f1f5f9' };
@@ -315,50 +300,153 @@
         return { icon: 'bi-briefcase', color: '#198754', bg: '#eef7f1' };
     }
 
-    // 🛑 Applicants බලන Modal එකේ logic එක
-    async function viewApplicants(jobId, jobTitle) {
-        // Modal එකේ title එක සෙට් කරන තැන check කරනවා null ද කියලා
-        const titleElem = document.getElementById('modalJobTitle');
-        if (titleElem) titleElem.textContent = jobTitle;
+    // async function viewApplicants(jobId, jobTitle) {
+    //     document.getElementById('modalJobTitle').textContent = jobTitle;
+    //     const tableBody = document.getElementById('applicantsTableBody');
+    //     tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4"><div class="spinner-border text-primary"></div></td></tr>';
+    //
+    //     const modal = new bootstrap.Modal(document.getElementById('applicantsModal'));
+    //     modal.show();
+    //
+    //     try {
+    //         const res = await fetch(`${API_BASE_URL}/apply/job/${jobId}`, {
+    //             headers: { 'Authorization': 'Bearer ' + token }
+    //         });
+    //         const applicants = await res.json();
+    //         tableBody.innerHTML = '';
+    //
+    //         if (applicants.length === 0) {
+    //             tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-5 text-muted">No applications found for this job.</td></tr>';
+    //             return;
+    //         }
+    //
+    //         applicants.forEach(app => {
+    //             // ඔයාගේ DTO එකේ userName නැති නිසා දැනට userId පෙන්වනවා
+    //             tableBody.innerHTML += `
+    //             <tr>
+    //                 <td>
+    //                     <div class="fw-bold">User ID: #${app.userId}</div>
+    //                     <div class="small text-muted"><i class="bi bi-calendar-event me-1"></i>Applied: ${app.applicationDate}</div>
+    //                 </td>
+    //                 <td><i class="bi bi-telephone me-1 text-muted"></i>${app.contactNo}</td>
+    //                 <td>
+    //                     <button class="btn btn-sm btn-outline-primary fw-bold" onclick="window.open('${API_BASE_URL}/apply/download/${app.id}')">
+    //                         <i class="bi bi-file-earmark-pdf me-1"></i> View CV
+    //                     </button>
+    //                 </td>
+    //                 <td><span class="badge ${getStatusClass(app.status)}">${app.status}</span></td>
+    //                 <td class="text-end">
+    //                     <select class="form-select form-select-sm d-inline-block w-auto" onchange="updateStatus(${app.id}, this.value)">
+    //                         <option value="PENDING" ${app.status === 'PENDING' ? 'selected' : ''}>Pending</option>
+    //                         <option value="APPROVED" ${app.status === 'APPROVED' ? 'selected' : ''}>Approve</option>
+    //                         <option value="REJECTED" ${app.status === 'REJECTED' ? 'selected' : ''}>Reject</option>
+    //                     </select>
+    //                 </td>
+    //             </tr>`;
+    //         });
+    //     } catch (err) { console.error(err); }
+    // }
 
+    async function viewApplicants(jobId, jobTitle) {
+        document.getElementById('modalJobTitle').textContent = jobTitle;
         const tableBody = document.getElementById('applicantsTableBody');
-        if (tableBody) tableBody.innerHTML = '<tr><td colspan="5" class="text-center">Loading...</td></tr>';
+        tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4"><div class="spinner-border text-primary"></div></td></tr>';
+
+        const modal = new bootstrap.Modal(document.getElementById('applicantsModal'));
+        modal.show();
 
         try {
-            // Modal එක open කිරීම (Bootstrap 5 way)
-            const modalElem = document.getElementById('applicantsModal');
-            const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElem);
-            modalInstance.show();
-
             const res = await fetch(`${API_BASE_URL}/apply/job/${jobId}`, {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             const applicants = await res.json();
+            tableBody.innerHTML = '';
 
-            if (tableBody) {
-                tableBody.innerHTML = '';
-                if (applicants.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4">No applicants yet.</td></tr>';
-                    return;
+            if (applicants.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-5 text-muted">No applications found for this job.</td></tr>';
+                return;
+            }
+
+            // එකින් එක applicant ට අදාළ User data fetch කරමු
+            for (const app of applicants) {
+                let seekerName = "Loading...";
+                let seekerEmail = "Loading...";
+
+                try {
+                    // ඔයාගේ User details ගන්නා endpoint එක මෙතනට දාන්න
+                    const userRes = await fetch(`${API_BASE_URL}/apply/user-details/${app.userId}`, {
+                        headers: { 'Authorization': 'Bearer ' + token }
+                    });
+
+                    if (userRes.ok) {
+                        const userData = await userRes.json();
+                        seekerName = userData.name;
+                        seekerEmail = userData.email;
+                    }
+                } catch (userErr) {
+                    console.error("Error fetching user details:", userErr);
+                    seekerName = "Error Loading";
                 }
 
-                applicants.forEach(app => {
-                    tableBody.innerHTML += `
-                    <tr>
-                        <td><b>${app.userId}</b></td> <td>${app.contactNo}</td>
-                        <td><button class="btn btn-sm btn-link" onclick="window.open('${API_BASE_URL}/apply/download/${app.id}')">Download CV</button></td>
-                        <td><span class="badge bg-primary">${app.status}</span></td>
-                        <td>
-                            <select class="form-select form-select-sm" onchange="updateStatus(${app.id}, this.value)">
-                                <option value="PENDING">Pending</option>
-                                <option value="SHORTLISTED">Shortlist</option>
-                                <option value="REJECTED">Reject</option>
-                            </select>
-                        </td>
-                    </tr>`;
-                });
+                tableBody.innerHTML += `
+                <tr>
+                    <td>
+                        <div class="fw-bold">${seekerName}</div>
+                        <div class="small text-muted"><i class="bi bi-envelope me-1"></i>${seekerEmail}</div>
+                    </td>
+                    <td><i class="bi bi-telephone me-1 text-muted"></i>${app.contactNo}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary fw-bold" onclick="window.open('${API_BASE_URL}/apply/download/${app.id}')">
+                            <i class="bi bi-file-earmark-pdf me-1"></i> View CV
+                        </button>
+                    </td>
+                    <td><span class="badge ${getStatusClass(app.status)}">${app.status}</span></td>
+                    <td class="text-end">
+                        <select class="form-select form-select-sm d-inline-block w-auto" onchange="updateStatus(${app.id}, this.value)">
+                            <option value="PENDING" ${app.status === 'PENDING' ? 'selected' : ''}>Pending</option>
+                            <option value="APPROVED" ${app.status === 'APPROVED' ? 'selected' : ''}>Approve</option>
+                            <option value="REJECTED" ${app.status === 'REJECTED' ? 'selected' : ''}>Reject</option>
+                        </select>
+                    </td>
+                </tr>`;
             }
-        } catch (err) { console.error("Modal load error:", err); }
+        } catch (err) {
+            console.error(err);
+            tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Error loading applicants.</td></tr>';
+        }
+    }
+
+    function getStatusClass(status) {
+        if (status === 'APPROVED') return 'bg-success bg-opacity-10 text-success';
+        if (status === 'REJECTED') return 'bg-danger bg-opacity-10 text-danger';
+        return 'bg-warning bg-opacity-10 text-warning';
+    }
+
+    async function updateStatus(appId, newStatus) {
+        try {
+            // Backend එකේ @PatchMapping("/update-status/{id}") වලට අනුව
+            const res = await fetch(`${API_BASE_URL}/apply/update-status/${appId}?status=${newStatus}`, {
+                method: 'PATCH',
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            if (res.ok) {
+                alert("Status updated successfully!");
+                // Modal එක refresh කරන්න ඕනේ නම් viewApplicants ආයෙත් call කරන්න පුළුවන්
+            } else {
+                alert("Failed to update status.");
+            }
+        } catch (err) { console.error(err); }
+    }
+
+    async function deleteJob(jobId) {
+        if (!confirm("Are you sure?")) return;
+        try {
+            const res = await fetch(`${API_BASE_URL}/jobs/delete/${jobId}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            if (res.ok) location.reload();
+        } catch (err) { console.error(err); }
     }
 </script>
 </body>

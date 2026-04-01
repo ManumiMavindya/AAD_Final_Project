@@ -14,7 +14,7 @@
             color: #334155;
         }
 
-        /* --- Navbar Customization (Matching Employer Style) --- */
+        /* --- Navbar Customization --- */
         .navbar {
             border-bottom: 1px solid #e2e8f0;
             background: white !important;
@@ -108,11 +108,14 @@
             font-size: 0.75rem;
             font-weight: 700;
             letter-spacing: 0.3px;
+            text-transform: uppercase;
         }
 
+        /* --- Status Colors --- */
         .bg-pending { background-color: #fef3c7; color: #92400e; }
         .bg-shortlisted { background-color: #dcfce7; color: #166534; }
         .bg-rejected { background-color: #fee2e2; color: #991b1b; }
+        .bg-approved { background-color: #dcfce7; color: #166534; } /* Approved සඳහා Green Color එක එකතු කළා */
 
         .section-title {
             font-weight: 800;
@@ -136,11 +139,6 @@
             background: #004dc7;
             color: white;
             transform: translateY(-2px);
-        }
-
-        .btn-outline-danger {
-
-            font-weight: 700;
         }
     </style>
 </head>
@@ -170,7 +168,6 @@
 </nav>
 
 <div class="container py-5">
-
     <div class="hero-section">
         <div class="row align-items-center">
             <div class="col-md-8">
@@ -213,14 +210,12 @@
     <div class="row">
         <div class="col-lg-8 mb-4">
             <h5 class="section-title"><i class="bi bi-collection-fill text-primary"></i> My Recent Applications</h5>
-            <div id="applicationsList">
-            </div>
+            <div id="applicationsList"></div>
         </div>
 
         <div class="col-lg-4 mb-4">
             <h5 class="section-title"><i class="bi bi-bookmark-heart-fill text-danger"></i> Wishlist</h5>
-            <div id="savedJobsList">
-            </div>
+            <div id="savedJobsList"></div>
         </div>
     </div>
 </div>
@@ -255,7 +250,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // --- JS LOGIC (UNCHANGED AS REQUESTED) ---
     const USER_ID = localStorage.getItem('userId');
     const TOKEN = localStorage.getItem('token');
 
@@ -264,12 +258,10 @@
             window.location.href = 'login.html';
             return;
         }
-
         const USER_NAME = localStorage.getItem('userName');
         if (USER_NAME && document.getElementById('displayUserName')) {
             document.getElementById('displayUserName').textContent = USER_NAME;
         }
-
         loadDashboardData();
         setupProfileUpdate();
     });
@@ -284,13 +276,10 @@
             });
             const applications = await appResponse.json();
             const savedJobIds = JSON.parse(localStorage.getItem('savedJobs')) || [];
-
             updateStats(applications, savedJobIds);
             renderApplications(applications);
             renderSavedJobs(savedJobIds);
-        } catch (error) {
-            console.error("Error loading dashboard data:", error);
-        }
+        } catch (error) { console.error("Error loading dashboard data:", error); }
     }
 
     function updateStats(apps, saved) {
@@ -298,7 +287,7 @@
             document.getElementById('totalApps').textContent = apps.length.toString().padStart(2, '0');
         if(document.getElementById('totalSaved'))
             document.getElementById('totalSaved').textContent = saved.length.toString().padStart(2, '0');
-        const interviews = apps.filter(a => a.status === 'SHORTLISTED' || a.status === 'INTERVIEW').length;
+        const interviews = apps.filter(a => a.status === 'SHORTLISTED' || a.status === 'INTERVIEW' || a.status === 'APPROVED').length;
         if(document.getElementById('totalInterviews'))
             document.getElementById('totalInterviews').textContent = interviews.toString().padStart(2, '0');
     }
@@ -350,9 +339,7 @@
                     <a href="job-details.html?id=${job.id}" class="btn btn-sm btn-apply-now w-100 py-2">Apply Now</a>
                 </div>
             `).join('');
-        } catch (e) {
-            container.innerHTML = '<div class="text-danger small">Failed to load saved jobs.</div>';
-        }
+        } catch (e) { container.innerHTML = '<div class="text-danger small">Failed to load saved jobs.</div>'; }
     }
 
     function setupProfileUpdate() {

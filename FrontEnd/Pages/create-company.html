@@ -10,130 +10,51 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        body {
-            background-color: #f8fafc;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            color: #334155;
-        }
+        body { background-color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; color: #334155; }
+        .navbar { border-bottom: 1px solid #e2e8f0; background: white !important; padding: 0.75rem 0; }
+        .navbar-brand { font-weight: 800; font-size: 1.25rem; }
+        .nav-link { font-weight: 600; font-size: 0.95rem; color: #64748b !important; }
+        .nav-link.active { color: #0d6efd !important; }
 
-        /* Navbar Customization */
-        .navbar {
-            border-bottom: 1px solid #e2e8f0;
-            background: white !important;
-        }
-        .nav-link {
-            font-weight: 600;
-            color: #64748b !important;
-            transition: 0.3s;
-        }
-        .nav-link:hover, .nav-link.active {
-            color: #0d6efd !important;
-        }
-
-        .dashboard-content {
-            padding-top: 40px;
-            padding-bottom: 60px;
-        }
-
-        .page-header { margin-bottom: 2.5rem; }
-
-        .hero-title {
-            font-weight: 800;
-            color: #1e293b;
-        }
+        .dashboard-content { padding-top: 40px; padding-bottom: 60px; }
+        .hero-title { font-weight: 800; color: #1e293b; }
 
         .form-card {
-            background: white;
-            border-radius: 24px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
-            padding: 2.5rem;
+            background: white; border-radius: 24px; border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02); padding: 2.5rem;
         }
 
-        .form-section-title {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: #1e293b;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .form-section-title { font-size: 1.1rem; font-weight: 800; color: #1e293b; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
+        .form-section-title i { color: #0d6efd; }
 
-        .form-section-title i {
-            color: #0d6efd;
+        /* 📸 Refined Logo Upload Box */
+        .logo-upload-wrapper {
+            width: 120px; height: 120px; border-radius: 20px;
+            background: #f8fafc; border: 2px dashed #cbd5e1;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            cursor: pointer; position: relative; overflow: hidden; transition: 0.3s;
         }
+        .logo-upload-wrapper:hover { border-color: #0d6efd; background: rgba(13, 110, 253, 0.02); }
+        .logo-upload-wrapper img { width: 100%; height: 100%; object-fit: cover; position: absolute; }
+        .logo-upload-wrapper i { font-size: 2rem; color: #94a3b8; }
+        .logo-upload-wrapper span { font-size: 0.75rem; font-weight: 600; color: #64748b; margin-top: 5px; }
 
-        .logo-preview-container {
-            width: 80px;
-            height: 80px;
-            border-radius: 16px;
-            background: #f1f5f9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border: 2px dashed #cbd5e1;
-        }
-
-        .logo-preview-container img { width: 100%; height: 100%; object-fit: cover; }
-
-        .form-label {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: #475569;
-            margin-bottom: 0.6rem;
-        }
-
-        .form-control, .form-select {
-            border-radius: 12px;
-            padding: 0.75rem 1rem;
-            border: 1px solid #e2e8f0;
-            background-color: #f8fafc;
-            transition: all 0.3s;
-            font-size: 0.95rem;
-        }
-
-        .form-control:focus, .form-select:focus {
-            background-color: white;
-            border-color: #0d6efd;
-            box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1);
-        }
-
-        /* 🔵 Quick Tips Card Style */
-        .tip-card {
-            background: #0d6efd;
-            color: white;
-            border-radius: 24px;
-            padding: 2rem;
-            position: sticky;
-            top: 100px;
-        }
+        .form-label { font-weight: 600; font-size: 0.9rem; color: #475569; margin-bottom: 0.6rem; }
+        .form-control, .form-select { border-radius: 12px; padding: 0.75rem 1rem; border: 1px solid #e2e8f0; background-color: #f8fafc; }
+        .form-control:focus { background-color: white; border-color: #0d6efd; box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1); }
 
         .btn-save {
             background: linear-gradient(135deg, #0d6efd 0%, #004dc7 100%);
-            border: none;
-            padding: 0.9rem 2.5rem;
-            border-radius: 14px;
-            font-weight: 700;
-            color: white;
-            transition: all 0.3s ease;
+            border: none; padding: 0.9rem 2.5rem; border-radius: 14px;
+            font-weight: 700; color: white; transition: 0.3s ease;
         }
+        .btn-save:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(13, 110, 253, 0.3); }
 
-        .btn-save:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(13, 110, 253, 0.3);
-            color: white;
-        }
+        .tip-card { background: #0d6efd; color: white; border-radius: 24px; padding: 2rem; position: sticky; top: 100px; }
+        .status-badge { background: rgba(13, 110, 253, 0.1); color: #0d6efd; padding: 6px 16px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; }
 
-        .status-badge {
-            background: rgba(13, 110, 253, 0.1);
-            color: #0d6efd;
-            padding: 6px 16px;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: 700;
-        }
+        /* Profile Display Style */
+        #viewSection { display: none; }
     </style>
 </head>
 <body>
@@ -143,9 +64,6 @@
         <a class="navbar-brand fw-bold text-primary" href="index.html">
             <i class="bi bi-briefcase-fill me-2"></i>JobHub
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item"><a class="nav-link px-3" href="employer-dashboard.html">Dashboard</a></li>
@@ -160,165 +78,214 @@
 </nav>
 
 <div class="container dashboard-content">
-    <div class="page-header">
-        <span class="status-badge mb-3 d-inline-block">Profile Setup</span>
-        <h2 class="hero-title">Company Identity</h2>
-        <p class="text-muted">Tell us more about your organization to attract the right talent.</p>
-    </div>
 
-    <div class="row g-4">
-        <div class="col-xl-9">
-            <div class="form-card">
-                <form id="companyForm">
-
-                    <div class="form-section-title">
-                        <i class="bi bi-building"></i> Basic Information
-                    </div>
-                    <div class="row g-4 mb-4">
-                        <div class="col-md-9">
-                            <label class="form-label">Company Name *</label>
-                            <input type="text" id="companyName" class="form-control" placeholder="e.g. Acme Corporation" required>
-                        </div>
-                        <div class="col-md-3 d-flex flex-column align-items-center">
-                            <label class="form-label">Logo Preview</label>
-                            <div class="logo-preview-container" id="logoFrame">
-                                <i class="bi bi-image text-muted fs-3" id="placeholderIcon"></i>
-                                <img id="logoPreview" src="" style="display: none;">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Industry</label>
-                            <select id="industry" class="form-select">
-                                <option value="IT">Software & Technology</option>
-                                <option value="FINANCE">Finance & Banking</option>
-                                <option value="MARKETING">Digital Marketing</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Headquarters *</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="bi bi-geo-alt"></i></span>
-                                <input type="text" id="compLocation" class="form-control border-start-0" placeholder="Colombo, Sri Lanka" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-section-title">
-                        <i class="bi bi-globe"></i> Online Presence
-                    </div>
-                    <div class="row g-4 mb-4">
-                        <div class="col-md-6">
-                            <label class="form-label">Website URL</label>
-                            <input type="url" id="website" class="form-control" placeholder="https://company.com">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Logo Link</label>
-                            <input type="text" id="logoUrl" class="form-control" placeholder="Paste image URL here" oninput="updateLogoPreview(this.value)">
-                        </div>
-                    </div>
-
-                    <div class="form-section-title">
-                        <i class="bi bi-text-paragraph"></i> About the Company
-                    </div>
-                    <div class="row g-4">
-                        <div class="col-12">
-                            <textarea id="compDescription" class="form-control" rows="5" placeholder="Briefly describe your company's mission and culture..." required></textarea>
-                        </div>
-                    </div>
-
-                    <div class="mt-5 pt-4 border-top d-flex justify-content-end">
-                        <button type="submit" class="btn btn-save">
-                            <i class="bi bi-check2-circle me-2"></i>Complete Profile
-                        </button>
-                    </div>
-                </form>
-            </div>
+    <div id="setupSection">
+        <div class="page-header mb-4">
+            <span class="status-badge mb-3 d-inline-block">Profile Setup</span>
+            <h2 class="hero-title">Company Identity</h2>
+            <p class="text-muted">Tell us more about your organization to attract the right talent.</p>
         </div>
 
-        <div class="col-xl-3">
-            <div class="tip-card shadow-sm">
-                <h5 class="mb-3"><i class="bi bi-lightbulb me-2"></i>Profile Tips</h5>
-                <ul class="small list-unstyled opacity-90 fw-500">
-                    <li class="mb-3"><i class="bi bi-patch-check me-2"></i> Use a high-quality logo to build trust with applicants.</li>
-                    <li class="mb-3"><i class="bi bi-patch-check me-2"></i> Detailed descriptions help seekers understand your culture.</li>
-                    <li class="mb-3"><i class="bi bi-patch-check me-2"></i> Adding a website increases profile visits by 25%.</li>
-                    <li><i class="bi bi-patch-check me-2"></i> Keep your location updated for local talent.</li>
-                </ul>
+        <div class="row g-4">
+            <div class="col-xl-9">
+                <div class="form-card">
+                    <form id="companyForm">
+                        <div class="form-section-title"><i class="bi bi-building"></i> Basic Information</div>
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-3">
+                                <label class="form-label">Company Logo</label>
+                                <div class="logo-upload-wrapper" onclick="document.getElementById('logoFile').click()">
+                                    <i class="bi bi-camera" id="uploadIcon"></i>
+                                    <span id="uploadText">Upload</span>
+                                    <img id="imagePreview" style="display: none;">
+                                </div>
+                                <input type="file" id="logoFile" hidden accept="image/*" onchange="previewImage(this)">
+                            </div>
+                            <div class="col-md-9">
+                                <div class="mb-3">
+                                    <label class="form-label">Company Name *</label>
+                                    <input type="text" id="companyName" class="form-control" placeholder="e.g. Acme Corporation" required>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Industry</label>
+                                        <select id="industry" class="form-select">
+                                            <option value="IT">Software & Technology</option>
+                                            <option value="FINANCE">Finance & Banking</option>
+                                            <option value="MARKETING">Digital Marketing</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Location *</label>
+                                        <input type="text" id="compLocation" class="form-control" placeholder="Colombo, Sri Lanka" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section-title"><i class="bi bi-globe"></i> Online Presence</div>
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-12">
+                                <label class="form-label">Website URL</label>
+                                <input type="url" id="website" class="form-control" placeholder="https://company.com">
+                            </div>
+                        </div>
+
+                        <div class="form-section-title"><i class="bi bi-text-paragraph"></i> About</div>
+                        <textarea id="compDescription" class="form-control" rows="4" placeholder="Mission and culture..." required></textarea>
+
+                        <div class="mt-4 pt-3 border-top text-end">
+                            <button type="submit" class="btn btn-save" id="submitBtn">Save Profile</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-xl-3">
+                <div class="tip-card">
+                    <h5><i class="bi bi-lightbulb me-2"></i>Quick Tip</h5>
+                    <p class="small opacity-90 mt-3">Profiles with logos and clear locations get 40% more applications.</p>
+                </div>
             </div>
         </div>
     </div>
+
+    <div id="viewSection">
+        <div class="form-card text-center py-5">
+            <img id="dispLogo" src="" class="rounded-4 mb-3 shadow-sm" style="width: 120px; height: 120px; object-fit: cover; border: 1px solid #e2e8f0;">
+            <h2 id="dispName" class="fw-bold mb-1">Company Name</h2>
+            <p id="dispIndustry" class="text-primary fw-bold mb-3">Industry</p>
+
+            <div class="d-flex justify-content-center gap-3 mb-4">
+                <span class="badge-outline px-3 py-2 bg-light rounded-pill small"><i class="bi bi-geo-alt me-1"></i> <span id="dispLocation">Location</span></span>
+                <span class="badge-outline px-3 py-2 bg-light rounded-pill small"><i class="bi bi-link-45deg me-1"></i> <a id="dispWeb" href="#" target="_blank" class="text-decoration-none">Website</a></span>
+            </div>
+
+            <div class="mx-auto" style="max-width: 700px;">
+                <p id="dispDesc" class="text-muted leading-relaxed">Description goes here...</p>
+            </div>
+
+            <button class="btn btn-outline-primary mt-4 px-4" onclick="toggleEdit()">Edit Profile</button>
+        </div>
+    </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-    // --- JS Logic (කලින් තිබුණ විදිහටමයි) ---
+    const token = localStorage.getItem('token');
 
-    function logout() {
-        localStorage.clear();
-        window.location.href = 'login.html';
-    }
+    document.addEventListener('DOMContentLoaded', checkProfile);
 
-    function updateLogoPreview(url) {
-        const preview = document.getElementById('logoPreview');
-        const icon = document.getElementById('placeholderIcon');
-        if (url && url.length > 5) {
-            preview.src = url;
-            preview.style.display = 'block';
-            icon.style.display = 'none';
-        } else {
-            preview.style.display = 'none';
-            icon.style.display = 'block';
+    // 1. කලින් Profile එකක් තියනවද බලන function එක
+    async function checkProfile() {
+        try {
+            const response = await fetch(`http://localhost:8080/api/company/my-company`, {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data && data.companyName) {
+                    showProfile(data);
+                }
+            }
+        } catch (err) {
+            console.log("No profile found yet.");
         }
     }
 
-    document.getElementById('companyForm').addEventListener('submit', function(e) {
+    function showProfile(data) {
+        document.getElementById('setupSection').style.display = 'none';
+        document.getElementById('viewSection').style.display = 'block';
+
+        document.getElementById('dispName').textContent = data.companyName;
+        document.getElementById('dispIndustry').textContent = data.industry;
+        document.getElementById('dispLocation').textContent = data.location;
+        document.getElementById('dispDesc').textContent = data.description;
+        document.getElementById('dispWeb').href = data.website;
+        document.getElementById('dispWeb').textContent = data.website;
+        // Backend එකේ uploads/logos කියන folder එකට මැච් වෙන්න URL එක
+        document.getElementById('dispLogo').src = `http://localhost:8080/uploads/logos/${data.logoUrl}`;
+    }
+
+    // 2. Image Preview
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.getElementById('imagePreview');
+                img.src = e.target.result;
+                img.style.display = 'block';
+                document.getElementById('uploadIcon').style.display = 'none';
+                document.getElementById('uploadText').style.display = 'none';
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // 3. Form Submit (Multipart/form-data)
+    document.getElementById('companyForm').addEventListener('submit', async function(e) {
         e.preventDefault();
-        const token = localStorage.getItem('token');
 
-        if (!token) {
-            Swal.fire({ icon: 'error', title: 'Unauthorized', text: 'Please login again to continue.' });
-            return;
-        }
-
+        const formData = new FormData();
         const companyData = {
             companyName: document.getElementById('companyName').value,
             industry: document.getElementById('industry').value,
             location: document.getElementById('compLocation').value,
             website: document.getElementById('website').value,
-            logoUrl: document.getElementById('logoUrl').value,
             description: document.getElementById('compDescription').value
         };
 
-        fetch('http://localhost:8080/api/company/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify(companyData)
-        })
-            .then(async response => {
-                if (response.ok) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Profile Completed!',
-                        text: 'Your company identity has been saved.',
-                        timer: 2000,
-                        showConfirmButton: false
-                    }).then(() => {
-                        window.location.href = 'employer-dashboard.html';
-                    });
-                } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to save company profile');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                Swal.fire({ icon: 'error', title: 'Oops...', text: error.message });
+        // Backend එකේ @RequestPart("company") නමට සමාන විය යුතුයි
+        formData.append('company', new Blob([JSON.stringify(companyData)], { type: 'application/json' }));
+
+        // Backend එකේ @RequestPart("logo") නමට සමාන විය යුතුයි
+        const logoFile = document.getElementById('logoFile').files[0];
+        if (logoFile) {
+            formData.append('logo', logoFile);
+        } else {
+            Swal.fire('Wait!', 'Please upload a company logo.', 'warning');
+            return;
+        }
+
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Saving...';
+
+        try {
+            // Backend එකේ අපි හැදුව අලුත් endpoint එක: /api/company/setup
+            const response = await fetch('http://localhost:8080/api/company/add', {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + token },
+                body: formData // Content-Type header එක මෙතනදී දාන්න එපා (Browser එක auto හදාගන්නවා)
             });
+
+            if (response.ok) {
+                // Swal.fire({ icon: 'success', title: 'Success!', text: 'Profile saved successfully.' });
+                return alert("success")
+                window.location.href = 'post-job.html';
+            } else {
+                const errorMsg = await response.text();
+                throw new Error(errorMsg || "Failed to save");
+            }
+        } catch (error) {
+            Swal.fire({ icon: 'error', title: 'Error', text: error.message });
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = 'Save Profile';
+        }
     });
+
+    function toggleEdit() {
+        document.getElementById('viewSection').style.display = 'none';
+        document.getElementById('setupSection').style.display = 'block';
+    }
+
+    function logout() {
+        localStorage.clear();
+        window.location.href = 'login.html';
+    }
 </script>
 </body>
 </html>

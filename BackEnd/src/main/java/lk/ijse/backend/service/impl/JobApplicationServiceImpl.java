@@ -2,6 +2,7 @@ package lk.ijse.backend.service.impl;
 
 import jakarta.transaction.Transactional;
 import lk.ijse.backend.dto.JobApplicationDTO;
+import lk.ijse.backend.dto.UserDTO;
 import lk.ijse.backend.entity.Job;
 import lk.ijse.backend.entity.JobApplication;
 import lk.ijse.backend.entity.User;
@@ -12,6 +13,7 @@ import lk.ijse.backend.service.JobApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -213,5 +215,19 @@ public class JobApplicationServiceImpl implements JobApplicationService {
                         app.getJob().getTitle(),
                         app.getJob().getCompany().getCompanyName()
                 )).collect(Collectors.toList());
+    }
+
+
+    @Override
+    public ResponseEntity<UserDTO> getUserDetailsById(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        UserDTO dto = new UserDTO();
+        dto.setId(user.getId());
+        dto.setName(user.getName()); // ඔයාගේ Entity එකේ තියෙන විදියට (name/firstName)
+        dto.setEmail(user.getEmail());
+
+        return ResponseEntity.ok(dto);
     }
 }

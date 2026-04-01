@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,23 +24,29 @@ public class CompanyServiceImpl implements CompanyService {
     private UserRepository userRepository;
 
     @Override
-    public String addCompany(CompanyDTO dto) {
-        // 1. Token එකෙන් දැනට ඉන්න User ගේ Email එක ගන්නවා
-        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+    public String addCompanyWithFile(CompanyDTO dto, org.springframework.web.multipart.MultipartFile file) throws IOException {
 
-        // 2. ඒ Email එකෙන් User Entity එක හොයාගන්නවා
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(currentUserEmail)
                 .orElseThrow(() -> new RuntimeException("Logged in user not found"));
 
         Company company = new Company();
+
+        // File එක PC එකේ Folder එකකට Save කිරීම
+        String uploadDir = "uploads/logos/";
+        java.io.File dir = new java.io.File(uploadDir);
+        if (!dir.exists()) dir.mkdirs();
+
+        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        file.transferTo(new java.io.File(dir.getAbsolutePath() + "/" + fileName));
+
+        // Database එකට විස්තර දාමු
         company.setCompanyName(dto.getCompanyName());
         company.setLocation(dto.getLocation());
         company.setDescription(dto.getDescription());
-        company.setLogoUrl(dto.getLogoUrl());
+        company.setLogoUrl(fileName); // URL එක වෙනුවට file name එක සේව් කරනවා
         company.setWebsite(dto.getWebsite());
         company.setIndustry(dto.getIndustry());
-        company.setContactEmail(dto.getContactEmail());
-
         company.setUser(user);
 
         companyRepository.save(company);

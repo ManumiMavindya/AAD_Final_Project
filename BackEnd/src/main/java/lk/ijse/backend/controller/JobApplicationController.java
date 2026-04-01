@@ -1,6 +1,7 @@
 package lk.ijse.backend.controller;
 
 import lk.ijse.backend.dto.JobApplicationDTO;
+import lk.ijse.backend.dto.UserDTO;
 import lk.ijse.backend.service.JobApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -55,5 +56,11 @@ public class JobApplicationController {
     public ResponseEntity<List<JobApplicationDTO>> getApplicationsByUserId(@PathVariable Long userId) {
         // Service එකේ දැනටමත් මේ method එක implement කරලා තියෙන නිසා ප්‍රශ්නයක් වෙන්නේ නැහැ
         return ResponseEntity.ok(applicationService.getApplicationsByUserId(userId));
+    }
+
+    @GetMapping("/user-details/{userId}")
+    public ResponseEntity<UserDTO> getUserDetails(@PathVariable Long userId) {
+        // මෙතනදී අපි කරන්නේ userId එක දීලා ඒ user ගේ නම සහ email එක විතරක් ගන්න එක
+        return ResponseEntity.ok(applicationService.getUserDetailsById(userId).getBody());
     }
 }

@@ -41,6 +41,7 @@ public class SecurityConfig {
                         // 2. හැබැයි Job එකක් POST (Add) කරන්න නම් EMPLOYER වෙන්නම ඕනේ
                         .requestMatchers(HttpMethod.POST, "/api/jobs/**").hasAuthority("EMPLOYER")
 
+                        .requestMatchers("/uploads/**").permitAll()
                         // 3. අනිත් දේවල්
                         .requestMatchers("/api/company/add").hasAuthority("EMPLOYER")
                         .requestMatchers("/api/company/**").authenticated()

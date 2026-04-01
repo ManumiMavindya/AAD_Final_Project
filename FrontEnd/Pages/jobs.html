@@ -351,40 +351,50 @@
                 dateDisplay = timeAgo(date);
             }
 
+            // 🔥 මෙතනදී Logo එක තියෙනවා නම් ඒක පෙන්වනවා, නැත්නම් කලින් තිබ්බ Building Icon එක පෙන්වනවා
+            const logoPath = job.logoUrl
+                ? `http://localhost:8080/uploads/logos/${job.logoUrl}`
+                : null;
+
+            const logoHtml = logoPath
+                ? `<img src="${logoPath}" class="rounded-4 shadow-sm" style="width: 65px; height: 65px; object-fit: cover; border: 1px solid #eee;">`
+                : `<div class="company-logo bg-primary bg-opacity-10 rounded-4 p-3 me-3 d-flex align-items-center justify-content-center" style="width: 65px; height: 65px;">
+                <i class="bi bi-building text-primary fs-3"></i>
+               </div>`;
+
             const jobCard = `
-                <div class="job-listing-card border p-4 mb-3 shadow-sm">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div class="d-flex">
-                            <div class="company-logo bg-primary bg-opacity-10 rounded-4 p-3 me-3 d-flex align-items-center justify-content-center" style="width: 65px; height: 65px;">
-                                <i class="bi bi-building text-primary fs-3"></i>
-                            </div>
-                            <div>
-                                <h5 class="mb-1 fw-bold">
-                                    <a href="job-details.html?id=${job.id}" class="text-decoration-none text-dark">${job.title}</a>
-                                </h5>
-                                <p class="text-muted mb-2 fw-bold small text-uppercase" style="letter-spacing: 0.5px;">${job.companyName || 'Verified Employer'}</p>
-                                <div class="d-flex flex-wrap gap-2 mb-2">
-                                    <span class="badge bg-light text-secondary border-0 px-3 py-2" style="border-radius: 8px;"><i class="bi bi-geo-alt me-1"></i>${job.location}</span>
-                                    <span class="badge bg-light text-secondary border-0 px-3 py-2" style="border-radius: 8px;"><i class="bi bi-clock me-1"></i>${job.jobType}</span>
-                                    <span class="badge bg-success bg-opacity-10 text-success border-0 px-3 py-2" style="border-radius: 8px;">LKR ${job.salary.toLocaleString()}</span>
-                                </div>
+            <div class="job-listing-card border p-4 mb-3 shadow-sm">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="d-flex">
+                        <div class="me-3">
+                            ${logoHtml}
+                        </div>
+                        <div>
+                            <h5 class="mb-1 fw-bold">
+                                <a href="job-details.html?id=${job.id}" class="text-decoration-none text-dark">${job.title}</a>
+                            </h5>
+                            <p class="text-muted mb-2 fw-bold small text-uppercase" style="letter-spacing: 0.5px;">${job.companyName || 'Verified Employer'}</p>
+                            <div class="d-flex flex-wrap gap-2 mb-2">
+                                <span class="badge bg-light text-secondary border-0 px-3 py-2" style="border-radius: 8px;"><i class="bi bi-geo-alt me-1"></i>${job.location}</span>
+                                <span class="badge bg-light text-secondary border-0 px-3 py-2" style="border-radius: 8px;"><i class="bi bi-clock me-1"></i>${job.jobType}</span>
+                                <span class="badge bg-success bg-opacity-10 text-success border-0 px-3 py-2" style="border-radius: 8px;">LKR ${job.salary.toLocaleString()}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top border-light">
-                        <small class="text-muted fw-medium"><i class="bi bi-calendar3 me-2 text-primary"></i>${dateDisplay}</small>
-                        <div class="d-flex gap-2">
-                            <a href="job-details.html?id=${job.id}" class="btn btn-details btn-sm px-4">Details</a>
-                            <button class="btn btn-apply-main btn-sm px-4" onclick="handleApplyClick(${job.id})">Apply Now</button>
-                        </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top border-light">
+                    <small class="text-muted fw-medium"><i class="bi bi-calendar3 me-2 text-primary"></i>${dateDisplay}</small>
+                    <div class="d-flex gap-2">
+                        <a href="job-details.html?id=${job.id}" class="btn btn-details btn-sm px-4">Details</a>
+                        <button class="btn btn-apply-main btn-sm px-4" onclick="handleApplyClick(${job.id})">Apply Now</button>
                     </div>
-                </div>`;
+                </div>
+            </div>`;
             jobContainer.insertAdjacentHTML('beforeend', jobCard);
         });
 
         document.getElementById('jobCount').textContent = filteredJobs.length;
     }
-
     function renderPagination() {
         const paginationElement = document.getElementById('pagination');
         paginationElement.innerHTML = '';
