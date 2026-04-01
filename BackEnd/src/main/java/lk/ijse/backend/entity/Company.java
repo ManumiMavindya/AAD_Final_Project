@@ -1,9 +1,12 @@
 package lk.ijse.backend.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import lk.ijse.backend.entity.User;
 
 @Entity
 @Getter
@@ -12,15 +15,32 @@ public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String companyName;
-    private String location;
-    private String description;
-    private String logoUrl;      // Logo එකේ link එක හෝ path එක
-    private String website;      // Company website එක
-    private String industry;     // උදා: IT, Banking, Manufacturing
-    private String contactEmail; // Company එකේ පොදු contact email එක
 
-    @OneToOne // User kenekuta ekama eka company ekai thiyenna puluwan kiyala hithuwoth
-    @JoinColumn(name = "user_id")
+    @NotBlank(message = "Company name is required")
+    @Size(min = 2, max = 100, message = "Company name must be between 2 and 100 characters")
+    private String companyName;
+
+    @NotBlank(message = "Location is required")
+    private String location;
+
+    @NotBlank(message = "Description is required")
+    @Size(max = 1000, message = "Description cannot exceed 1000 characters")
+    private String description;
+
+    private String logoUrl; // සාමාන්‍යයෙන් logo එක optional වෙන්න පුළුවන් නිසා NotBlank දැම්මේ නැහැ
+
+    @Pattern(regexp = "^(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})([/\\w .-]*)*/?$",
+            message = "Please provide a valid website URL")
+    private String website;
+
+    @NotBlank(message = "Industry type is required")
+    private String industry;
+
+    @NotBlank(message = "Contact email is required")
+    @Email(message = "Please provide a valid contact email address")
+    private String contactEmail;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 }

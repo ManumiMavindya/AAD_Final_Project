@@ -1,5 +1,6 @@
 package lk.ijse.backend.controller;
 
+import jakarta.validation.Valid;
 import lk.ijse.backend.dto.CompanyDTO;
 import lk.ijse.backend.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class CompanyController {
     // Register Company
     @PostMapping(value = "/add", consumes = { "multipart/form-data" })
     public ResponseEntity<String> addCompany(
-            @RequestPart("company") String companyJson,
+             @Valid @RequestPart("company") String companyJson,
             @RequestPart("logo") org.springframework.web.multipart.MultipartFile file) throws java.io.IOException {
 
         // JSON String එක DTO එකකට හරවගන්නවා
