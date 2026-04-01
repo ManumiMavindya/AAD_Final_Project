@@ -36,8 +36,7 @@ public class Company {
     @NotBlank(message = "Industry type is required")
     private String industry;
 
-    @NotBlank(message = "Contact email is required")
-    @Email(message = "Please provide a valid contact email address")
+
     private String contactEmail;
 
     @OneToOne

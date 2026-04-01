@@ -235,7 +235,12 @@
             industry: document.getElementById('industry').value,
             location: document.getElementById('compLocation').value,
             website: document.getElementById('website').value,
-            description: document.getElementById('compDescription').value
+            description: document.getElementById('compDescription').value,
+
+            // මෙන්න මෙතනට ඔයාගේ HTML එකේ තියෙන නිවැරදි ID එක දෙන්න (උදා: 'compEmail')
+            // contactEmail: document.getElementById('companyEmail') ? document.getElementById('companyEmail').value : "info@gmail.com",
+
+            userId: parseInt(localStorage.getItem('userId'))
         };
 
         formData.append('company', new Blob([JSON.stringify(companyData)], { type: 'application/json' }));

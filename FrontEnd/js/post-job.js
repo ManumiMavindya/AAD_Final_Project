@@ -56,6 +56,9 @@ document.getElementById('postJobForm').addEventListener('submit', function(e) {
         location: document.getElementById('location').value,
         salary: document.getElementById('salary').value,
         description: document.getElementById('description').value,
+
+        company: { id: parseInt(localStorage.getItem('companyId')) },
+        user: { id: parseInt(localStorage.getItem('userId')) },
         companyId: currentCompanyId
     };
 
