@@ -2,22 +2,17 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 1. USER REGISTRATION LOGIC ---
-    const registerForm = document.getElementById('registerForm');
-    if (registerForm) {
-        registerForm.addEventListener('submit', function (e) {
+    // --- 1. REGISTRATION LOGIC ---
+    const regForm = document.getElementById('registerForm');
+    if (regForm) {
+        regForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const role = document.getElementById('role').value;
-
             const userData = {
-                name: name,
-                email: email,
-                password: password,
-                role: role
+                name: document.getElementById('regName').value,
+                email: document.getElementById('regEmail').value,
+                password: document.getElementById('regPassword').value,
+                role: document.getElementById('regRole').value
             };
 
             fetch('http://localhost:8080/api/auth/register', {
@@ -29,93 +24,64 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (response.ok) {
                         Swal.fire({
                             icon: 'success',
-                            title: 'Registration Successful!',
-                            text: 'Please login to continue.',
-                            confirmButtonColor: '#0d6efd'
+                            title: 'Success!',
+                            text: 'Registration Successful. Please Login!',
                         }).then(() => {
-                            window.location.href = 'login.html';
+                            // Modal එක මාරු කරනවා
+                            const regModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+                            regModal.hide();
+                            const logModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                            logModal.show();
                         });
                     } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Registration Failed',
-                            text: 'Email might already exist. Please try another.',
-                            confirmButtonColor: '#d33'
-                        });
+                        Swal.fire('Error', 'Registration Failed!', 'error');
                     }
                 })
-                .catch(error => {
-                    console.error('Error:', error);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Server Error',
-                        text: 'Please try again later.',
-                        confirmButtonColor: '#d33'
-                    });
-                });
+                .catch(err => Swal.fire('Error', 'Server Error!', 'error'));
         });
     }
 
-    // --- 2. USER LOGIN LOGIC ---
-    const loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-        loginForm.addEventListener('submit', function (e) {
+    // --- 2. LOGIN LOGIC ---
+    const logForm = document.getElementById('loginForm');
+    if (logForm) {
+        logForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
 
-            // පටන් ගද්දීම loading එකක් පෙන්නමු
-            Swal.fire({
-                title: 'Signing in...',
-                allowOutsideClick: false,
-                didOpen: () => { Swal.showLoading(); }
-            });
+            Swal.fire({ title: 'Signing in...', didOpen: () => Swal.showLoading() });
 
             fetch('http://localhost:8080/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: email, password: password })
+                body: JSON.stringify({ email, password })
             })
-                .then(response => {
-                    if (response.ok) return response.json();
-                    else throw new Error('Invalid Credentials');
+                .then(res => {
+                    if (res.ok) return res.json();
+                    throw new Error('Unauthorized');
                 })
                 .then(data => {
-                    const finalUserId = data.userId || data.id;
-
+                    // Backend එකෙන් එන විස්තර ටික Save කරමු
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('userName', data.name);
                     localStorage.setItem('userRole', data.role);
-                    localStorage.setItem('userId', finalUserId);
+                    localStorage.setItem('userId', data.userId);
 
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Welcome back!',
-                        text: 'Hello ' + data.name + ', redirecting...',
-                        timer: 1500,
-                        showConfirmButton: false
-                    }).then(() => {
-                        if (data.role === 'JOB_SEEKER') {
-                            window.location.href = 'seeker-dashboard.html';
-                        } else if (data.role === 'EMPLOYER') {
-                            checkEmployerCompany(finalUserId, data.token);
-                        } else {
-                            Swal.fire('Error', 'Undefined Role!', 'error');
-                        }
-                    });
+                    Swal.fire({ icon: 'success', title: 'Welcome!', timer: 1500, showConfirmButton: false })
+                        .then(() => {
+                            // Role එක අනුව Dashboard වලට යවනවා
+                            if (data.role === 'JOB_SEEKER') {
+                                window.location.href = 'seeker-dashboard.html';
+                            } else {
+                                window.location.href = 'employer-dashboard.html';
+                            }
+                        });
                 })
-                .catch(error => {
-                    console.error('Error:', error);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Login Failed',
-                        text: 'Invalid email or password!',
-                        confirmButtonColor: '#d33'
-                    });
-                });
+                .catch(err => Swal.fire('Error', 'Invalid Credentials!', 'error'));
         });
     }
+});
 
     function checkEmployerCompany(userId, token) {
         if (!userId || userId === "undefined") {
@@ -146,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-});
 
 // --- 3. LOGOUT FUNCTION ---
 function logout() {

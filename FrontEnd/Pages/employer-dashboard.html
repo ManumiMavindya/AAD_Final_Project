@@ -10,18 +10,24 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
+        /* පවතින Styles */
         body {
             background-color: #f8fafc;
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: #334155;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        /* Navbar Customization */
+        .main-content {
+            flex: 1;
+        }
+
         .navbar { border-bottom: 1px solid #e2e8f0; background: white !important; }
         .nav-link { font-weight: 600; color: #64748b !important; transition: 0.3s; }
         .nav-link:hover, .nav-link.active { color: #0d6efd !important; }
 
-        /* Blue Hero Section */
         .hero-section {
             background: linear-gradient(135deg, #0d6efd 0%, #004dc7 100%);
             border-radius: 24px;
@@ -46,7 +52,6 @@
 
         .hero-section h2 { font-weight: 800; margin-bottom: 10px; }
 
-        /* Stats Cards */
         .stat-card {
             border: none;
             border-radius: 20px;
@@ -59,7 +64,6 @@
             box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08) !important;
         }
 
-        /* Job Cards */
         .job-card {
             border: 1px solid #e2e8f0;
             border-radius: 18px;
@@ -112,7 +116,6 @@
             gap: 12px;
         }
 
-        /* Modal Table */
         .custom-table thead th {
             background-color: #f8fafc;
             color: #64748b;
@@ -127,68 +130,124 @@
             vertical-align: middle;
             border-bottom: 1px solid #f1f5f9;
         }
+
+        /* අලුතින් එකතු කළ Footer Styles */
+        .footer-main {
+            background-color: #0f172a;
+            color: #94a3b8;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+        .footer-brand { color: white; font-weight: 800; font-size: 1.5rem; text-decoration: none; }
+        .footer-link { color: #94a3b8; text-decoration: none; transition: 0.3s; display: block; margin-bottom: 10px; }
+        .footer-link:hover { color: #0d6efd; }
+        .social-icon { font-size: 1.25rem; color: #94a3b8; margin-right: 15px; transition: 0.3s; }
+        .social-icon:hover { color: #0d6efd; }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm">
-    <div class="container">
-        <a class="navbar-brand fw-bold text-primary" href="index.html">
-            <i class="bi bi-briefcase-fill me-2"></i>JobHub
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto align-items-center">
-                <li class="nav-item"><a class="nav-link px-3 active" href="employer-dashboard.html">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="post-job.html">Post a Job</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="create-company.html">Company Profile</a></li>
-                <li class="nav-item ms-lg-3">
-                    <button class="btn btn-outline-danger btn-sm fw-bold px-3" onclick="logout()">Sign Out</button>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<div class="container py-5">
-    <div class="hero-section">
-        <div class="row align-items-center">
-            <div class="col-md-7">
-                <h2>Welcome back, <span id="companyNameDisplay">Company Name</span>! 🏢</h2>
-                <p class="mb-0 text-white-50">Manage your job postings and find the best talent for your team.</p>
-            </div>
-            <div class="col-md-5 text-md-end d-none d-md-block">
-                <a href="post-job.html" class="btn btn-light btn-lg fw-bold px-4 py-3 shadow-sm" style="border-radius: 15px; color: #0d6efd;">
-                    <i class="bi bi-plus-lg me-2"></i>Post New Job
-                </a>
+<div class="main-content">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary" href="index.html">
+                <i class="bi bi-briefcase-fill me-2"></i>JobHub
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link px-3 active" href="employer-dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="post-job.html">Post a Job</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="create-company.html">Company Profile</a></li>
+                    <li class="nav-item ms-lg-3">
+                        <button class="btn btn-outline-danger btn-sm fw-bold px-3" onclick="logout()">Sign Out</button>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
+    </nav>
 
-    <div class="row g-4 mb-5">
-        <div class="col-md-4">
-            <div class="card stat-card shadow-sm p-4">
-                <div class="d-flex align-items-center">
-                    <div class="icon-square bg-primary bg-opacity-10 mb-0 me-3"><i class="bi bi-megaphone"></i></div>
-                    <div><h3 id="activeJobsCount" class="fw-800 mb-0">00</h3><small class="text-muted fw-600">Active Jobs</small></div>
+    <div class="container py-5">
+        <div class="hero-section">
+            <div class="row align-items-center">
+                <div class="col-md-7">
+                    <h2>Welcome back, <span id="companyNameDisplay">Company Name</span>! 🏢</h2>
+                    <p class="mb-0 text-white-50">Manage your job postings and find the best talent for your team.</p>
+                </div>
+                <div class="col-md-5 text-md-end d-none d-md-block">
+                    <a href="post-job.html" class="btn btn-light btn-lg fw-bold px-4 py-3 shadow-sm" style="border-radius: 15px; color: #0d6efd;">
+                        <i class="bi bi-plus-lg me-2"></i>Post New Job
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card stat-card shadow-sm p-4">
-                <div class="d-flex align-items-center">
-                    <div class="icon-square bg-success bg-opacity-10 mb-0 me-3" style="color: #198754;"><i class="bi bi-people"></i></div>
-                    <div><h3 id="totalApplicantsCount" class="fw-800 mb-0">00</h3><small class="text-muted fw-600">Total Applicants</small></div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="card stat-card shadow-sm p-4">
+                    <div class="d-flex align-items-center">
+                        <div class="icon-square bg-primary bg-opacity-10 mb-0 me-3"><i class="bi bi-megaphone"></i></div>
+                        <div><h3 id="activeJobsCount" class="fw-800 mb-0">00</h3><small class="text-muted fw-600">Active Jobs</small></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card stat-card shadow-sm p-4">
+                    <div class="d-flex align-items-center">
+                        <div class="icon-square bg-success bg-opacity-10 mb-0 me-3" style="color: #198754;"><i class="bi bi-people"></i></div>
+                        <div><h3 id="totalApplicantsCount" class="fw-800 mb-0">00</h3><small class="text-muted fw-600">Total Applicants</small></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <h5 class="section-title"><i class="bi bi-grid-fill text-primary"></i> Your Posted Jobs</h5>
-    <div class="row g-4" id="employerJobsList"></div>
+        <h5 class="section-title"><i class="bi bi-grid-fill text-primary"></i> Your Posted Jobs</h5>
+        <div class="row g-4" id="employerJobsList"></div>
+    </div>
 </div>
+
+<footer class="footer-main">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <a href="#" class="footer-brand mb-3 d-block">
+                    <i class="bi bi-briefcase-fill me-2 text-primary"></i>JobHub
+                </a>
+                <p>Connecting elite companies with top-tier talent. Streamline your hiring process with our advanced recruitment tools.</p>
+                <div class="mt-4">
+                    <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2 ms-lg-auto">
+                <h6 class="text-white fw-bold mb-4">Quick Links</h6>
+                <a href="employer-dashboard.html" class="footer-link">Dashboard</a>
+                <a href="post-job.html" class="footer-link">Post a Job</a>
+                <a href="create-company.html" class="footer-link">Profile</a>
+            </div>
+            <div class="col-md-4 col-lg-2">
+                <h6 class="text-white fw-bold mb-4">Support</h6>
+                <a href="#" class="footer-link">Help Center</a>
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Use</a>
+            </div>
+            <div class="col-md-4 col-lg-3">
+                <h6 class="text-white fw-bold mb-4">Contact Us</h6>
+                <p class="small mb-2"><i class="bi bi-envelope me-2"></i> support@jobhub.lk</p>
+                <p class="small mb-2"><i class="bi bi-telephone me-2"></i> +94 11 234 5678</p>
+                <p class="small"><i class="bi bi-geo-alt me-2"></i> Colombo, Sri Lanka</p>
+            </div>
+        </div>
+        <hr class="my-4 border-secondary opacity-25">
+        <div class="text-center">
+            <p class="small mb-0">&copy; 2026 JobHub. All rights reserved. Designed with ❤️ for Recruiters.</p>
+        </div>
+    </div>
+</footer>
 
 <div class="modal fade" id="applicantsModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered">
@@ -349,7 +408,6 @@
                         seekerEmail = userData.email;
                     }
                 } catch (userErr) {
-                    console.error("Error fetching user details:", userErr);
                     seekerName = "Error Loading";
                 }
 
@@ -376,7 +434,6 @@
                 </tr>`;
             }
         } catch (err) {
-            console.error(err);
             tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Error loading applicants.</td></tr>';
         }
     }
@@ -405,8 +462,6 @@
                     icon: 'success',
                     title: `Status updated to ${newStatus}`
                 });
-            } else {
-                Swal.fire('Error', 'Failed to update status.', 'error');
             }
         } catch (err) { console.error(err); }
     }
@@ -430,12 +485,11 @@
                     if (res.ok) {
                         Swal.fire('Deleted!', 'Job post has been deleted.', 'success')
                             .then(() => location.reload());
-                    } else {
-                        Swal.fire('Error', 'Failed to delete the job.', 'error');
                     }
                 } catch (err) { console.error(err); }
             }
         });
     }
-</script></body>
+</script>
+</body>
 </html>
