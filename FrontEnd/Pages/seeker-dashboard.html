@@ -26,12 +26,19 @@
         .navbar {
             border-bottom: 1px solid #e2e8f0;
             background: white !important;
+            padding: 15px 0;
         }
-        .navbar-brand { font-weight: 800; }
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+            color: #212529 !important;
+        }
         .nav-link {
             font-weight: 600;
             color: #64748b !important;
             transition: 0.3s;
+            padding: 8px 16px !important;
         }
         .nav-link:hover, .nav-link.active {
             color: #0d6efd !important;
@@ -149,42 +156,63 @@
             transform: translateY(-2px);
         }
 
-        /* --- Footer Styles --- */
-        .footer-main {
-            background-color: #0f172a;
+        /* --- Updated Footer Styles --- */
+        .footer {
+            background: #0f172a;
             color: #94a3b8;
-            padding: 60px 0 30px;
+            padding: 80px 0 30px;
             margin-top: 60px;
         }
-        .footer-brand { color: white; font-weight: 800; font-size: 1.5rem; text-decoration: none; }
-        .footer-link { color: #94a3b8; text-decoration: none; transition: 0.3s; display: block; margin-bottom: 10px; }
-        .footer-link:hover { color: #0d6efd; }
-        .social-icon { font-size: 1.25rem; color: #94a3b8; margin-right: 15px; transition: 0.3s; }
-        .social-icon:hover { color: #0d6efd; }
+        .footer-brand {
+            color: white;
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            text-decoration: none;
+        }
+        .footer-link {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: 0.3s;
+            display: block;
+            margin-bottom: 0.8rem;
+        }
+        .footer-link:hover { color: white; transform: translateX(5px); }
+        .social-link {
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.05);
+            color: white;
+            display: inline-flex;
+            align-items: center; justify-content: center;
+            border-radius: 10px;
+            margin-right: 10px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .social-link:hover { background: #0d6efd; transform: translateY(-3px); }
     </style>
 </head>
 <body>
 
 <div class="main-content">
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm">
+    <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
         <div class="container">
-            <a class="navbar-brand fw-bold text-primary" href="index.html">
-                <i class="bi bi-briefcase-fill me-2"></i>JobHub
+            <a class="navbar-brand text-dark" href="index.html">
+                <i class="bi bi-intersect text-primary me-2"></i>JobHub
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link px-3 active" href="seeker-dashboard.html">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link px-3" href="jobs.html">Find Jobs</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link px-3" href="#" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</a>
-                    </li>
-                    <li class="nav-item ms-lg-3">
-                        <button class="btn btn-outline-danger btn-sm fw-bold px-3" onclick="logout()">Sign Out</button>
-                    </li>
+                <ul class="navbar-nav mx-auto gap-2">
+                    <li class="nav-item"><a class="nav-link fw-semibold active" href="seeker-dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="jobs.html">Find Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="#" data-bs-toggle="modal" data-bs-target="#editProfileModal">My Profile</a></li>
                 </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <button class="btn btn-outline-danger btn-sm fw-bold px-4" style="border-radius: 10px;" onclick="logout()">Sign Out</button>
+                </div>
             </div>
         </div>
     </nav>
@@ -243,43 +271,41 @@
     </div>
 </div>
 
-<footer class="footer-main">
+<footer class="footer">
     <div class="container">
         <div class="row g-4">
             <div class="col-lg-4">
-                <a href="#" class="footer-brand mb-3 d-block">
-                    <i class="bi bi-briefcase-fill me-2 text-primary"></i>JobHub
-                </a>
-                <p>Connecting elite companies with top-tier talent. Streamline your hiring process with our advanced recruitment tools.</p>
-                <div class="mt-4">
-                    <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="social-icon"><i class="bi bi-linkedin"></i></a>
-                    <a href="#" class="social-icon"><i class="bi bi-twitter-x"></i></a>
-                    <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="footer-brand"><i class="bi bi-intersect text-primary me-2"></i>JobHub</a>
+                <p class="mb-4">Connecting the world's best talent with the most innovative companies. Your next career move starts here.</p>
+                <div class="d-flex">
+                    <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="social-link"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
                 </div>
             </div>
-            <div class="col-md-4 col-lg-2 ms-lg-auto">
-                <h6 class="text-white fw-bold mb-4">Quick Links</h6>
-                <a href="seeker-dashboard.html" class="footer-link">Dashboard</a>
-                <a href="jobs.html" class="footer-link">Find Jobs</a>
-                <a href="#" class="footer-link">My Applications</a>
+            <div class="col-lg-2 col-6 ms-lg-auto">
+                <h6 class="text-white fw-bold mb-4">For Candidates</h6>
+                <a href="jobs.html" class="footer-link">Browse Jobs</a>
+                <a href="#" class="footer-link">Job Alerts</a>
+                <a href="#" class="footer-link">Applied Jobs</a>
             </div>
-            <div class="col-md-4 col-lg-2">
+            <div class="col-lg-2 col-6">
+                <h6 class="text-white fw-bold mb-4">For Employers</h6>
+                <a href="post-job.html" class="footer-link">Post a Job</a>
+                <a href="#" class="footer-link">Hiring Solutions</a>
+                <a href="#" class="footer-link">Pricing</a>
+            </div>
+            <div class="col-lg-2">
                 <h6 class="text-white fw-bold mb-4">Support</h6>
                 <a href="#" class="footer-link">Help Center</a>
                 <a href="#" class="footer-link">Privacy Policy</a>
-                <a href="#" class="footer-link">Terms of Use</a>
-            </div>
-            <div class="col-md-4 col-lg-3">
-                <h6 class="text-white fw-bold mb-4">Contact Us</h6>
-                <p class="small mb-2"><i class="bi bi-envelope me-2"></i> support@jobhub.lk</p>
-                <p class="small mb-2"><i class="bi bi-telephone me-2"></i> +94 11 234 5678</p>
-                <p class="small"><i class="bi bi-geo-alt me-2"></i> Colombo, Sri Lanka</p>
+                <a href="#" class="footer-link">Terms of Service</a>
             </div>
         </div>
-        <hr class="my-4 border-secondary opacity-25">
-        <div class="text-center">
-            <p class="small mb-0">&copy; 2026 JobHub. All rights reserved. Designed with ❤️ for Seekers.</p>
+        <hr class="my-5 border-secondary opacity-25">
+        <div class="text-center small">
+            <p class="mb-0">&copy; 2026 JobHub Inc. Made with <i class="bi bi-heart-fill text-danger mx-1"></i> in Sri Lanka.</p>
         </div>
     </div>
 </footer>

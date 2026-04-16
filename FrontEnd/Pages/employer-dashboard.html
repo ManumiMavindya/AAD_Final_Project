@@ -10,7 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        /* පවතින Styles */
         body {
             background-color: #f8fafc;
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -24,9 +23,27 @@
             flex: 1;
         }
 
-        .navbar { border-bottom: 1px solid #e2e8f0; background: white !important; }
-        .nav-link { font-weight: 600; color: #64748b !important; transition: 0.3s; }
-        .nav-link:hover, .nav-link.active { color: #0d6efd !important; }
+        /* --- Navbar Customization (Matching Index) --- */
+        .navbar {
+            border-bottom: 1px solid #e2e8f0;
+            background: white !important;
+            padding: 15px 0;
+        }
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+            color: #212529 !important;
+        }
+        .nav-link {
+            font-weight: 600;
+            color: #64748b !important;
+            transition: 0.3s;
+            padding: 8px 16px !important;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #0d6efd !important;
+        }
 
         .hero-section {
             background: linear-gradient(135deg, #0d6efd 0%, #004dc7 100%);
@@ -131,7 +148,7 @@
             border-bottom: 1px solid #f1f5f9;
         }
 
-        /* අලුතින් එකතු කළ Footer Styles */
+        /* Footer Styles */
         .footer-main {
             background-color: #0f172a;
             color: #94a3b8;
@@ -148,23 +165,23 @@
 <body>
 
 <div class="main-content">
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm">
+    <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
         <div class="container">
-            <a class="navbar-brand fw-bold text-primary" href="index.html">
-                <i class="bi bi-briefcase-fill me-2"></i>JobHub
+            <a class="navbar-brand text-dark" href="index.html">
+                <i class="bi bi-intersect text-primary me-2"></i>JobHub
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link px-3 active" href="employer-dashboard.html">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link px-3" href="post-job.html">Post a Job</a></li>
-                    <li class="nav-item"><a class="nav-link px-3" href="create-company.html">Company Profile</a></li>
-                    <li class="nav-item ms-lg-3">
-                        <button class="btn btn-outline-danger btn-sm fw-bold px-3" onclick="logout()">Sign Out</button>
-                    </li>
+                <ul class="navbar-nav mx-auto gap-2">
+                    <li class="nav-item"><a class="nav-link fw-semibold active" href="employer-dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="post-job.html">Post a Job</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="create-company.html">Company Profile</a></li>
                 </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <button class="btn btn-outline-danger btn-sm fw-bold px-4" style="border-radius: 10px;" onclick="logout()">Sign Out</button>
+                </div>
             </div>
         </div>
     </nav>
@@ -213,7 +230,7 @@
         <div class="row g-4">
             <div class="col-lg-4">
                 <a href="#" class="footer-brand mb-3 d-block">
-                    <i class="bi bi-briefcase-fill me-2 text-primary"></i>JobHub
+                    <i class="bi bi-intersect me-2 text-primary"></i>JobHub
                 </a>
                 <p>Connecting elite companies with top-tier talent. Streamline your hiring process with our advanced recruitment tools.</p>
                 <div class="mt-4">

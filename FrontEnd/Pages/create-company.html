@@ -13,10 +13,28 @@
 
     <style>
         body { background-color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; color: #334155; }
-        .navbar { border-bottom: 1px solid #e2e8f0; background: white !important; padding: 0.75rem 0; }
-        .navbar-brand { font-weight: 800; font-size: 1.25rem; }
-        .nav-link { font-weight: 600; font-size: 0.95rem; color: #64748b !important; }
-        .nav-link.active { color: #0d6efd !important; }
+
+        /* --- Navbar Customization (Matching Index) --- */
+        .navbar {
+            border-bottom: 1px solid #e2e8f0;
+            background: white !important;
+            padding: 15px 0;
+        }
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+            color: #212529 !important;
+        }
+        .nav-link {
+            font-weight: 600;
+            color: #64748b !important;
+            transition: 0.3s;
+            padding: 8px 16px !important;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #0d6efd !important;
+        }
 
         .dashboard-content { padding-top: 40px; padding-bottom: 60px; }
         .hero-title { font-weight: 800; color: #1e293b; }
@@ -61,20 +79,23 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm">
+<nav class="navbar navbar-expand-lg sticky-top shadow-sm">
     <div class="container">
-        <a class="navbar-brand fw-bold text-primary" href="index.html">
-            <i class="bi bi-briefcase-fill me-2"></i>JobHub
+        <a class="navbar-brand text-dark" href="index.html">
+            <i class="bi bi-intersect text-primary me-2"></i>JobHub
         </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto align-items-center">
-                <li class="nav-item"><a class="nav-link px-3" href="employer-dashboard.html">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="post-job.html">Post a Job</a></li>
-                <li class="nav-item"><a class="nav-link px-3 active" href="#">Company Profile</a></li>
-                <li class="nav-item ms-lg-3">
-                    <button class="btn btn-outline-danger btn-sm fw-bold px-3" onclick="logout()">Sign Out</button>
-                </li>
+            <ul class="navbar-nav mx-auto gap-2">
+                <li class="nav-item"><a class="nav-link fw-semibold" href="employer-dashboard.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link fw-semibold" href="post-job.html">Post a Job</a></li>
+                <li class="nav-item"><a class="nav-link fw-semibold active" href="create-company.html">Company Profile</a></li>
             </ul>
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-outline-danger btn-sm fw-bold px-4" style="border-radius: 10px;" onclick="logout()">Sign Out</button>
+            </div>
         </div>
     </div>
 </nav>
@@ -179,7 +200,6 @@
 
     document.addEventListener('DOMContentLoaded', checkProfile);
 
-    // 1. කලින් Profile එකක් තියනවද බලන function එක
     async function checkProfile() {
         try {
             const response = await fetch(`http://localhost:8080/api/company/my-company`, {
@@ -210,7 +230,6 @@
         document.getElementById('dispLogo').src = `http://localhost:8080/uploads/logos/${data.logoUrl}`;
     }
 
-    // 2. Image Preview
     function previewImage(input) {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
@@ -225,7 +244,6 @@
         }
     }
 
-    // 3. Form Submit (Multipart/form-data)
     document.getElementById('companyForm').addEventListener('submit', async function(e) {
         e.preventDefault();
 
@@ -236,10 +254,6 @@
             location: document.getElementById('compLocation').value,
             website: document.getElementById('website').value,
             description: document.getElementById('compDescription').value,
-
-            // මෙන්න මෙතනට ඔයාගේ HTML එකේ තියෙන නිවැරදි ID එක දෙන්න (උදා: 'compEmail')
-            // contactEmail: document.getElementById('companyEmail') ? document.getElementById('companyEmail').value : "info@gmail.com",
-
             userId: parseInt(localStorage.getItem('userId'))
         };
 
@@ -316,5 +330,6 @@
             }
         });
     }
-</script></body>
+</script>
+</body>
 </html>
