@@ -75,6 +75,19 @@
 
         /* Profile Display Style */
         #viewSection { display: none; }
+
+        /* Footer Styles (Matching Dashboard) */
+        .footer-main {
+            background-color: #0f172a;
+            color: #94a3b8;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+        .footer-brand { color: white; font-weight: 800; font-size: 1.5rem; text-decoration: none; }
+        .footer-link { color: #94a3b8; text-decoration: none; transition: 0.3s; display: block; margin-bottom: 10px; }
+        .footer-link:hover { color: #0d6efd; }
+        .social-icon { font-size: 1.25rem; color: #94a3b8; margin-right: 15px; transition: 0.3s; }
+        .social-icon:hover { color: #0d6efd; }
     </style>
 </head>
 <body>
@@ -192,6 +205,47 @@
     </div>
 
 </div>
+
+<footer class="footer-main">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <a href="index.html" class="footer-brand mb-3 d-block">
+                    <i class="bi bi-intersect me-2 text-primary"></i>JobHub
+                </a>
+                <p>Connecting elite companies with top-tier talent. Streamline your hiring process with our advanced recruitment tools.</p>
+                <div class="mt-4">
+                    <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2 ms-lg-auto">
+                <h6 class="text-white fw-bold mb-4">Quick Links</h6>
+                <a href="employer-dashboard.html" class="footer-link">Dashboard</a>
+                <a href="post-job.html" class="footer-link">Post a Job</a>
+                <a href="create-company.html" class="footer-link">Profile</a>
+            </div>
+            <div class="col-md-4 col-lg-2">
+                <h6 class="text-white fw-bold mb-4">Support</h6>
+                <a href="#" class="footer-link">Help Center</a>
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Use</a>
+            </div>
+            <div class="col-md-4 col-lg-3">
+                <h6 class="text-white fw-bold mb-4">Contact Us</h6>
+                <p class="small mb-2"><i class="bi bi-envelope me-2"></i> support@jobhub.lk</p>
+                <p class="small mb-2"><i class="bi bi-telephone me-2"></i> +94 11 234 5678</p>
+                <p class="small"><i class="bi bi-geo-alt me-2"></i> Colombo, Sri Lanka</p>
+            </div>
+        </div>
+        <hr class="my-4 border-secondary opacity-25">
+        <div class="text-center">
+            <p class="small mb-0">&copy; 2026 JobHub. All rights reserved. Designed with ❤️ for Recruiters.</p>
+        </div>
+    </div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -326,7 +380,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 localStorage.clear();
-                window.location.href = 'login.html';
+                window.location.href = 'index.html';
             }
         });
     }

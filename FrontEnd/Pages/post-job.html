@@ -17,7 +17,7 @@
             color: #334155;
         }
 
-        /* --- Navbar Customization (Matching Index) --- */
+        /* --- Navbar Customization --- */
         .navbar {
             border-bottom: 1px solid #e2e8f0;
             background: white !important;
@@ -44,17 +44,11 @@
             padding-bottom: 60px;
         }
 
-        /* Page Header */
-        .page-header {
-            margin-bottom: 2.5rem;
-        }
-
         .hero-title {
             font-weight: 800;
             color: #1e293b;
         }
 
-        /* Form Card */
         .form-card {
             background: white;
             border-radius: 24px;
@@ -73,16 +67,9 @@
             gap: 10px;
         }
 
-        .form-section-title i {
-            color: #0d6efd;
-        }
+        .form-section-title i { color: #0d6efd; }
 
-        .form-label {
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 0.6rem;
-            color: #475569;
-        }
+        .form-label { font-weight: 600; font-size: 0.9rem; color: #475569; }
 
         .form-control, .form-select {
             border-radius: 12px;
@@ -90,16 +77,8 @@
             border: 1px solid #e2e8f0;
             background-color: #f8fafc;
             transition: all 0.3s;
-            font-size: 0.95rem;
         }
 
-        .form-control:focus, .form-select:focus {
-            background-color: white;
-            border-color: #0d6efd;
-            box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1);
-        }
-
-        /* Buttons */
         .btn-publish {
             background: linear-gradient(135deg, #0d6efd 0%, #004dc7 100%);
             border: none;
@@ -110,22 +89,7 @@
             transition: all 0.3s ease;
         }
 
-        .btn-publish:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(13, 110, 253, 0.3);
-            color: white;
-        }
-
-        .btn-discard {
-            color: #64748b;
-            font-weight: 700;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .btn-discard:hover {
-            color: #ef4444;
-        }
+        .btn-publish:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(13, 110, 253, 0.3); color: white; }
 
         /* Quick Tips Card */
         .tip-card {
@@ -137,10 +101,6 @@
             top: 100px;
         }
 
-        .tip-card h5 {
-            font-weight: 800;
-        }
-
         .status-badge {
             background: rgba(13, 110, 253, 0.1);
             color: #0d6efd;
@@ -149,6 +109,19 @@
             font-size: 0.85rem;
             font-weight: 700;
         }
+
+        /* Footer Styles (Matching Employer Dashboard) */
+        .footer-main {
+            background-color: #0f172a;
+            color: #94a3b8;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+        .footer-brand { color: white; font-weight: 800; font-size: 1.5rem; text-decoration: none; }
+        .footer-link { color: #94a3b8; text-decoration: none; transition: 0.3s; display: block; margin-bottom: 10px; }
+        .footer-link:hover { color: #0d6efd; }
+        .social-icon { font-size: 1.25rem; color: #94a3b8; margin-right: 15px; transition: 0.3s; }
+        .social-icon:hover { color: #0d6efd; }
     </style>
 </head>
 <body>
@@ -175,7 +148,7 @@
 </nav>
 
 <div class="container dashboard-content">
-    <div class="page-header">
+    <div class="page-header mb-5">
         <span class="status-badge mb-3 d-inline-block">Recruitment Management</span>
         <h2 class="hero-title">Create New Vacancy</h2>
         <p class="text-muted">Fill in the details below to find your next great hire.</p>
@@ -204,10 +177,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Location *</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="bi bi-geo-alt"></i></span>
-                                <input type="text" id="location" class="form-control border-start-0" placeholder="Colombo, Sri Lanka" required>
-                            </div>
+                            <input type="text" id="location" class="form-control" placeholder="Colombo, Sri Lanka" required>
                         </div>
                     </div>
 
@@ -218,9 +188,9 @@
                         <div class="col-md-4">
                             <label class="form-label">Work Arrangement</label>
                             <select id="workArrangement" class="form-select">
-                                <option value="ONSITE">🏢 On-site</option>
-                                <option value="REMOTE">🏠 Remote</option>
-                                <option value="HYBRID">☁️ Hybrid</option>
+                                <option value="ONSITE">On-site</option>
+                                <option value="REMOTE">Remote</option>
+                                <option value="HYBRID">Hybrid</option>
                             </select>
                         </div>
                         <div class="col-md-4">
@@ -229,7 +199,6 @@
                                 <option value="ENTRY">Entry Level</option>
                                 <option value="MID">Intermediate</option>
                                 <option value="SENIOR">Senior / Lead</option>
-                                <option value="EXECUTIVE">Executive</option>
                             </select>
                         </div>
                         <div class="col-md-4">
@@ -242,30 +211,18 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Expected Salary (Monthly)</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-transparent border-end-0 text-muted">LKR</span>
-                                <input type="text" id="salary" class="form-control border-start-0" placeholder="e.g. 150,000 - 250,000">
-                            </div>
+                            <input type="text" id="salary" class="form-control" placeholder="e.g. 150000">
                         </div>
                     </div>
 
                     <div class="form-section-title">
                         <i class="bi bi-card-text"></i> Detailed Description
                     </div>
-                    <div class="row g-4">
-                        <div class="col-12">
-                            <textarea id="description" class="form-control" rows="8" placeholder="Outline the key responsibilities, required skills, and any benefits..." required></textarea>
-                        </div>
-                    </div>
+                    <textarea id="description" class="form-control" rows="8" placeholder="Outline responsibilities..." required></textarea>
 
                     <div class="mt-5 pt-4 border-top d-flex justify-content-between align-items-center">
-                        <p class="text-muted small mb-0"><i class="bi bi-shield-check me-1"></i> This vacancy will be published immediately.</p>
-                        <div class="d-flex align-items-center gap-4">
-                            <a href="employer-dashboard.html" class="btn-discard">Discard</a>
-                            <button type="submit" class="btn btn-publish">
-                                <i class="bi bi-send-fill me-2"></i>Publish Vacancy
-                            </button>
-                        </div>
+                        <p class="text-muted small mb-0"><i class="bi bi-shield-check me-1"></i> Published immediately.</p>
+                        <button type="submit" class="btn btn-publish">Publish Vacancy</button>
                     </div>
                 </form>
             </div>
@@ -275,15 +232,55 @@
             <div class="tip-card shadow-sm">
                 <h5 class="mb-3"><i class="bi bi-lightbulb me-2"></i>Quick Tips</h5>
                 <ul class="small list-unstyled opacity-90 fw-500">
-                    <li class="mb-3"><i class="bi bi-check2-circle me-2"></i> Use clear keywords in the title for better searchability.</li>
-                    <li class="mb-3"><i class="bi bi-check2-circle me-2"></i> Mention hybrid/remote options to attract more candidates.</li>
-                    <li class="mb-3"><i class="bi bi-check2-circle me-2"></i> Clearly define the mandatory technical skills.</li>
-                    <li><i class="bi bi-check2-circle me-2"></i> Adding salary range increases trust and applications.</li>
+                    <li class="mb-3"><i class="bi bi-check2-circle me-2"></i> Use clear keywords.</li>
+                    <li class="mb-3"><i class="bi bi-check2-circle me-2"></i> Mention hybrid options.</li>
+                    <li><i class="bi bi-check2-circle me-2"></i> Clearly define skills.</li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
+
+<footer class="footer-main">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <a href="index.html" class="footer-brand mb-3 d-block">
+                    <i class="bi bi-intersect me-2 text-primary"></i>JobHub
+                </a>
+                <p>Connecting elite companies with top-tier talent. Streamline your hiring process with our advanced recruitment tools.</p>
+                <div class="mt-4">
+                    <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2 ms-lg-auto">
+                <h6 class="text-white fw-bold mb-4">Quick Links</h6>
+                <a href="employer-dashboard.html" class="footer-link">Dashboard</a>
+                <a href="post-job.html" class="footer-link">Post a Job</a>
+                <a href="create-company.html" class="footer-link">Profile</a>
+            </div>
+            <div class="col-md-4 col-lg-2">
+                <h6 class="text-white fw-bold mb-4">Support</h6>
+                <a href="#" class="footer-link">Help Center</a>
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Use</a>
+            </div>
+            <div class="col-md-4 col-lg-3">
+                <h6 class="text-white fw-bold mb-4">Contact Us</h6>
+                <p class="small mb-2"><i class="bi bi-envelope me-2"></i> support@jobhub.lk</p>
+                <p class="small mb-2"><i class="bi bi-telephone me-2"></i> +94 11 234 5678</p>
+                <p class="small"><i class="bi bi-geo-alt me-2"></i> Colombo, Sri Lanka</p>
+            </div>
+        </div>
+        <hr class="my-4 border-secondary opacity-25">
+        <div class="text-center">
+            <p class="small mb-0">&copy; 2026 JobHub. All rights reserved. Designed with ❤️ for Recruiters.</p>
+        </div>
+    </div>
+</footer>
 
 <script src="../js/post-job.js"></script>
 <script>
@@ -295,12 +292,11 @@
             showCancelButton: true,
             confirmButtonColor: '#0d6efd',
             cancelButtonColor: '#64748b',
-            confirmButtonText: 'Yes, Sign Out',
-            cancelButtonText: 'Cancel'
+            confirmButtonText: 'Yes, Sign Out'
         }).then((result) => {
             if (result.isConfirmed) {
                 localStorage.clear();
-                window.location.href = 'login.html';
+                window.location.href = 'index.html';
             }
         });
     }

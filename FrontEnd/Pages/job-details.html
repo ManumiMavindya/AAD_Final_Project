@@ -16,25 +16,24 @@
             color: #1e293b;
         }
 
-        /* --- Refined Navbar (Exact Matching Style) --- */
+        /* --- Navbar Customization (Matching Dashboard) --- */
         .navbar {
             border-bottom: 1px solid #e2e8f0;
             background: white !important;
-            padding: 0.55rem 0; /* Padding අඩු කරලා size එක හරිගැස්සුවා */
+            padding: 15px 0;
         }
-
         .navbar-brand {
             font-weight: 800;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+            color: #212529 !important;
         }
-
         .nav-link {
             font-weight: 600;
-            font-size: 0.95rem;
             color: #64748b !important;
             transition: 0.3s;
+            padding: 8px 16px !important;
         }
-
         .nav-link:hover, .nav-link.active {
             color: #0d6efd !important;
         }
@@ -157,17 +156,15 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+<nav class="navbar navbar-expand-lg sticky-top shadow-sm">
     <div class="container">
-        <a class="navbar-brand fw-bold text-primary" href="index.html">
-            <i class="bi bi-briefcase-fill me-2"></i>JobHub
+        <a class="navbar-brand text-dark" href="index.html">
+            <i class="bi bi-intersect text-primary me-2"></i>JobHub
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto align-items-center" id="navItems">
-            </ul>
         </div>
     </div>
 </nav>
@@ -194,7 +191,7 @@
                         <div class="d-flex flex-wrap gap-2">
                             <span class="badge-outline" id="detLocation"><i class="bi bi-geo-alt me-1"></i> -</span>
                             <span class="badge-outline" id="detType"><i class="bi bi-clock me-1"></i> -</span>
-                            <span class="badge-salary" id="detSalary">$0</span>
+                            <span class="badge-salary" id="detSalary">LKR 0</span>
                         </div>
                     </div>
                 </div>
@@ -323,36 +320,36 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // --- Navbar Logic (Kept Consistent) ---
+    // --- Navbar Logic (Updated to Match Dashboard) ---
     function updateNavbar() {
-        const navItems = document.getElementById('navItems');
+        const navbarCollapse = document.getElementById('navbarNav');
         const token = localStorage.getItem('token');
         const userRole = localStorage.getItem('userRole');
 
-        let content = `
-            <li class="nav-item"><a class="nav-link px-3" href="index.html">Home</a></li>
-            <li class="nav-item"><a class="nav-link px-3 active" href="jobs.html">Find Jobs</a></li>`;
+        let content = `<ul class="navbar-nav mx-auto gap-2">
+            <li class="nav-item"><a class="nav-link fw-semibold" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link fw-semibold active" href="jobs.html">Find Jobs</a></li>`;
 
         if (token) {
             if (userRole === 'EMPLOYER') {
                 content += `
-                    <li class="nav-item"><a class="nav-link px-3" href="employer-dashboard.html">Employer Portal</a></li>
-                    <li class="nav-item"><a class="nav-link px-3" href="post-job.html">Post a Job</a></li>`;
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="employer-dashboard.html">Employer Portal</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="post-job.html">Post a Job</a></li>`;
             } else {
-                content += `<li class="nav-item"><a class="nav-link px-3" href="seeker-dashboard.html">My Dashboard</a></li>`;
+                content += `<li class="nav-item"><a class="nav-link fw-semibold" href="seeker-dashboard.html">Dashboard</a></li>`;
             }
-            content += `
-                <li class="nav-item ms-lg-3">
-                    <button class="btn btn-outline-danger btn-sm fw-bold px-3" style="border-radius: 10px;" onclick="logout()">Sign Out</button>
-                </li>`;
+            content += `</ul>
+                <div class="d-flex align-items-center gap-3">
+                    <button class="btn btn-outline-danger btn-sm fw-bold px-4" style="border-radius: 10px;" onclick="logout()">Sign Out</button>
+                </div>`;
         } else {
-            content += `
-                <li class="nav-item ms-lg-2"><a class="nav-link px-3" href="login.html">Login</a></li>
-                <li class="nav-item ms-lg-2">
+            content += `</ul>
+                <div class="d-flex align-items-center gap-2">
+                    <a class="nav-link fw-semibold px-3 text-secondary" href="login.html" style="text-decoration:none;">Login</a>
                     <a class="btn btn-primary btn-sm fw-bold px-4 text-white" href="register.html" style="border-radius: 10px; background: #0d6efd; border:none;">Register</a>
-                </li>`;
+                </div>`;
         }
-        navItems.innerHTML = content;
+        navbarCollapse.innerHTML = content;
     }
 
     function logout() {
@@ -372,7 +369,7 @@
         });
     }
 
-    // --- JS Logic (UNCHANGED) ---
+    // --- Job Logic (UNCHANGED) ---
     let currentJobId = null;
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -491,7 +488,7 @@
 
         try {
             const formData = new FormData();
-            const jobId = new URLSearchParams(window.location.search).get('id');
+            const jobId = currentJobId;
 
             formData.append('jobId', jobId);
             formData.append('userId', loggedInUserId);
@@ -545,8 +542,8 @@
         } finally {
             const submitBtn = e.target.querySelector('button[type="submit"]');
             submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Send Application';
         }
     });
-</script></body>
+</script>
+</body>
 </html>
