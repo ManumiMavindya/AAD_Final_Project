@@ -469,7 +469,9 @@
     document.getElementById('applyForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const loggedInUserId = localStorage.getItem('userId');
+        const token = localStorage.getItem('token');
 
+        // 1. User Login වෙලා නැත්නම් Login පේජ් එකට යවන්න
         if (!loggedInUserId) {
             Swal.fire({
                 title: 'Login Required',
@@ -486,11 +488,19 @@
             return;
         }
 
+        // 2. Loading එක පෙන්වන්න (AI Analysis)
+        Swal.fire({
+            title: 'Gemini AI Analysis...',
+            text: 'Please wait while our AI checks your resume compatibility with the job requirements.',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
         try {
             const formData = new FormData();
-            const jobId = currentJobId;
-
-            formData.append('jobId', jobId);
+            formData.append('jobId', currentJobId);
             formData.append('userId', loggedInUserId);
             formData.append('contactNo', document.getElementById('applicantPhone').value);
             formData.append('file', document.getElementById('resumeFile').files[0]);
@@ -498,52 +508,68 @@
             const submitBtn = e.target.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
 
-            Swal.fire({
-                title: 'Submitting Application...',
-                text: 'Uploading your CV, please wait.',
-                allowOutsideClick: false,
-                didOpen: () => { Swal.showLoading(); }
-            });
-
-            const token = localStorage.getItem('token');
-
+            // 3. Backend එකට Request එක යැවීම
             const response = await fetch('http://localhost:8080/api/apply/submit-with-cv', {
                 method: 'POST',
                 headers: { 'Authorization': 'Bearer ' + token },
                 body: formData
             });
 
+            const data = await response.json(); // Backend එකෙන් එන JSON එක
+
             if (response.ok) {
+                // 4. සාර්ථකව Submit වුණොත් (Score 60+)
                 Swal.fire({
                     icon: 'success',
-                    title: 'Success!',
-                    text: 'Your application has been submitted successfully! ✅',
+                    title: 'Application Success!',
+                    text: `ATS Score: ${data.score}% - Your application has been submitted successfully! ✅`,
                     confirmButtonColor: '#0d6efd'
                 });
-                bootstrap.Modal.getInstance(document.getElementById('applyModal')).hide();
+
+                // Modal එක වසා Form එක Reset කිරීම
+                const modalElement = document.getElementById('applyModal');
+                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                if (modalInstance) modalInstance.hide();
                 e.target.reset();
+
+            } else if (response.status === 406) {
+                // 5. ATS Score එක අඩු නිසා Reject වුණොත්
+                Swal.fire({
+                    icon: 'warning',
+                    title: `Low ATS Score: ${data.score}%`,
+                    html: `
+                    <div style="text-align: left; background: #fff5f5; padding: 15px; border-radius: 10px; border: 1px solid #feb2b2;">
+                        <p style="color: #c53030; font-weight: bold; margin-bottom: 8px;">Improvement Needed:</p>
+                        <p style="color: #4a5568; font-size: 0.95rem; line-height: 1.5;">${data.feedback}</p>
+                    </div>
+                    <p style="margin-top: 15px; font-weight: 500;">කරුණාකර ඉහත සඳහන් Skills ඔබේ Resume එකට ඇතුළත් කර නැවත උත්සාහ කරන්න.</p>
+                `,
+                    confirmButtonText: 'Understand',
+                    confirmButtonColor: '#0d6efd'
+                });
+
             } else {
-                const errorMsg = await response.text();
+                // 6. වෙනත් කිසියම් Error එකක් ආවොත්
                 Swal.fire({
                     icon: 'error',
-                    title: 'Submission Failed',
-                    text: errorMsg || 'Something went wrong.',
+                    title: 'Oops!',
+                    text: data.message || 'Something went wrong during submission.',
                     confirmButtonColor: '#d33'
                 });
             }
+
         } catch (error) {
             console.error("Error:", error);
             Swal.fire({
                 icon: 'error',
-                title: 'Error',
-                text: 'Server connection failed! Please try again later.',
+                title: 'Connection Error',
+                text: 'Server connection failed! Please check if the backend is running.',
                 confirmButtonColor: '#d33'
             });
         } finally {
             const submitBtn = e.target.querySelector('button[type="submit"]');
             submitBtn.disabled = false;
         }
-    });
-</script>
+    });</script>
 </body>
 </html>

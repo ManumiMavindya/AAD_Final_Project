@@ -428,33 +428,65 @@
                     seekerName = "Error Loading";
                 }
 
+                // ... (උඩ කොටස සමානයි)
+
                 tableBody.innerHTML += `
-                <tr>
-                    <td>
-                        <div class="fw-bold">${seekerName}</div>
-                        <div class="small text-muted"><i class="bi bi-envelope me-1"></i>${seekerEmail}</div>
-                    </td>
-                    <td><i class="bi bi-telephone me-1 text-muted"></i>${app.contactNo}</td>
-                    <td>
-                        <button class="btn btn-sm btn-outline-primary fw-bold" onclick="window.open('${API_BASE_URL}/apply/download/${app.id}')">
-                            <i class="bi bi-file-earmark-pdf me-1"></i> View CV
-                        </button>
-                    </td>
-                    <td><span class="badge ${getStatusClass(app.status)}">${app.status}</span></td>
-                    <td class="text-end">
-                        <select class="form-select form-select-sm d-inline-block w-auto" onchange="updateStatus(${app.id}, this.value)">
-                            <option value="PENDING" ${app.status === 'PENDING' ? 'selected' : ''}>Pending</option>
-                            <option value="APPROVED" ${app.status === 'APPROVED' ? 'selected' : ''}>Approve</option>
-                            <option value="REJECTED" ${app.status === 'REJECTED' ? 'selected' : ''}>Reject</option>
-                        </select>
-                    </td>
-                </tr>`;
+<tr>
+    <td>
+        <div class="fw-bold">${seekerName}</div>
+        <div class="small text-muted"><i class="bi bi-envelope me-1"></i>${seekerEmail}</div>
+    </td>
+    <td><i class="bi bi-telephone me-1 text-muted"></i>${app.contactNo}</td>
+    <td>
+        <button class="btn btn-sm btn-outline-primary fw-bold" onclick="viewCvWithAuth(${app.id})">
+            <i class="bi bi-file-earmark-pdf me-1"></i> View CV
+        </button>
+     </td>
+    <td><span class="badge ${getStatusClass(app.status)}">${app.status}</span></td>
+    <td class="text-end">
+        <select class="form-select form-select-sm d-inline-block w-auto" onchange="updateStatus(${app.id}, this.value)">
+            <option value="PENDING" ${app.status === 'PENDING' ? 'selected' : ''}>Pending</option>
+            <option value="APPROVED" ${app.status === 'APPROVED' ? 'selected' : ''}>Approve</option>
+            <option value="REJECTED" ${app.status === 'REJECTED' ? 'selected' : ''}>Reject</option>
+        </select>
+    </td>
+</tr>`;
+
+// ... (ඉතිරි කොටස සමානයි)
             }
         } catch (err) {
             tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Error loading applicants.</td></tr>';
         }
     }
 
+    async function viewCvWithAuth(appId) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/apply/view-cv/${appId}`, {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                // PDF එකක් විදිහටම එනවා කියලා සහතික කරමු
+                const pdfBlob = new Blob([blob], { type: 'application/pdf' });
+                const url = window.URL.createObjectURL(pdfBlob);
+                window.open(url, '_blank');
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Access Denied',
+                    text: 'CV file not found or unauthorized access!'
+                });
+            }
+        } catch (err) {
+            console.error("Error viewing CV:", err);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Could not connect to the server.'
+            });
+        }
+    }
     function getStatusClass(status) {
         if (status === 'APPROVED') return 'bg-success bg-opacity-10 text-success';
         if (status === 'REJECTED') return 'bg-danger bg-opacity-10 text-danger';

@@ -46,6 +46,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/company/add").hasAuthority("EMPLOYER")
                         .requestMatchers("/api/company/**").authenticated()
                         .requestMatchers("/api/apply/**").authenticated()
+                        .requestMatchers("/api/apply/view-cv/**").permitAll()
 
                         .anyRequest().authenticated()
                 );
