@@ -3,170 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Control Center | JobHub</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <title>Admin Dashboard - JobHub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
-        :root { --primary-blue: #0d6efd; --dark-navy: #1e293b; --light-bg: #f1f5f9; }
-        body { background-color: var(--light-bg); font-family: 'Inter', sans-serif; color: var(--dark-navy); }
+        body { background-color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; color: #334155; }
 
-        .sidebar { background: white; border-right: 1px solid #e2e8f0; min-height: 100vh; padding: 20px; }
-        .nav-link { color: #64748b; font-weight: 500; border-radius: 10px; padding: 12px; margin-bottom: 5px; }
-        .nav-link.active { background: var(--primary-blue); color: white; }
-        .nav-link:hover:not(.active) { background: #f8fafc; color: var(--primary-blue); }
+        .navbar { border-bottom: 1px solid #e2e8f0; background: white !important; padding: 15px 0; }
+        .navbar-brand { font-weight: 800; font-size: 1.5rem; color: #212529 !important; }
 
-        .stat-card { background: white; border-radius: 16px; border: none; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); padding: 20px; }
-        .main-content { padding: 40px; }
-        .card-table { background: white; border-radius: 16px; border: none; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .footer-main { background-color: #0f172a; color: #94a3b8; padding: 60px 0 30px; margin-top: 60px; }
+        .footer-brand { color: white; font-weight: 800; font-size: 1.5rem; text-decoration: none; }
 
-        .chart-container { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); height: 300px; }
-        .badge-status { border-radius: 50px; padding: 5px 12px; font-size: 0.75rem; }
+        .hero-admin {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-radius: 24px; padding: 40px; color: white; margin-bottom: 40px;
+        }
+
+        .stat-card {
+            border: none; border-radius: 20px; transition: all 0.3s ease; background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03); padding: 25px;
+            cursor: default; position: relative; overflow: hidden; border: 1px solid transparent;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.08);
+            border-color: rgba(13, 110, 253, 0.2);
+        }
+
+        .chart-container {
+            background: white; border-radius: 20px; padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03); height: 350px;
+        }
+
+        .nav-tabs-custom .nav-link {
+            border: none; color: #64748b; font-weight: 600; padding: 12px 25px; border-radius: 10px;
+        }
+        .nav-tabs-custom .nav-link.active {
+            background: #0d6efd; color: white; box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+        }
+
+        .custom-table { background: white; border-radius: 20px; overflow: hidden; }
+        .custom-table thead th { background: #f8fafc; color: #64748b; font-size: 0.8rem; text-transform: uppercase; border: none; padding: 15px; }
+
+        /* Modal styling */
+        .modal-content { border-radius: 24px; border: none; }
+        .detail-card { background: #f8fafc; border-radius: 15px; padding: 20px; border: 1px solid #e2e8f0; }
+        .detail-label { font-size: 0.75rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+
+        /* Description eka lassanata space thiyala penna dapu fix eka */
+        .description-box {
+            white-space: pre-line;
+            line-height: 1.6;
+            color: #475569;
+            font-size: 0.95rem;
+        }
     </style>
 </head>
 <body>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2 sidebar d-none d-md-block fixed-top">
-            <h4 class="fw-bold text-primary mb-5"><i class="bi bi-shield-lock-fill me-2"></i>JobHub Admin</h4>
-            <nav class="nav flex-column">
-                <a class="nav-link active" href="#" onclick="showSection('overview')"><i class="bi bi-grid-1x2-fill me-2"></i> Overview</a>
-                <a class="nav-link" href="#" onclick="showSection('jobs')"><i class="bi bi-briefcase me-2"></i> Manage Jobs</a>
-                <a class="nav-link" href="#" onclick="showSection('users')"><i class="bi bi-people me-2"></i> All Users</a>
-                <a class="nav-link" href="#" onclick="showSection('companies')"><i class="bi bi-building me-2"></i> Companies</a>
-                <hr>
-                <a class="nav-link text-danger" href="#" onclick="logout()"><i class="bi bi-box-arrow-left me-2"></i> Logout</a>
-            </nav>
+<nav class="navbar navbar-expand-lg sticky-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand text-dark" href="index.html">
+            <i class="bi bi-intersect text-primary me-2"></i>JobHub Admin
+        </a>
+        <div class="ms-auto d-flex align-items-center gap-3">
+            <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2">System Administrator</span>
+            <button class="btn btn-outline-danger btn-sm fw-bold" style="border-radius: 10px;" onclick="logout()">Sign Out</button>
         </div>
+    </div>
+</nav>
 
-        <div class="col-md-10 offset-md-2 main-content">
+<div class="container py-5">
+    <div class="hero-admin mb-5">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h2 class="fw-800 mb-2">Platform Control Center 🛡️</h2>
+                <p class="mb-0 opacity-75">Monitoring system performance, users, and global job activities.</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <h4 id="currentDate" class="fw-bold mb-0"></h4>
+            </div>
+        </div>
+    </div>
 
-            <section id="overview-section">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="fw-bold">System Dashboard</h3>
-                    <span class="text-muted" id="currentDate"></span>
-                </div>
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="stat-card text-center">
+                <h6 class="text-muted fw-600 mb-2">Total Users</h6>
+                <h2 class="fw-800 mb-0" id="totalUsers">--</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card text-center">
+                <h6 class="text-muted fw-600 mb-2">Live Jobs</h6>
+                <h2 class="fw-800 mb-0" id="totalJobs">--</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card text-center">
+                <h6 class="text-muted fw-600 mb-2">Active Companies</h6>
+                <h2 class="fw-800 mb-0" id="totalCompanies">--</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card text-center">
+                <h6 class="text-muted fw-600 mb-2">Total Applications</h6>
+                <h2 class="fw-800 mb-0" id="totalApps">1,284</h2>
+            </div>
+        </div>
+    </div>
 
-                <div class="row g-4 mb-5">
-                    <div class="col-md-3">
-                        <div class="stat-card">
-                            <div class="text-muted small">Total Applications</div>
-                            <h2 class="fw-bold mt-2" id="statApps">1,284</h2>
-                            <div class="text-success small"><i class="bi bi-arrow-up"></i> 12% increase</div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="stat-card">
-                            <div class="text-muted small">Active Seekers</div>
-                            <h2 class="fw-bold mt-2" id="statSeekers">856</h2>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="stat-card">
-                            <div class="text-muted small">Total Employers</div>
-                            <h2 class="fw-bold mt-2" id="statEmployers">124</h2>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="stat-card">
-                            <div class="text-muted small">Live Jobs</div>
-                            <h2 class="fw-bold mt-2" id="statJobs">432</h2>
-                        </div>
-                    </div>
-                </div>
+    <div class="mb-4">
+        <ul class="nav nav-pills nav-tabs-custom gap-2 mb-4" id="adminTabs" role="tablist">
+            <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-jobs" onclick="fetchAllJobs()">Manage Jobs</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-users" onclick="fetchAllUsers()">Manage Users</button></li>
+        </ul>
 
-                <div class="row mb-5">
-                    <div class="col-md-8">
-                        <div class="chart-container">
-                            <canvas id="growthChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="chart-container text-center">
-                            <h6 class="fw-bold">Job Categories Distribution</h6>
-                            <canvas id="categoryChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="jobs-section" style="display:none;">
-                <h3 class="fw-bold mb-4">Manage All Job Posts</h3>
-                <div class="card-table p-0">
-                    <table class="table align-middle mb-0">
-                        <thead class="bg-light">
+        <div class="tab-content main-card p-4 bg-white shadow-sm border-0" style="border-radius: 20px;">
+            <div class="tab-pane fade show active" id="tab-jobs">
+                <h5 class="fw-800 mb-4"><i class="bi bi-briefcase-fill text-primary me-2"></i>Global Job List</h5>
+                <div class="table-responsive">
+                    <table class="table custom-table align-middle">
+                        <thead>
                         <tr>
-                            <th class="ps-4">Job Title</th>
+                            <th>Job Title</th>
                             <th>Company</th>
-                            <th>Status</th>
-                            <th class="text-end pe-4">Action</th>
+                            <th>Posted Date</th>
+                            <th class="text-end">Action</th>
                         </tr>
                         </thead>
-                        <tbody id="adminJobsTable">
-                        </tbody>
+                        <tbody id="adminJobsList"></tbody>
                     </table>
                 </div>
-            </section>
+            </div>
 
+            <div class="tab-pane fade" id="tab-users">
+                <h5 class="fw-800 mb-4"><i class="bi bi-people-fill text-primary me-2"></i>Registered Platform Users</h5>
+                <div class="table-responsive">
+                    <table class="table custom-table align-middle">
+                        <thead>
+                        <tr>
+                            <th>User Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="adminUsersList"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="modal fade" id="jobDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content shadow-lg">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="fw-800"><i class="bi bi-shield-check text-primary me-2"></i>Verification Deep-Dive</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4" id="jobDetailContent">
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-light fw-bold px-4" data-bs-dismiss="modal" style="border-radius: 12px;">Close Panel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer-main">
+    <div class="container text-center">
+        <a href="#" class="footer-brand mb-3 d-block"><i class="bi bi-intersect me-2 text-primary"></i>JobHub Admin</a>
+        <p class="small mb-0 opacity-50">&copy; 2026 JobHub Control Panel.</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     const API_BASE_URL = "http://localhost:8080/api";
     const token = localStorage.getItem('token');
 
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('currentDate').textContent = new Date().toDateString();
-        initCharts();
         fetchAllJobs();
+        updateStats();
     });
 
-    function showSection(section) {
-        document.getElementById('overview-section').style.display = section === 'overview' ? 'block' : 'none';
-        document.getElementById('jobs-section').style.display = section === 'jobs' ? 'block' : 'none';
-
-        // Active link class change
-        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-        event.currentTarget.classList.add('active');
-
-        if(section === 'jobs') fetchAllJobs();
-    }
-
-    function initCharts() {
-        // Growth Chart (Line)
-        const ctxGrowth = document.getElementById('growthChart').getContext('2d');
-        new Chart(ctxGrowth, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'New Users',
-                    data: [65, 59, 80, 81, 56, 120],
-                    borderColor: '#0d6efd',
-                    tension: 0.4,
-                    fill: true,
-                    backgroundColor: 'rgba(13, 110, 253, 0.05)'
-                }]
-            },
-            options: { maintainAspectRatio: false, plugins: { legend: { display: false } } }
-        });
-
-        // Category Chart (Doughnut)
-        const ctxCat = document.getElementById('categoryChart').getContext('2d');
-        new Chart(ctxCat, {
-            type: 'doughnut',
-            data: {
-                labels: ['IT', 'Design', 'Marketing', 'Sales'],
-                datasets: [{
-                    data: [45, 25, 15, 15],
-                    backgroundColor: ['#0d6efd', '#20c997', '#ffc107', '#fd7e14']
-                }]
-            },
-            options: { maintainAspectRatio: false, cutout: '70%' }
-        });
+    async function updateStats() {
+        try {
+            const usersRes = await fetch(`${API_BASE_URL}/users/all`, { headers: { 'Authorization': 'Bearer ' + token } });
+            const users = await usersRes.json();
+            document.getElementById('totalUsers').textContent = users.length;
+        } catch (e) { console.error(e); }
     }
 
     async function fetchAllJobs() {
@@ -175,41 +211,143 @@
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             const jobs = await res.json();
-            const table = document.getElementById('adminJobsTable');
-            table.innerHTML = jobs.map(job => `
+
+            const jobsWithCompanyNames = await Promise.all(jobs.map(async (job) => {
+                // Backend එකෙන් කෙලින්ම Job Entity එක එන නිසා ID එක මෙතනින් ගන්නවා
+                const cId = (job.company && job.company.id) ? job.company.id : job.companyId;
+
+                if (cId) {
+                    try {
+                        const compRes = await fetch(`${API_BASE_URL}/company/${cId}`, {
+                            headers: { 'Authorization': 'Bearer ' + token }
+                        });
+
+                        if (compRes.ok) {
+                            const compData = await compRes.json();
+                            // Company Entity එකේ තියෙන්නේ companyName නිසා ඒක ගන්නවා
+                            job.companyDisplayName = compData.companyName || "Name Not Found";
+
+                        } else {
+                            job.companyDisplayName = "N/A";
+                        }
+                    } catch (err) {
+                        job.companyDisplayName = "Error Fetching";
+                    }
+                } else {
+                    job.companyDisplayName = "Independent";
+                }
+                return job;
+            }));
+
+            document.getElementById('adminJobsList').innerHTML = jobsWithCompanyNames.map(job => `
+        <tr>
+            <td>
+                <div class="fw-bold">${job.title}</div>
+                <small class="text-muted">${job.location} | ${job.jobType}</small>
+            </td>
+            <td><span class="text-primary fw-600">${job.companyDisplayName}</span></td>
+            <td>${job.postedDate ? new Date(job.postedDate).toLocaleDateString() : 'N/A'}</td>
+            <td class="text-end">
+                <button class="btn btn-sm btn-outline-primary me-2" onclick="viewJobInfo(${JSON.stringify(job).replace(/"/g, '&quot;')})">
+                    <i class="bi bi-eye"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" onclick="deleteJob(${job.id})">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </td>
+        </tr>`).join('');
+
+            // Stats update කරනවා නම්:
+            if(document.getElementById('totalJobs')) {
+                document.getElementById('totalJobs').textContent = jobs.length;
+            }
+
+        } catch (err) {
+            console.error("Jobs load error:", err);
+        }
+    }
+
+    function viewJobInfo(job) {
+        const content = document.getElementById('jobDetailContent');
+
+        // Salary සහ Email එක නිවැරදිව පෙන්වන්න
+        const salary = job.salary ? "Rs. " + job.salary.toLocaleString() : 'Unspecified';
+        const email = job.employerEmail || (job.user ? job.user.email : 'Check Backend');
+
+        content.innerHTML = `
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="detail-card shadow-sm p-4 bg-light rounded-4">
+                    <p class="detail-label mb-3 text-primary" style="font-weight: 700; letter-spacing: 1px;">FULL JOB DESCRIPTION</p>
+                    <div class="description-text" style="white-space: pre-line; line-height: 1.8; color: #475569; font-size: 0.95rem;">
+                        ${job.description || 'No description provided.'}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="detail-card shadow-sm p-3 border-start border-4 border-primary bg-white rounded-3">
+                    <p class="detail-label mb-1" style="font-size: 0.7rem; color: #64748b;">EMPLOYER EMAIL</p>
+                    <p class="fw-bold mb-0 text-dark">${email}</p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="detail-card shadow-sm p-3 border-start border-4 border-success bg-white rounded-3">
+                    <p class="detail-label mb-1" style="font-size: 0.7rem; color: #64748b;">SALARY RANGE</p>
+                    <p class="fw-bold text-success mb-0">${salary}</p>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="p-3 rounded-3 bg-info bg-opacity-10 border border-info-subtle">
+                    <p class="small mb-0 text-info-emphasis">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        Experience Level: <b>${job.experienceLevel || 'N/A'}</b> | Arrangement: <b>${job.workArrangement || 'N/A'}</b>
+                    </p>
+                </div>
+            </div>
+        </div>
+    `;
+
+        const modal = new bootstrap.Modal(document.getElementById('jobDetailModal'));
+        modal.show();
+    }
+
+    async function fetchAllUsers() {
+        try {
+            const res = await fetch(`${API_BASE_URL}/users/all`, { headers: { 'Authorization': 'Bearer ' + token } });
+            const users = await res.json();
+            document.getElementById('adminUsersList').innerHTML = users.map(user => `
                 <tr>
-                    <td class="ps-4 fw-bold">${job.title}</td>
-                    <td>${job.companyName || 'Unknown'}</td>
-                    <td><span class="badge bg-success bg-opacity-10 text-success badge-status">Live</span></td>
-                    <td class="text-end pe-4">
-                        <button class="btn btn-sm btn-light text-danger" onclick="deleteJob(${job.id})">
-                            <i class="bi bi-trash"></i>
+                    <td><div class="fw-bold">${user.name}</div></td>
+                    <td>${user.email}</td>
+                    <td><span class="badge bg-secondary bg-opacity-10 text-secondary">${user.role}</span></td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${user.id})" ${user.role === 'ADMIN' ? 'disabled' : ''}>
+                            <i class="bi bi-person-x"></i>
                         </button>
                     </td>
-                </tr>
-            `).join('');
+                </tr>`).join('');
         } catch (err) { console.error(err); }
     }
 
-    function logout() {
-        localStorage.clear();
-        window.location.href = 'index.html';
+    async function deleteJob(id) {
+        if(confirm("Delete this job permanently?")) {
+            const res = await fetch(`${API_BASE_URL}/jobs/${id}`, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } });
+            if(res.ok) { fetchAllJobs(); }
+        }
     }
 
-    async function deleteJob(id) {
-        const result = await Swal.fire({
-            title: 'Delete this job?',
-            text: "This action cannot be undone!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        });
-
-        if (result.isConfirmed) {
-            // Delete API Call
-            Swal.fire('Deleted!', 'Job has been removed.', 'success');
+    async function deleteUser(id) {
+        if(confirm("Delete this user permanently?")) {
+            const res = await fetch(`${API_BASE_URL}/users/${id}`, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } });
+            if(res.ok) { fetchAllUsers(); updateStats(); }
         }
+    }
+
+    function logout() {
+        localStorage.clear(); window.location.href = 'index.html';
     }
 </script>
 </body>

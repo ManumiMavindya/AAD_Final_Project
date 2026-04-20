@@ -2,6 +2,7 @@ package lk.ijse.backend.controller;
 
 import jakarta.validation.Valid;
 import lk.ijse.backend.dto.CompanyDTO;
+import lk.ijse.backend.entity.Company;
 import lk.ijse.backend.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -47,5 +48,11 @@ public class CompanyController {
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateCompany(@PathVariable Long id, @RequestBody CompanyDTO companyDTO) {
         return ResponseEntity.ok(companyService.updateCompany(id, companyDTO));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CompanyDTO> getCompanyById(@PathVariable Long id) {
+        CompanyDTO companyDTO = companyService.getCompanyById(id);
+        return ResponseEntity.ok(companyDTO);
     }
 }

@@ -68,13 +68,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('userRole', data.role);
                     localStorage.setItem('userId', data.userId);
 
+                    const userRole = data.role;
+
                     Swal.fire({ icon: 'success', title: 'Welcome!', timer: 1500, showConfirmButton: false })
                         .then(() => {
                             // Role එක අනුව Dashboard වලට යවනවා
-                            if (data.role === 'JOB_SEEKER') {
-                                window.location.href = 'seeker-dashboard.html';
+                            if (userRole === "ADMIN") {
+                                window.location.href = "admin-dashboard.html"; // Admin Dashboard එකට යනවා
+                            } else if (userRole === "EMPLOYER") {
+                                window.location.href = "employer-dashboard.html";
                             } else {
-                                window.location.href = 'employer-dashboard.html';
+                                window.location.href = "seeker-dashboard.html";
                             }
                         });
                 })
