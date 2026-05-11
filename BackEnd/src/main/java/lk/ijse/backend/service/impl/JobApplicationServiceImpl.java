@@ -200,6 +200,21 @@ public class JobApplicationServiceImpl implements JobApplicationService {
         return "Application status updated to " + status + " and seeker notified.";
     }
 
+    public List<JobApplicationDTO> getAllApplications() {
+        return applicationRepository.findAll().stream()
+                .map(app -> new JobApplicationDTO(
+                        app.getId(),
+                        app.getJob().getId(),
+                        app.getUser().getId(),
+                        app.getApplicationDate(),
+                        app.getStatus(),
+                        app.getContactNo(),
+                        app.getCvPath(),
+                        app.getJob().getTitle(),
+                        app.getJob().getCompany().getCompanyName()
+                )).collect(Collectors.toList());
+    }
+
     @Override
     public List<JobApplicationDTO> getApplicationsByUserId(Long userId) {
         return applicationRepository.findAll().stream()

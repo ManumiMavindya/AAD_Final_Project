@@ -1,7 +1,5 @@
 package lk.ijse.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -13,7 +11,6 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Getter
@@ -52,19 +49,13 @@ public class Job {
     @Column(name = "posted_date", updatable = false)
     private LocalDateTime postedDate;
 
-// Job.java ඇතුළත
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    @NotNull(message = "Company association is required")
+    private Company company;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference(value = "user-jobs") // User පැත්තේ දුන්න නමම දෙන්න
+    @NotNull(message = "User association is required")
     private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "company_id")
-    @JsonBackReference(value = "company-jobs")
-    private Company company;
-
-    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference(value = "job-applications")
-    private List<JobApplication> applications;
 }

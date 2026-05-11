@@ -1,6 +1,5 @@
 package lk.ijse.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -33,15 +32,13 @@ public class JobApplication {
     @NotBlank(message = "CV file path is required")
     private String cvPath;
 
-    // JobApplication.java ඇතුළත
-
     @ManyToOne
     @JoinColumn(name = "job_id", nullable = false)
-    @JsonBackReference(value = "job-applications")
+    @NotNull(message = "Job reference is required")
     private Job job;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonBackReference(value = "user-applications")
-    private User user;
+    @NotNull(message = "User (Seeker) reference is required")
+    private User user; // Job Seeker
 }

@@ -1,0 +1,149 @@
+
+body {
+    background-color: #f8fafc;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: #334155;
+}
+
+/* --- Navbar Customization --- */
+.navbar {
+    border-bottom: 1px solid #e2e8f0;
+    background: white !important;
+    padding: 15px 0;
+}
+.navbar-brand {
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+    color: #212529 !important;
+}
+.nav-link {
+    font-weight: 600;
+    color: #64748b !important;
+    transition: 0.3s;
+    padding: 8px 16px !important;
+}
+.nav-link:hover, .nav-link.active {
+    color: #0d6efd !important;
+}
+
+/* Hero/Search Section */
+.search-banner {
+    background: linear-gradient(135deg, #0d6efd 0%, #004dc7 100%);
+    padding: 50px 0;
+    margin-bottom: 40px;
+}
+
+.input-group-lg > .form-control, .input-group-lg > .input-group-text {
+    border-radius: 12px;
+    border: none;
+}
+
+/* Card Hover Effect */
+.job-listing-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 20px !important;
+    background: white;
+}
+
+.job-listing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.05) !important;
+    border-color: #0d6efd !important;
+}
+
+/* Modified Buttons */
+.btn-details {
+    border-radius: 10px;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+    transition: all 0.3s;
+}
+
+.btn-details:hover {
+    background-color: #f1f5f9;
+    color: #1e293b;
+}
+
+.btn-apply-main {
+    background: #0d6efd;
+    border-radius: 10px;
+    font-weight: 700;
+    padding: 8px 24px;
+    border: none;
+    color: white;
+    transition: all 0.3s;
+}
+
+.btn-apply-main:hover {
+    background: #004dc7;
+    box-shadow: 0 8px 15px rgba(13, 110, 253, 0.2);
+    transform: scale(1.03);
+    color: white;
+}
+
+.company-logo {
+    transition: transform 0.3s ease;
+    background: rgba(13, 110, 253, 0.08) !important;
+}
+
+/* Sidebar Filter */
+.filter-sidebar {
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    padding: 25px !important;
+}
+
+.form-check-input:checked {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.status-badge-count {
+    background: rgba(13, 110, 253, 0.1);
+    color: #0d6efd;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+/* --- Footer Styles --- */
+.footer {
+    background: #0f172a;
+    color: #94a3b8;
+    padding: 80px 0 30px;
+    margin-top: 60px;
+}
+.footer-brand {
+    color: white;
+    font-weight: 800;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: block;
+    text-decoration: none;
+}
+.footer-link {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: 0.3s;
+    display: block;
+    margin-bottom: 0.8rem;
+}
+.footer-link:hover { color: white; transform: translateX(5px); }
+.social-link {
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,0.05);
+    color: white;
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    border-radius: 10px;
+    margin-right: 10px;
+    transition: 0.3s;
+    text-decoration: none;
+}
+.social-link:hover { background: #0d6efd; transform: translateY(-3px); }

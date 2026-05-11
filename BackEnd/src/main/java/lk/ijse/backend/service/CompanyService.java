@@ -11,4 +11,5 @@ public interface CompanyService {
     CompanyDTO getCompanyById(Long id);
     CompanyDTO getCompanyByUserId(Long userId);
     String updateCompany(Long id, CompanyDTO companyDTO);
+    List<String> getAllCompanyNames();
 }

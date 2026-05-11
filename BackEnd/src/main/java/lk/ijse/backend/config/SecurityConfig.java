@@ -1,5 +1,6 @@
 package lk.ijse.backend.config;
 
+import lk.ijse.backend.util.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +10,6 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -36,7 +36,8 @@ public class SecurityConfig {
                         // 1. මේ ටික ඕනෑම කෙනෙක්ට (Public) බලන්න පුළුවන්
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/jobs/all").permitAll() // 👈 Jobs බලන්න හැමෝටම පුළුවන්
-                        .requestMatchers(HttpMethod.GET, "/api/jobs/{id}").permitAll() // 👈 Job එකක details බලන්නත් පුළුවන්
+                        .requestMatchers(HttpMethod.GET, "/api/jobs/{id}").permitAll()// 👈 Job එකක details බලන්නත් පුළුවන්
+                        .requestMatchers("/api/company/names").permitAll()
 
                         // 2. හැබැයි Job එකක් POST (Add) කරන්න නම් EMPLOYER වෙන්නම ඕනේ
                         .requestMatchers(HttpMethod.POST, "/api/jobs/**").hasAuthority("EMPLOYER")

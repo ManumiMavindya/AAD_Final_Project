@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/company")
@@ -54,5 +55,10 @@ public class CompanyController {
     public ResponseEntity<CompanyDTO> getCompanyById(@PathVariable Long id) {
         CompanyDTO companyDTO = companyService.getCompanyById(id);
         return ResponseEntity.ok(companyDTO);
+    }
+
+    @GetMapping("/names")
+    public List<String> getAllCompanyNames() {
+        return companyService.getAllCompanyNames();
     }
 }

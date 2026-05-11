@@ -1,7 +1,5 @@
 package lk.ijse.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -9,8 +7,6 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Entity
 @Getter
@@ -40,17 +36,9 @@ public class Company {
     @NotBlank(message = "Industry type is required")
     private String industry;
 
-
     private String contactEmail;
 
-// Company.java ඇතුළත
-
     @OneToOne
-    @JoinColumn(name = "user_id")
-    @JsonBackReference(value = "user-company")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference(value = "company-jobs")
-    private List<Job> jobs;
 }

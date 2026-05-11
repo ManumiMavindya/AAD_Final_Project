@@ -1,0 +1,152 @@
+
+body {
+    background-color: #f8fafc;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: #334155;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+}
+
+/* --- Navbar Customization (Matching Index) --- */
+.navbar {
+    border-bottom: 1px solid #e2e8f0;
+    background: white !important;
+    padding: 15px 0;
+}
+.navbar-brand {
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+    color: #212529 !important;
+}
+.nav-link {
+    font-weight: 600;
+    color: #64748b !important;
+    transition: 0.3s;
+    padding: 8px 16px !important;
+}
+.nav-link:hover, .nav-link.active {
+    color: #0d6efd !important;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #0d6efd 0%, #004dc7 100%);
+    border-radius: 24px;
+    padding: 50px 40px;
+    color: white;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 30px rgba(13, 110, 253, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 180px;
+    height: 180px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.hero-section h2 { font-weight: 800; margin-bottom: 10px; }
+
+.stat-card {
+    border: none;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08) !important;
+}
+
+.job-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    background: white;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 25px;
+    height: 100%;
+}
+
+.job-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+    border-color: #0d6efd;
+}
+
+.icon-square {
+    width: 55px;
+    height: 55px;
+    background: #f1f5f9;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0d6efd;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+}
+
+.btn-action {
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 10px;
+    transition: 0.3s;
+}
+
+.btn-delete {
+    background-color: #fff1f2;
+    color: #e11d48;
+    border: none;
+}
+.btn-delete:hover { background-color: #ffe4e6; color: #be123c; }
+
+.section-title {
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.custom-table thead th {
+    background-color: #f8fafc;
+    color: #64748b;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    padding: 15px;
+    border: none;
+}
+.custom-table tbody td {
+    padding: 15px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+/* Footer Styles */
+.footer-main {
+    background-color: #0f172a;
+    color: #94a3b8;
+    padding: 60px 0 30px;
+    margin-top: 60px;
+}
+.footer-brand { color: white; font-weight: 800; font-size: 1.5rem; text-decoration: none; }
+.footer-link { color: #94a3b8; text-decoration: none; transition: 0.3s; display: block; margin-bottom: 10px; }
+.footer-link:hover { color: #0d6efd; }
+.social-icon { font-size: 1.25rem; color: #94a3b8; margin-right: 15px; transition: 0.3s; }
+.social-icon:hover { color: #0d6efd; }
+

@@ -15,5 +15,6 @@ public interface JobApplicationService {
     String updateApplicationStatus(Long applicationId, String status);
     List<JobApplicationDTO> getApplicationsByUserId(Long userId);
     ResponseEntity<UserDTO> getUserDetailsById(Long userId);
+    List<JobApplicationDTO> getAllApplications();
 
 }

@@ -109,3 +109,21 @@ document.getElementById('postJobForm').addEventListener('submit', function(e) {
             });
         });
 });
+
+    function logout() {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You will be signed out of your session!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#0d6efd',
+        cancelButtonColor: '#64748b',
+        confirmButtonText: 'Yes, Sign Out'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+    });
+}
+

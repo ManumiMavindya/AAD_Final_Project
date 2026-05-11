@@ -82,6 +82,10 @@ public class JobApplicationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error analyzing resume: " + e.getMessage());
         }
     }
+    @GetMapping("/all")
+    public ResponseEntity<List<JobApplicationDTO>> getAllApplications() {
+        return ResponseEntity.ok(applicationService.getAllApplications());
+    }
 
     @GetMapping("/job/{jobId}")
     public ResponseEntity<List<JobApplicationDTO>> getApplications(@PathVariable Long jobId) {

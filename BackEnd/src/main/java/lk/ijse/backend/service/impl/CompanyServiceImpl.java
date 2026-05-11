@@ -122,4 +122,12 @@ public class CompanyServiceImpl implements CompanyService {
         companyRepository.save(company);
         return "Company updated successfully!";
     }
+
+    @Override
+    public List<String> getAllCompanyNames() {
+        return companyRepository.findAll()
+                .stream()
+                .map(Company::getCompanyName)
+                .collect(Collectors.toList());
+    }
 }

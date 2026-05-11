@@ -1,0 +1,78 @@
+
+body { background-color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; color: #334155; }
+
+/* --- Navbar Customization (Matching Index) --- */
+.navbar {
+    border-bottom: 1px solid #e2e8f0;
+    background: white !important;
+    padding: 15px 0;
+}
+.navbar-brand {
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+    color: #212529 !important;
+}
+.nav-link {
+    font-weight: 600;
+    color: #64748b !important;
+    transition: 0.3s;
+    padding: 8px 16px !important;
+}
+.nav-link:hover, .nav-link.active {
+    color: #0d6efd !important;
+}
+
+.dashboard-content { padding-top: 40px; padding-bottom: 60px; }
+.hero-title { font-weight: 800; color: #1e293b; }
+
+.form-card {
+    background: white; border-radius: 24px; border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02); padding: 2.5rem;
+}
+
+.form-section-title { font-size: 1.1rem; font-weight: 800; color: #1e293b; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
+.form-section-title i { color: #0d6efd; }
+
+/* 📸 Refined Logo Upload Box */
+.logo-upload-wrapper {
+    width: 120px; height: 120px; border-radius: 20px;
+    background: #f8fafc; border: 2px dashed #cbd5e1;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    cursor: pointer; position: relative; overflow: hidden; transition: 0.3s;
+}
+.logo-upload-wrapper:hover { border-color: #0d6efd; background: rgba(13, 110, 253, 0.02); }
+.logo-upload-wrapper img { width: 100%; height: 100%; object-fit: cover; position: absolute; }
+.logo-upload-wrapper i { font-size: 2rem; color: #94a3b8; }
+.logo-upload-wrapper span { font-size: 0.75rem; font-weight: 600; color: #64748b; margin-top: 5px; }
+
+.form-label { font-weight: 600; font-size: 0.9rem; color: #475569; margin-bottom: 0.6rem; }
+.form-control, .form-select { border-radius: 12px; padding: 0.75rem 1rem; border: 1px solid #e2e8f0; background-color: #f8fafc; }
+.form-control:focus { background-color: white; border-color: #0d6efd; box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1); }
+
+.btn-save {
+    background: linear-gradient(135deg, #0d6efd 0%, #004dc7 100%);
+    border: none; padding: 0.9rem 2.5rem; border-radius: 14px;
+    font-weight: 700; color: white; transition: 0.3s ease;
+}
+.btn-save:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(13, 110, 253, 0.3); }
+
+.tip-card { background: #0d6efd; color: white; border-radius: 24px; padding: 2rem; position: sticky; top: 100px; }
+.status-badge { background: rgba(13, 110, 253, 0.1); color: #0d6efd; padding: 6px 16px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; }
+
+/* Profile Display Style */
+#viewSection { display: none; }
+
+/* Footer Styles (Matching Dashboard) */
+.footer-main {
+    background-color: #0f172a;
+    color: #94a3b8;
+    padding: 60px 0 30px;
+    margin-top: 60px;
+}
+.footer-brand { color: white; font-weight: 800; font-size: 1.5rem; text-decoration: none; }
+.footer-link { color: #94a3b8; text-decoration: none; transition: 0.3s; display: block; margin-bottom: 10px; }
+.footer-link:hover { color: #0d6efd; }
+.social-icon { font-size: 1.25rem; color: #94a3b8; margin-right: 15px; transition: 0.3s; }
+.social-icon:hover { color: #0d6efd; }
+
