@@ -35,8 +35,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // 1. මේ ටික ඕනෑම කෙනෙක්ට (Public) බලන්න පුළුවන්
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/jobs/all").permitAll() // 👈 Jobs බලන්න හැමෝටම පුළුවන්
-                        .requestMatchers(HttpMethod.GET, "/api/jobs/{id}").permitAll()// 👈 Job එකක details බලන්නත් පුළුවන්
+                        .requestMatchers(HttpMethod.GET, "/api/jobs/all").permitAll() // Jobs බලන්න හැමෝටම පුළුවන්
+                        .requestMatchers(HttpMethod.GET, "/api/jobs/{id}").permitAll()// Job එකක details බලන්නත් පුළුවන්
                         .requestMatchers("/api/company/names").permitAll()
 
                         // 2. හැබැයි Job එකක් POST (Add) කරන්න නම් EMPLOYER වෙන්නම ඕනේ
