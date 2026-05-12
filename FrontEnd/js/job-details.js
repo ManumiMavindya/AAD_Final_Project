@@ -1,5 +1,4 @@
 
-    // --- Navbar Logic (Updated to Match Dashboard) ---
     function updateNavbar() {
     const navbarCollapse = document.getElementById('navbarNav');
     const token = localStorage.getItem('token');
@@ -48,7 +47,6 @@
     });
 }
 
-    // --- Job Logic (UNCHANGED) ---
     let currentJobId = null;
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -150,7 +148,6 @@
     const loggedInUserId = localStorage.getItem('userId');
     const token = localStorage.getItem('token');
 
-    // 1. User Login වෙලා නැත්නම් Login පේජ් එකට යවන්න
     if (!loggedInUserId) {
     Swal.fire({
     title: 'Login Required',
@@ -167,7 +164,6 @@
     return;
 }
 
-    // 2. Loading එක පෙන්වන්න (AI Analysis)
     Swal.fire({
     title: 'Gemini AI Analysis...',
     text: 'Please wait while our AI checks your resume compatibility with the job requirements.',
@@ -187,17 +183,15 @@
     const submitBtn = e.target.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
 
-    // 3. Backend එකට Request එක යැවීම
     const response = await fetch('http://localhost:8080/api/apply/submit-with-cv', {
     method: 'POST',
     headers: { 'Authorization': 'Bearer ' + token },
     body: formData
 });
 
-    const data = await response.json(); // Backend එකෙන් එන JSON එක
+    const data = await response.json();
 
     if (response.ok) {
-    // 4. සාර්ථකව Submit වුණොත් (Score 60+)
     Swal.fire({
     icon: 'success',
     title: 'Application Success!',
@@ -205,14 +199,12 @@
     confirmButtonColor: '#0d6efd'
 });
 
-    // Modal එක වසා Form එක Reset කිරීම
     const modalElement = document.getElementById('applyModal');
     const modalInstance = bootstrap.Modal.getInstance(modalElement);
     if (modalInstance) modalInstance.hide();
     e.target.reset();
 
 } else if (response.status === 406) {
-    // 5. ATS Score එක අඩු නිසා Reject වුණොත්
     Swal.fire({
     icon: 'warning',
     title: `Low ATS Score: ${data.score}%`,
@@ -228,7 +220,6 @@
 });
 
 } else {
-    // 6. වෙනත් කිසියම් Error එකක් ආවොත්
     Swal.fire({
     icon: 'error',
     title: 'Oops!',

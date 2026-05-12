@@ -47,7 +47,6 @@ public class JobApplicationServiceImpl implements JobApplicationService {
     @Override
     public String applyWithCv(Long jobId, Long userId, MultipartFile file, String contactNo) {
         try {
-            // 1. File එක save කරන path එක
             String uploadDir = "C:/JobHub/CVs/";
             File folder = new File(uploadDir);
             if (!folder.exists()) {
@@ -58,7 +57,6 @@ public class JobApplicationServiceImpl implements JobApplicationService {
             Path filePath = Paths.get(uploadDir + fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            // 2. Database එකේ data save කිරීම
             Job job = jobRepository.findById(jobId)
                     .orElseThrow(() -> new RuntimeException("Job not found"));
             User user = userRepository.findById(userId)
@@ -74,9 +72,6 @@ public class JobApplicationServiceImpl implements JobApplicationService {
 
             applicationRepository.save(application);
 
-            // --- HTML EMAIL TEMPLATES ---
-
-            // 1. Seeker (අයදුම්කරු) සඳහා HTML එක
             String seekerHtml =
                     "<div style='font-family: Arial, sans-serif; border: 1px solid #e0e0e0; padding: 25px; border-radius: 12px; max-width: 600px;'>" +
                             "<h2 style='color: #2ecc71;'>Application Received! ✅</h2>" +
@@ -88,7 +83,6 @@ public class JobApplicationServiceImpl implements JobApplicationService {
                             "<p style='font-size: 12px; color: #bdc3c7;'>Regards, <br>JobHub Team</p>" +
                             "</div>";
 
-            // 2. Employer (සමාගම) සඳහා HTML එක (With Professional Note & Branding)
             String employerHtml =
                     "<div style='font-family: Arial, sans-serif; border: 1px solid #e0e0e0; padding: 25px; border-radius: 12px; max-width: 600px;'>" +
                             "<h2 style='color: #2c3e50;'>New Applicant Alert! 📧</h2>" +
@@ -101,7 +95,6 @@ public class JobApplicationServiceImpl implements JobApplicationService {
                             "<tr><td style='padding: 10px; border: 1px solid #eee;'><b>Contact No:</b></td><td style='padding: 10px; border: 1px solid #eee;'>" + contactNo + "</td></tr>" +
                             "</table>" +
 
-                            // --- CV Attachment Note ---
                             "<div style='background-color: #fff9db; padding: 15px; border-radius: 8px; border: 1px dashed #f1c40f; margin-bottom: 20px;'>" +
                             "<p style='margin: 0; color: #856404; font-weight: bold;'>📎 Attachment Included:</p>" +
                             "<p style='margin: 5px 0 0 0; color: #856404; font-size: 14px;'>Please find the candidate's CV attached to this email for your review.</p>" +
@@ -109,7 +102,6 @@ public class JobApplicationServiceImpl implements JobApplicationService {
 
                             "<p style='color: #27ae60;'><b>Review the full profile on your JobHub dashboard.</b></p>" +
 
-                            // --- Footer with Branding ---
                             "<hr style='border: 0; border-top: 1px solid #eee; margin-top: 25px;' />" +
                             "<div style='text-align: center;'>" +
                             "<p style='font-size: 12px; color: #95a5a6; margin: 0;'>This is an automated notification from your recruitment portal.</p>" +
@@ -119,12 +111,9 @@ public class JobApplicationServiceImpl implements JobApplicationService {
                             "</div>" +
                             "</div>";
 
-            // --- EMAIL SENDING ---
 
-            // 1. Seeker ට යවනවා (Attachment අවශ්‍ය නැත)
             emailService.sendHtmlEmail(user.getEmail(), "Application Confirmed: " + job.getTitle(), seekerHtml, filePath.toString());
 
-            // 2. Employer ට යවනවා (Attachment සමඟ)
             String employerEmail = job.getCompany().getUser().getEmail();
             emailService.sendHtmlEmail(
                     employerEmail,
@@ -142,7 +131,7 @@ public class JobApplicationServiceImpl implements JobApplicationService {
 
     @Override
     public List<JobApplicationDTO> getApplicationsByJobId(Long jobId) {
-// Job එකට අදාළ applications list එක අරගෙන DTO වලට convert කරනවා
+
         return applicationRepository.findAll().stream()
                 .filter(app -> app.getJob().getId().equals(jobId))
                 .map(app -> new JobApplicationDTO(
@@ -178,15 +167,13 @@ public class JobApplicationServiceImpl implements JobApplicationService {
 
     @Override
     public String updateApplicationStatus(Long applicationId, String status) {
-        // 1. Application එක සොයා ගැනීම
+
         JobApplication application = applicationRepository.findById(applicationId)
                 .orElseThrow(() -> new RuntimeException("Application not found"));
 
-        // 2. Status එක update කිරීම
         application.setStatus(status);
         applicationRepository.save(application);
 
-        // 3. Seeker ට Notification එකක් යැවීම
         String seekerEmail = application.getUser().getEmail();
         String jobTitle = application.getJob().getTitle();
 
@@ -240,7 +227,7 @@ public class JobApplicationServiceImpl implements JobApplicationService {
 
         UserDTO dto = new UserDTO();
         dto.setId(user.getId());
-        dto.setName(user.getName()); // ඔයාගේ Entity එකේ තියෙන විදියට (name/firstName)
+        dto.setName(user.getName());
         dto.setEmail(user.getEmail());
 
         return ResponseEntity.ok(dto);

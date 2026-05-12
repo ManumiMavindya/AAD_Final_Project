@@ -27,7 +27,7 @@ public class Company {
     @Size(max = 1000, message = "Description cannot exceed 1000 characters")
     private String description;
 
-    private String logoUrl; // සාමාන්‍යයෙන් logo එක optional වෙන්න පුළුවන් නිසා NotBlank දැම්මේ නැහැ
+    private String logoUrl;
 
     @Pattern(regexp = "^(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})([/\\w .-]*)*/?$",
             message = "Please provide a valid website URL")

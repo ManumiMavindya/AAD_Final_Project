@@ -41,25 +41,20 @@ public class JobApplicationController {
             @RequestParam("file") MultipartFile file) {
 
         try {
-            // 1. Job Description එක ලබා ගැනීම
-// Optional එකෙන් JobDTO එක එළියට ගන්න .orElse(null) පාවිච්චි කරන්න
+
             JobDTO job = jobService.getJobById(jobId).orElse(null);
             if (job == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Job details not found!");
             }
 
-            // 2. Resume එකෙන් Text Extract කිරීම
             String resumeText = atsService.extractTextFromPdf(file);
 
-            // 3. Gemini AI එක හරහා ATS Score එක බැලීම
             String aiResponseJson = atsService.checkCompatibilityWithGemini(resumeText, job.getDescription());
 
-            // JSON Parse කිරීම
             JSONObject result = new JSONObject(aiResponseJson);
             int score = result.getInt("score");
             String feedback = result.getString("feedback");
 
-            // 4. Score එක 60 ට අඩු නම් මෙතනින් Reject කරනවා
             if (score < 60) {
                 return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(Map.of(
                         "status", "REJECTED",
@@ -68,7 +63,6 @@ public class JobApplicationController {
                         "message", "Your resume match is only " + score + "%. Please include the required skills and try again to meet the minimum 60% requirement."                ));
             }
 
-            // 5. Score එක 60+ නම් විතරක් Save කිරීම
             String response = applicationService.applyWithCv(jobId, userId, file, contactNo);
 
             return ResponseEntity.ok(Map.of(
@@ -122,7 +116,6 @@ public class JobApplicationController {
     public ResponseEntity<Resource> viewCv(@PathVariable Long id) {
         Resource resource = applicationService.downloadCv(id);
 
-        // PDF එක browser එකේම open වෙන්න headers සකස් කිරීම
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")

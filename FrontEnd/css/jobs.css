@@ -5,7 +5,6 @@ body {
     color: #334155;
 }
 
-/* --- Navbar Customization --- */
 .navbar {
     border-bottom: 1px solid #e2e8f0;
     background: white !important;
@@ -27,7 +26,6 @@ body {
     color: #0d6efd !important;
 }
 
-/* Hero/Search Section */
 .search-banner {
     background: linear-gradient(135deg, #0d6efd 0%, #004dc7 100%);
     padding: 50px 0;
@@ -39,7 +37,6 @@ body {
     border: none;
 }
 
-/* Card Hover Effect */
 .job-listing-card {
     transition: all 0.3s ease;
     cursor: pointer;
@@ -54,7 +51,7 @@ body {
     border-color: #0d6efd !important;
 }
 
-/* Modified Buttons */
+
 .btn-details {
     border-radius: 10px;
     font-weight: 600;
@@ -90,7 +87,7 @@ body {
     background: rgba(13, 110, 253, 0.08) !important;
 }
 
-/* Sidebar Filter */
+
 .filter-sidebar {
     background: white;
     border-radius: 20px;
@@ -112,7 +109,7 @@ body {
     font-size: 0.9rem;
 }
 
-/* --- Footer Styles --- */
+
 .footer {
     background: #0f172a;
     color: #94a3b8;

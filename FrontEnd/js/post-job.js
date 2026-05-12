@@ -25,7 +25,7 @@ async function getCompanyId() {
             console.warn("No company found for this user.");
         }
     } catch (err) {
-        console.error("Company ID එක ගන්න බැරි වුණා:", err);
+        console.error("Cant get company ID :", err);
     }
 }
 
@@ -36,7 +36,6 @@ document.getElementById('postJobForm').addEventListener('submit', function(e) {
 
     const token = localStorage.getItem('token');
 
-    // currentCompanyId එක තාම ලැබිලා නැත්නම් SweetAlert එකක් පෙන්වන්න
     if (!currentCompanyId) {
         Swal.fire({
             icon: 'warning',
@@ -62,7 +61,6 @@ document.getElementById('postJobForm').addEventListener('submit', function(e) {
         companyId: currentCompanyId
     };
 
-    // Loading Alert එකක් පෙන්වනවා Publish වෙනකල්
     Swal.fire({
         title: 'Publishing Job...',
         text: 'Please wait a moment.',

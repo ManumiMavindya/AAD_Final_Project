@@ -26,7 +26,6 @@ public class DataInitializer implements CommandLineRunner {
             User admin = new User();
             admin.setName("System Admin");
             admin.setEmail("admin@jobhub.lk");
-            // Property file එකෙන් එන password එක මෙතනදී encode වෙනවා
             admin.setPassword(passwordEncoder.encode(adminPassword));
             admin.setRole(UserRole.ADMIN);
 

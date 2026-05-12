@@ -5,7 +5,6 @@ body {
     color: #1e293b;
 }
 
-/* --- Navbar Customization (Matching Dashboard) --- */
 .navbar {
     border-bottom: 1px solid #e2e8f0;
     background: white !important;
@@ -27,7 +26,6 @@ body {
     color: #0d6efd !important;
 }
 
-/* Hero Section Styling */
 .hero-section {
     background-color: #ffffff;
     border-bottom: 1px solid #e2e8f0;
@@ -50,7 +48,6 @@ body {
     color: #0d6efd;
 }
 
-/* Badges & UI Elements */
 .badge-outline {
     background: #f1f5f9;
     border: none;
@@ -88,7 +85,6 @@ body {
     border: 1px solid #f1f5f9;
 }
 
-/* Buttons */
 .btn-save {
     border-radius: 12px;
     border: 1px solid #e2e8f0;
@@ -123,7 +119,6 @@ body {
     font-size: 0.9rem;
 }
 
-/* Modal Customization */
 .modal-content {
     border-radius: 28px;
     border: none;

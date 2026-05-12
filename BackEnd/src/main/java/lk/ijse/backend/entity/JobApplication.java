@@ -23,7 +23,7 @@ public class JobApplication {
     private LocalDate applicationDate;
 
     @NotBlank(message = "Status is required")
-    private String status; // e.g., PENDING, ACCEPTED, REJECTED
+    private String status;
 
     @NotBlank(message = "Contact number is required")
     @Pattern(regexp = "^[0-9]{10}$", message = "Contact number must be exactly 10 digits")
@@ -40,5 +40,5 @@ public class JobApplication {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @NotNull(message = "User (Seeker) reference is required")
-    private User user; // Job Seeker
+    private User user;
 }

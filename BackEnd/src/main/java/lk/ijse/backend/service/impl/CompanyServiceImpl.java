@@ -32,7 +32,6 @@ public class CompanyServiceImpl implements CompanyService {
 
         Company company = new Company();
 
-        // File එක PC එකේ Folder එකකට Save කිරීම
         String uploadDir = "uploads/logos/";
         java.io.File dir = new java.io.File(uploadDir);
         if (!dir.exists()) dir.mkdirs();
@@ -40,11 +39,10 @@ public class CompanyServiceImpl implements CompanyService {
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
         file.transferTo(new java.io.File(dir.getAbsolutePath() + "/" + fileName));
 
-        // Database එකට විස්තර දාමු
         company.setCompanyName(dto.getCompanyName());
         company.setLocation(dto.getLocation());
         company.setDescription(dto.getDescription());
-        company.setLogoUrl(fileName); // URL එක වෙනුවට file name එක සේව් කරනවා
+        company.setLogoUrl(fileName);
         company.setWebsite(dto.getWebsite());
         company.setIndustry(dto.getIndustry());
         company.setUser(user);
@@ -84,15 +82,12 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public CompanyDTO getCompanyByUserId(Long userId) {
-        // 1. Company එක හොයනවා
         Company company = companyRepository.findByUserId(userId).orElse(null);
 
-        // 2. වැදගත්ම කොටස: Company එකක් නැත්නම් Error එකක් නොදී null යවන්න
         if (company == null) {
             return null;
         }
 
-        // 3. Company එකක් තිබුණොත් විතරක් DTO එකට දාන්න
         CompanyDTO dto = new CompanyDTO();
         dto.setId(company.getId());
         dto.setCompanyName(company.getCompanyName());

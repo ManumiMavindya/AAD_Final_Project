@@ -1,5 +1,4 @@
 
-    // --- Navbar Update Logic ---
     function updateNavbar() {
     const navItems = document.getElementById('navItems');
     const navAuth = document.getElementById('navAuth');
@@ -44,7 +43,6 @@
     });
 }
 
-    // --- JS LOGIC ---
     let allJobs = [];
     let filteredJobs = [];
     let currentPage = 1;
@@ -134,7 +132,6 @@
     return;
 }
 
-    // හැම job එකකටම අදාළ company name එක fetch කරගන්නවා
     const jobsWithNames = await Promise.all(pageItems.map(async (job) => {
     const cId = (job.company && job.company.id) ? job.company.id : job.companyId;
     if (cId && !job.companyName) {

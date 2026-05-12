@@ -129,8 +129,6 @@
     seekerName = "Error Loading";
 }
 
-    // ... (උඩ කොටස සමානයි)
-
     tableBody.innerHTML += `
 <tr>
     <td>
@@ -153,7 +151,6 @@
     </td>
 </tr>`;
 
-// ... (ඉතිරි කොටස සමානයි)
 }
 } catch (err) {
     tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Error loading applicants.</td></tr>';

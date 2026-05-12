@@ -12,7 +12,6 @@ body {
     flex: 1;
 }
 
-/* --- Navbar Customization (Matching Index) --- */
 .navbar {
     border-bottom: 1px solid #e2e8f0;
     background: white !important;
@@ -137,7 +136,6 @@ body {
     border-bottom: 1px solid #f1f5f9;
 }
 
-/* Footer Styles */
 .footer-main {
     background-color: #0f172a;
     color: #94a3b8;

@@ -35,18 +35,16 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public String postJob(JobDTO jobDTO) {
-        // 1. Company එක හොයාගන්නවා
+
         Company company = companyRepository.findById(jobDTO.getCompanyId())
                 .orElseThrow(() -> new RuntimeException("Company not found!"));
 
-        // 2. දැනට Login වෙලා ඉන්න User ව (Employer) හොයාගන්නවා
         String currentUserEmail = org.springframework.security.core.context.SecurityContextHolder
                 .getContext().getAuthentication().getName();
 
         User currentUser = userRepository.findByEmail(currentUserEmail)
                 .orElseThrow(() -> new RuntimeException("User not found!"));
 
-        // 3. Job Entity එකට data set කරනවා
         Job job = new Job();
         job.setTitle(jobDTO.getTitle());
         job.setDescription(jobDTO.getDescription());
@@ -57,14 +55,13 @@ public class JobServiceImpl implements JobService {
         job.setExperienceLevel(jobDTO.getExperienceLevel());
         job.setPostedDate(java.time.LocalDateTime.now());
 
-        job.setCompany(company); // Company එක set කරනවා
-        job.setUser(currentUser); // අන්න! දැන් තමයි Job එක සහ User අතර සම්බන්ධය හැදෙන්නේ ✅
+        job.setCompany(company);
+        job.setUser(currentUser);
 
         jobRepository.save(job);
         return "Job posted successfully!";
     }
 
-    // 2. READ (Get All Jobs)
     @Override
     public List<Job> getAllJobs() {
         return jobRepository.findAll();
@@ -76,19 +73,16 @@ public class JobServiceImpl implements JobService {
                 .map(job -> modelMapper.map(job, JobDTO.class));
     }
 
-    // 3. READ (Get Jobs by Company) - Employer ta thamange jobs balanna
     @Override
     public List<Job> getJobsByCompany(Long companyId) {
         return jobRepository.findByCompanyId(companyId);
     }
 
-    // 4. UPDATE
     @Override
     public String updateJob(Long id, JobDTO jobDTO) {
         Job existingJob = jobRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Job not found with id: " + id));
 
-        // Update fields
         existingJob.setTitle(jobDTO.getTitle());
         existingJob.setDescription(jobDTO.getDescription());
         existingJob.setSalary(jobDTO.getSalary());
@@ -98,7 +92,6 @@ public class JobServiceImpl implements JobService {
         return "Job updated successfully!";
     }
 
-    // 5. DELETE
     @Override
     public String deleteJob(Long id) {
         if (!jobRepository.existsById(id)) {
@@ -112,7 +105,6 @@ public class JobServiceImpl implements JobService {
     public List<JobDTO> searchJobs(String title, String location) {
         List<Job> jobs;
 
-        // Search logic එක (කලින් කතා කරපු එක)
         if (title != null && location != null) {
             jobs = jobRepository.findByTitleContainingIgnoreCaseAndLocationIgnoreCase(title, location);
         } else if (title != null) {
@@ -122,8 +114,6 @@ public class JobServiceImpl implements JobService {
         } else {
             jobs = jobRepository.findAll();
         }
-
-        // Stream එක පාවිච්චි කරලා List එකක් විදිහට return කරන තැන:
         return jobs.stream().map(job -> new JobDTO(
                 job.getId(),
                 job.getTitle(),
@@ -133,22 +123,17 @@ public class JobServiceImpl implements JobService {
                 job.getLocation(),
                 job.getWorkArrangement(),
                 job.getExperienceLevel(),
-                job.getCompany().getId(),// Company name එක වගේ දේවල් DTO එකේ තිබේ නම්
+                job.getCompany().getId(),
                 job.getPostedDate()
         )).collect(Collectors.toList());
     }
 
     @Override
     public List<JobDTO> getJobsByUserEmail(String email) {
-// 1. Database එකෙන් අදාළ email එකට තියෙන Jobs ටික ගන්නවා
         List<Job> jobs = jobRepository.findByUserEmail(email);
 
-        // 2. ඒ Jobs (Entities) ටික JobDTO ලැයිස්තුවකට convert කරනවා
         return jobs.stream()
                 .map(job -> modelMapper.map(job, JobDTO.class))
                 .collect(Collectors.toList());
     }
-
-
-
 }

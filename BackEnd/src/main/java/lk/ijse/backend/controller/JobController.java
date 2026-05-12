@@ -23,25 +23,21 @@ public class JobController {
         return ResponseEntity.ok(jobService.postJob(jobDTO));
     }
 
-    // View All Jobs
     @GetMapping("/all")
     public ResponseEntity<List<Job>> getAllJobs() {
         return ResponseEntity.ok(jobService.getAllJobs());
     }
 
-    // View Company Specific Jobs (Employer Dashboard ekata)
     @GetMapping("/company/{companyId}")
     public ResponseEntity<List<Job>> getJobsByCompany(@PathVariable Long companyId) {
         return ResponseEntity.ok(jobService.getJobsByCompany(companyId));
     }
 
-    // Update Job
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateJob(@PathVariable Long id, @RequestBody JobDTO jobDTO) {
         return ResponseEntity.ok(jobService.updateJob(id, jobDTO));
     }
 
-    // Delete Job
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteJob(@PathVariable Long id) {
         return ResponseEntity.ok(jobService.deleteJob(id));
@@ -49,12 +45,11 @@ public class JobController {
 
     @GetMapping("/my-jobs")
     public ResponseEntity<List<JobDTO>> getMyJobs(Authentication authentication) {
-        String email = authentication.getName(); // Token එකෙන් email එක ගන්නවා
+        String email = authentication.getName();
         List<JobDTO> myJobs = jobService.getJobsByUserEmail(email);
         return ResponseEntity.ok(myJobs);
     }
 
-    // Get Single Job by ID (Details page එක සඳහා)
     @GetMapping("/{id}")
     public ResponseEntity<JobDTO> getJobById(@PathVariable Long id) {
         return jobService.getJobById(id)

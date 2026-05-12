@@ -1,7 +1,5 @@
-// JobHub - Main JavaScript File
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize all components
     initSidebar();
     initJobFilters();
     initSaveJobs();
@@ -11,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initNotifications();
 });
 
-// Sidebar Toggle for Mobile
 function initSidebar() {
     const sidebarToggle = document.querySelector('.sidebar-toggle');
     const sidebar = document.querySelector('.dashboard-sidebar');
@@ -32,7 +29,6 @@ function initSidebar() {
     }
 }
 
-// Job Filters
 function initJobFilters() {
     const filterForm = document.getElementById('filterForm');
     const clearFiltersBtn = document.getElementById('clearFilters');
@@ -65,7 +61,6 @@ function initJobFilters() {
         });
     }
 
-    // Salary range slider
     const salaryRange = document.getElementById('salaryRange');
     const salaryValue = document.getElementById('salaryValue');
 
@@ -174,7 +169,6 @@ function updateJobCount() {
     }
 }
 
-// Save Jobs Functionality
 function initSaveJobs() {
     document.addEventListener('click', function(e) {
         if (e.target.closest('.save-job-btn')) {
@@ -233,7 +227,6 @@ function isSavedJob(jobId) {
     return savedJobs.includes(jobId);
 }
 
-// Resume Upload
 function initResumeUpload() {
     const uploadArea = document.querySelector('.resume-upload-area');
     const fileInput = document.getElementById('resumeFile');
@@ -317,7 +310,6 @@ function resetResumeUpload() {
     }
 }
 
-// Form Validation
 function initFormValidation() {
     const forms = document.querySelectorAll('.needs-validation');
 
@@ -332,7 +324,6 @@ function initFormValidation() {
     });
 }
 
-// Search Suggestions
 function initSearchSuggestions() {
     const searchInput = document.getElementById('jobSearch');
     const suggestionsContainer = document.getElementById('searchSuggestions');
@@ -380,7 +371,6 @@ function selectSuggestion(value) {
     if (suggestionsContainer) suggestionsContainer.style.display = 'none';
 }
 
-// Toast Notifications (Integrated with SweetAlert2)
 function showToast(message, type = 'info') {
     const Toast = Swal.mixin({
         toast: true,
@@ -393,7 +383,6 @@ function showToast(message, type = 'info') {
     Toast.fire({ icon: type, title: message });
 }
 
-// Initialize Notifications
 function initNotifications() {
     const notificationBtns = document.querySelectorAll('.notification-btn');
     notificationBtns.forEach(btn => {
@@ -404,7 +393,6 @@ function initNotifications() {
     });
 }
 
-// Application Modal
 function openApplyModal(jobId, jobTitle) {
     const modal = document.getElementById('applyModal');
     const jobTitleElement = modal.querySelector('#applyJobTitle');
@@ -433,7 +421,6 @@ function submitApplication(e) {
     }, 1500);
 }
 
-// Status Update
 function updateApplicationStatus(applicationId, newStatus) {
     Swal.fire({
         title: 'Update Status?',
@@ -453,13 +440,3 @@ function updateApplicationStatus(applicationId, newStatus) {
         }
     });
 }
-
-// Export functions
-window.JobHub = {
-    showToast,
-    openApplyModal,
-    submitApplication,
-    updateApplicationStatus,
-    toggleSaveJob,
-    resetResumeUpload
-};

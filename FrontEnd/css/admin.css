@@ -39,12 +39,12 @@ body { background-color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; 
 .custom-table { background: white; border-radius: 20px; overflow: hidden; }
 .custom-table thead th { background: #f8fafc; color: #64748b; font-size: 0.8rem; text-transform: uppercase; border: none; padding: 15px; }
 
-/* Modal styling */
+
 .modal-content { border-radius: 24px; border: none; }
 .detail-card { background: #f8fafc; border-radius: 15px; padding: 20px; border: 1px solid #e2e8f0; }
 .detail-label { font-size: 0.75rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
 
-/* Description eka lassanata space thiyala penna dapu fix eka */
+
 .description-box {
     white-space: pre-line;
     line-height: 1.6;

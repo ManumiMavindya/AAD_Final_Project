@@ -17,9 +17,6 @@ public class AtsServiceImpl implements AtsService {
     @Value("${gemini.api.key}")
     private String apiKey;
 
-    // v1 version එකේදී නිවැරදි Model ID එක 'gemini-1.5-flash' හෝ 'gemini-2.0-flash' වේ.
-    // දැනට වඩාත් ස්ථාවර 'gemini-1.5-flash' පාවිච්චි කරමු.
-// v1 version එකේදී ඔයාට තියෙන අලුත්ම model එක
     private final String GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash-lite:generateContent";
     @Override
     public String extractTextFromPdf(MultipartFile file) throws Exception {
@@ -31,7 +28,6 @@ public class AtsServiceImpl implements AtsService {
     public String checkCompatibilityWithGemini(String resumeText, String jobDescription) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
 
-        // AI එකෙන් JSON එක විතරක් ගන්න Prompt එක තවත් පැහැදිලි කළා
         String prompt = "Analyze the following resume against the job description. " +
                 "Return ONLY a valid JSON object with these keys: \"score\" (number 0-100), " +
                 "\"isCompatible\" (boolean), and \"feedback\" (brief string). " +
@@ -47,7 +43,6 @@ public class AtsServiceImpl implements AtsService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        // URL එක සහ API Key එක නිවැරදිව එකතු කිරීම
         String finalUrl = GEMINI_BASE_URL + "?key=" + apiKey;
 
         try {
@@ -63,13 +58,11 @@ public class AtsServiceImpl implements AtsService {
                         .getJSONObject(0)
                         .getString("text");
 
-                // අනවශ්‍ය Markdown Tags පිරිසිදු කිරීම
                 return resultText.replace("```json", "").replace("```", "").trim();
             } else {
                 return "{\"score\": 0, \"isCompatible\": false, \"feedback\": \"Failed to get a valid response from AI.\"}";
             }
         } catch (Exception e) {
-            // Error එකක් වුණොත් ලොග් කරලා Default JSON එකක් යවනවා
             System.err.println("Gemini API Error: " + e.getMessage());
             return "{\"score\": 0, \"isCompatible\": false, \"feedback\": \"Error during AI analysis.\"}";
         }

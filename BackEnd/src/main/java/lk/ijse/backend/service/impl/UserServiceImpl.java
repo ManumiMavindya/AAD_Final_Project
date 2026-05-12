@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getPassword()); // Real project ekaka meka encode karanna ona
+        user.setPassword(userDTO.getPassword());
         user.setRole(UserRole.valueOf(userDTO.getRole()));
 
         userRepository.save(user);

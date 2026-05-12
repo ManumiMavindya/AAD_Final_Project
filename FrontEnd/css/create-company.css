@@ -1,7 +1,6 @@
 
 body { background-color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; color: #334155; }
 
-/* --- Navbar Customization (Matching Index) --- */
 .navbar {
     border-bottom: 1px solid #e2e8f0;
     background: white !important;
@@ -34,7 +33,6 @@ body { background-color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; 
 .form-section-title { font-size: 1.1rem; font-weight: 800; color: #1e293b; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
 .form-section-title i { color: #0d6efd; }
 
-/* 📸 Refined Logo Upload Box */
 .logo-upload-wrapper {
     width: 120px; height: 120px; border-radius: 20px;
     background: #f8fafc; border: 2px dashed #cbd5e1;
@@ -60,10 +58,8 @@ body { background-color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; 
 .tip-card { background: #0d6efd; color: white; border-radius: 24px; padding: 2rem; position: sticky; top: 100px; }
 .status-badge { background: rgba(13, 110, 253, 0.1); color: #0d6efd; padding: 6px 16px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; }
 
-/* Profile Display Style */
 #viewSection { display: none; }
 
-/* Footer Styles (Matching Dashboard) */
 .footer-main {
     background-color: #0f172a;
     color: #94a3b8;

@@ -10,17 +10,17 @@
 
     async function updateStats() {
     try {
-    // 1. Total Users
+        //total users
     const usersRes = await fetch(`${API_BASE_URL}/users/all`, { headers: { 'Authorization': 'Bearer ' + token } });
     const users = await usersRes.json();
     document.getElementById('totalUsers').textContent = users.length;
 
-    // 2. Active Companies
+    // active companies
     const companyRes = await fetch(`${API_BASE_URL}/company/all`, { headers: { 'Authorization': 'Bearer ' + token } });
     const companies = await companyRes.json();
     document.getElementById('totalCompanies').textContent = companies.length;
 
-    // 3. Total Applications
+    //Total Applications
     const appRes = await fetch(`${API_BASE_URL}/apply/all`, { headers: { 'Authorization': 'Bearer ' + token } });
     const applications = await appRes.json();
     document.getElementById('totalApps').textContent = applications.length;
@@ -269,7 +269,7 @@
     if(res.ok) {
     alert("Job Deleted Successfully!");
     fetchAllJobs();
-    updateStats(); // Job එකක් මැකුවම stats update කරනවා
+    updateStats();
 } else {
     alert("Failed to delete job.");
 }

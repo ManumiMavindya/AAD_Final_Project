@@ -33,5 +33,5 @@ public class User {
 
     @NotNull(message = "User role is required")
     @Enumerated(EnumType.STRING)
-    private UserRole role; // EMPLOYER or JOB_SEEKER
+    private UserRole role;
 }

@@ -1,8 +1,6 @@
-// js/auth.js
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 1. REGISTRATION LOGIC ---
     const regForm = document.getElementById('registerForm');
     if (regForm) {
         regForm.addEventListener('submit', function (e) {
@@ -27,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             title: 'Success!',
                             text: 'Registration Successful. Please Login!',
                         }).then(() => {
-                            // Modal එක මාරු කරනවා
+
                             const regModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
                             regModal.hide();
                             const logModal = new bootstrap.Modal(document.getElementById('loginModal'));
@@ -41,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 2. LOGIN LOGIC ---
     const logForm = document.getElementById('loginForm');
     if (logForm) {
         logForm.addEventListener('submit', function (e) {
@@ -62,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     throw new Error('Unauthorized');
                 })
                 .then(data => {
-                    // Backend එකෙන් එන විස්තර ටික Save කරමු
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('userName', data.name);
                     localStorage.setItem('userRole', data.role);
@@ -72,9 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     Swal.fire({ icon: 'success', title: 'Welcome!', timer: 1500, showConfirmButton: false })
                         .then(() => {
-                            // Role එක අනුව Dashboard වලට යවනවා
                             if (userRole === "ADMIN") {
-                                window.location.href = "admin-dashboard.html"; // Admin Dashboard එකට යනවා
+                                window.location.href = "admin-dashboard.html";
                             } else if (userRole === "EMPLOYER") {
                                 window.location.href = "employer-dashboard.html";
                             } else {
@@ -116,8 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-
-// --- 3. LOGOUT FUNCTION ---
 function logout() {
     Swal.fire({
         title: 'Are you sure?',
