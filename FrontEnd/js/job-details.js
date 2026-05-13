@@ -213,7 +213,7 @@
                         <p style="color: #c53030; font-weight: bold; margin-bottom: 8px;">Improvement Needed:</p>
                         <p style="color: #4a5568; font-size: 0.95rem; line-height: 1.5;">${data.feedback}</p>
                     </div>
-                    <p style="margin-top: 15px; font-weight: 500;">කරුණාකර ඉහත සඳහන් Skills ඔබේ Resume එකට ඇතුළත් කර නැවත උත්සාහ කරන්න.</p>
+                    <p style="margin-top: 15px; font-weight: 500;">Please include the mentioned skills in your resume and try again.</p>
                 `,
     confirmButtonText: 'Understand',
     confirmButtonColor: '#0d6efd'

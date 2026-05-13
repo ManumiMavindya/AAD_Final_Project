@@ -14,8 +14,7 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    // 1. අලුත් Key එකක් හැදෙන එක නතර කරලා, Fixed String එකක් පාවිච්චි කරමු.
-    // මේක අවම වශයෙන් අකුරු 32ක් වත් තියෙන්න ඕනේ.
+
     private static final String SECRET_STRING = "JobHubProjectSecretKeyForJWTAuth2026!!AtLeast32Chars";
     private final Key key = Keys.hmacShaKeyFor(SECRET_STRING.getBytes(StandardCharsets.UTF_8));
 
@@ -29,7 +28,7 @@ public class JwtUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        // parserBuilder එකට signingKey එක විදියට අපේ fixed key එක දෙනවා
+
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 
